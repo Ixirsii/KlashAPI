@@ -14,15 +14,27 @@ repositories {
     mavenCentral()
 }
 
+val arrowVersion: String by project
 val dokkaVersion: String by project
 val junitVersion: String by project
 val kotlinxSerializationVersion: String by project
 val logbackVersion: String by project
+val okhttpVersion: String by project
+val reactorKotlinExtensionVersion: String by project
+val reactorVersion: String by project
 val slf4JVersion: String by project
 
 dependencies {
+    // Arrow
+    implementation("io.arrow-kt:arrow-core:$arrowVersion")
     // Kotlin serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+    // OkHttp
+    implementation("com.squareup.okhttp3:okhttp:$okhttpVersion")
+    // Reactor
+    implementation(platform("io.projectreactor:reactor-bom:$reactorVersion"))
+    implementation("io.projectreactor:reactor-core")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:reactorKotlinExtensionsVersion")
     // SLF4J
     implementation("org.slf4j:slf4j-api:$slf4JVersion")
 
