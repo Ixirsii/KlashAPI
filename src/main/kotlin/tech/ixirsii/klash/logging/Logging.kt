@@ -32,6 +32,14 @@ package tech.ixirsii.klash.logging
 
 import org.slf4j.Logger
 
+/**
+ * Interface for classes log messages.
+ *
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 interface Logging {
+    /**
+     * SLF4J logger.
+     */
     val log: Logger
 }

@@ -33,7 +33,7 @@ package tech.ixirsii.klash.client
 import arrow.core.Either
 import org.junit.jupiter.api.assertDoesNotThrow
 import reactor.core.publisher.Mono
-import tech.ixirsii.klash.exception.ClashAPIException
+import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.types.clan.ClanWarLeagueGroup
 import java.io.FileInputStream
 import java.util.Properties
@@ -56,10 +56,10 @@ internal class ClashAPITest {
     @Test
     internal fun `GIVEN clan tag WHEN leagueGroup THEN returns league group or not found`() {
         // When
-        val actual: Mono<Either<ClashAPIException, ClanWarLeagueGroup>> = underTest.leagueGroup(CLAN_TAG)
+        val actual: Mono<Either<ClashAPIError, ClanWarLeagueGroup>> = underTest.leagueGroup(CLAN_TAG)
 
         // Then
-        val either: Either<ClashAPIException, ClanWarLeagueGroup> = actual.block()!!
+        val either: Either<ClashAPIError, ClanWarLeagueGroup> = actual.block()!!
 
         either.onRight { leagueGroup ->
             assertTrue("Clans should not be empty") { leagueGroup.clans.isNotEmpty() }
@@ -70,8 +70,8 @@ internal class ClashAPITest {
             .onLeft {
                 when (it) {
                     // Succeed test on NotFound because CWL may not be active when test is run
-                    is ClashAPIException.NotFound -> Unit
-                    else -> fail("Unexpected exception")
+                    is ClashAPIError.NotFound -> Unit
+                    else -> fail("Unexpected error")
                 }
             }
     }

@@ -34,12 +34,32 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tech.ixirsii.klash.types.BadgeURLs
 
+/**
+ * Clan in a Clan War League.
+ *
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class ClanWarLeagueClan(
+    /**
+     * Clan tag.
+     */
     val tag: String,
+    /**
+     * Clan level.
+     */
     val clanLevel: Int,
+    /**
+     * Clan name.
+     */
     val name: String,
+    /**
+     * Clan members.
+     */
     val members: List<ClanWarLeagueMember>,
+    /**
+     * Clan badge URLs.
+     */
     @SerialName("badgeUrls")
     val badgeURLs: BadgeURLs,
 )

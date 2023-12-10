@@ -32,9 +32,23 @@ package tech.ixirsii.klash.types
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Clan badge URLs.
+ *
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class BadgeURLs(
+    /**
+     * Small badge URL.
+     */
     val small: String = "",
+    /**
+     * Medium badge URL.
+     */
     val medium: String = "",
+    /**
+     * Large badge URL.
+     */
     val large: String = "",
 )

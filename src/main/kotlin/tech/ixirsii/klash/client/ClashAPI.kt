@@ -31,6 +31,7 @@
 package tech.ixirsii.klash.client
 
 import arrow.core.Either
+import arrow.core.flatMap
 import arrow.core.left
 import arrow.core.right
 import kotlinx.serialization.json.Json
@@ -42,18 +43,28 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import reactor.core.publisher.Mono
-import tech.ixirsii.klash.exception.ClashAPIException
+import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.logging.Logging
 import tech.ixirsii.klash.logging.LoggingImpl
 import tech.ixirsii.klash.types.clan.ClanWarLeagueGroup
 import java.io.IOException
 
+/**
+ * Clash of Clans API client.
+ *
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
+    /**
+     * HTTP client for making requests.
+     */
     private val http: OkHttpClient = OkHttpClient()
 
+    /**
+     * JSON serializer/deserializer.
+     */
     private val json = Json {
         ignoreUnknownKeys = true
-        isLenient = true
         coerceInputValues = true
         prettyPrint = true
     }
@@ -66,58 +77,114 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
      * @param tag The clan tag (without leading '#').
      * @return The war league group for the clan.
      */
-    fun leagueGroup(tag: String): Mono<Either<ClashAPIException, ClanWarLeagueGroup>> {
-        val response: Mono<Either<ClashAPIException, Response>> = get("/clans/%23$tag/currentwar/leaguegroup")
+    fun leagueGroup(tag: String): Mono<Either<ClashAPIError, ClanWarLeagueGroup>> {
+        val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$tag/currentwar/leaguegroup")
 
-        return response.map { either -> either.map { deserialize(it) } }
+        return response.map { either -> either.flatMap { deserialize<ClanWarLeagueGroup>(it.body?.string() ?: "") } }
     }
 
     /* *************************************** Private utility functions **************************************** */
 
+    /**
+     * Create a base request builder with the authorization header set.
+     *
+     * This returns a builder instead of the built request so that [post] can set the content type and request body.
+     *
+     * @param suffix The specific endpoint to append to the base URL.
+     * @return [Request.Builder] with the authorization header set.
+     */
     private fun baseRequest(suffix: String): Request.Builder {
         return Request.Builder()
             .header("Authorization", "Bearer $token")
             .url(URL + API_VERSION + suffix)
     }
 
-    private fun checkResponse(response: Mono<Response>): Mono<Either<ClashAPIException, Response>> = response.map {
+    /**
+     * Check the response for errors.
+     *
+     * @param response HTTP response.
+     * @return [Either.Right] with the response if successful, [Either.Left] with an error otherwise.
+     */
+    private fun checkResponse(response: Mono<Response>): Mono<Either<ClashAPIError, Response>> = response.map {
         if (it.isSuccessful) {
             it.right()
         } else {
             when (it.code) {
-                400 -> ClashAPIException.BadRequest(it.message).left()
-                403 -> ClashAPIException.Forbidden(it.message).left()
-                404 -> ClashAPIException.NotFound(it.message).left()
-                429 -> ClashAPIException.TooManyRequests(it.message).left()
-                500 -> ClashAPIException.InternalServerError(it.message).left()
-                503 -> ClashAPIException.ServiceUnavailable(it.message).left()
-                else -> ClashAPIException.Unknown(it.message).left()
+                400 -> ClashAPIError.BadRequest(it.message).left()
+                403 -> ClashAPIError.Forbidden(it.message).left()
+                404 -> ClashAPIError.NotFound(it.message).left()
+                429 -> ClashAPIError.TooManyRequests(it.message).left()
+                500 -> ClashAPIError.InternalServerError(it.message).left()
+                503 -> ClashAPIError.ServiceUnavailable(it.message).left()
+                else -> ClashAPIError.Unknown(it.message).left()
             }
         }
     }
 
+    /**
+     * Deserialize the response body.
+     *
+     * @param body HTTP response body.
+     * @param T Type to deserialize the response body to.
+     * @return [Either.Right] with the deserialized response body if successful, [Either.Left] with an error otherwise.
+     */
     @Throws(IOException::class)
-    private inline fun <reified T> deserialize(res: Response): T {
-        return json.decodeFromString(res.body?.string() ?: "")
-    }
+    private inline fun <reified T> deserialize(body: String = ""): Either<ClashAPIError.DeserializationError, T> =
+        Either.catch {
+            json.decodeFromString<T>(body)
+        }.mapLeft { ClashAPIError.DeserializationError(it.message ?: "Caught exception deserializing response") }
 
-    private fun get(url: String): Mono<Either<ClashAPIException, Response>> {
-        val response: Mono<Response> = Mono.fromCallable { http.newCall(baseRequest(url).build()).execute() }
+    /**
+     * Make a GET request.
+     *
+     * @param endpoint The specific endpoint to append to the base URL.
+     * @return [Either.Right] with the response if successful, [Either.Left] with an error otherwise.
+     */
+    private fun get(endpoint: String): Mono<Either<ClashAPIError, Response>> {
+        val response: Mono<Response> = Mono.fromCallable { http.newCall(baseRequest(endpoint).build()).execute() }
 
         return checkResponse(response)
     }
 
-    private fun getPaginationQueryParameters(limit: Int?, after: String?, before: String?): String {
+    /**
+     * Get a query parameter string containing pagination parameters.
+     *
+     * @param limit Maximum number of items to return.
+     * @param after Return only items after this marker.
+     * @param before Return only items before this marker.
+     * @return Query parameter string.
+     */
+    private fun paginationQueryParameters(limit: Int?, after: String?, before: String?): String {
         var queryParams = "?"
 
-        queryParams += getQueryParameter("limit", limit, false)
-        queryParams += getQueryParameter("after", after, queryParams.length > 1)
-        queryParams += getQueryParameter("before", before, queryParams.length > 1)
+        queryParams += queryParameter("limit", limit, false)
+        queryParams += queryParameter("after", after, queryParams.length > 1)
+        queryParams += queryParameter("before", before, queryParams.length > 1)
 
         return if (queryParams.length > 1) queryParams else ""
     }
 
-    private fun <T> getQueryParameter(parameter: String, value: T?, hasAmpersand: Boolean): String {
+    /**
+     * Make a POST request.
+     *
+     * @param endpoint The specific endpoint to append to the base URL.
+     * @param body Request body.
+     * @return [Either.Right] with the response if successful, [Either.Left] with an error otherwise.
+     */
+    private fun post(endpoint: String, body: RequestBody): Mono<Either<ClashAPIError, Response>> {
+        val response: Mono<Response> = Mono.fromCallable { http.newCall(baseRequest(endpoint).post(body).build()).execute() }
+
+        return checkResponse(response)
+    }
+
+    /**
+     * Get a substring for a single query parameter.
+     *
+     * @param parameter Query parameter name.
+     * @param value Query parameter value.
+     * @param hasAmpersand Whether the query parameter string needs an ampersand prefix.
+     */
+    private fun <T> queryParameter(parameter: String, value: T?, hasAmpersand: Boolean): String {
         return if (value != null) {
             "${if (hasAmpersand) "&" else ""}$parameter=$value"
         } else {
@@ -125,20 +192,27 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
         }
     }
 
-    private fun post(url: String, body: RequestBody): Mono<Either<ClashAPIException, Response>> {
-        val response: Mono<Response> = Mono.fromCallable { http.newCall(baseRequest(url).post(body).build()).execute() }
-
-        return checkResponse(response)
-    }
-
-    private fun getTokenVerificationBody(token: String): RequestBody {
+    /**
+     * Create a request body for a token verification request.
+     *
+     * @param token Player token to verify.
+     * @return Request body.
+     */
+    private fun tokenVerificationBody(token: String): RequestBody {
         val contentType: MediaType? = "application/json; charset=utf-8".toMediaTypeOrNull()
 
         return "{\"token\":\"$token\"}".toRequestBody(contentType)
     }
 
     companion object {
+        /**
+         * Base URL for the Clash of Clans API.
+         */
         private const val URL = "https://api.clashofclans.com/"
+
+        /**
+         * Clash of Clans API version.
+         */
         private const val API_VERSION = "v1"
     }
 }

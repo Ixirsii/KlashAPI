@@ -32,10 +32,18 @@ package tech.ixirsii.klash.logging
 
 import org.slf4j.Logger
 
+/**
+ * Implementation that injects a logger into a class.
+ *
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 class LoggingImpl(logger: Logger) : Logging {
     override val log: Logger = logger
 
     companion object {
+        /**
+         * Overload the invoke operator to create a logger for a class.
+         */
         inline operator fun <reified T> invoke(): LoggingImpl {
             return LoggingImpl(org.slf4j.LoggerFactory.getLogger(T::class.java))
         }

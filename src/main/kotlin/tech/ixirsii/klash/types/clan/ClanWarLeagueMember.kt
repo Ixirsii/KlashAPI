@@ -32,9 +32,23 @@ package tech.ixirsii.klash.types.clan
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Member of a clan in a Clan War League.
+ *
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class ClanWarLeagueMember(
+    /**
+     * Member's tag.
+     */
     val tag: String,
+    /**
+     * Member's town hall level.
+     */
     val townHallLevel: Int,
+    /**
+     * Member's name.
+     */
     val name: String,
 )

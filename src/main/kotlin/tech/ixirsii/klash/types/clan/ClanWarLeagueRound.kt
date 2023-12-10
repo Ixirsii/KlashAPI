@@ -32,7 +32,15 @@ package tech.ixirsii.klash.types.clan
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Represents a clan war league round.
+ *
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class ClanWarLeagueRound(
+    /**
+     * War tags in this round of CWL.
+     */
     val warTags: List<String>,
 )

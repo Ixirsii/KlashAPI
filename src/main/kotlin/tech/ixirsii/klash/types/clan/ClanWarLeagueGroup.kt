@@ -33,23 +33,61 @@ package tech.ixirsii.klash.types.clan
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Clan War League group.
+ *
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class ClanWarLeagueGroup(
+    /**
+     * Clans in CWL group.
+     */
     val clans: List<ClanWarLeagueClan>,
+    /**
+     * CWL group rounds.
+     */
     val rounds: List<ClanWarLeagueRound>,
+    /**
+     * CWL group season.
+     */
     val season: String,
+    /**
+     * CWL group state.
+     */
     val state: State,
+    /**
+     * CWL group tag. This seems to always be null.
+     */
     val tag: String = "",
 ) {
+    /**
+     * CWL group state.
+     */
     enum class State {
+        /**
+         * Group not found.
+         */
         @SerialName("groupNotFound")
         GROUP_NOT_FOUND,
+        /**
+         * Not in war.
+         */
         @SerialName("notInWar")
         NOT_IN_WAR,
+        /**
+         * Preparation day.
+         */
         @SerialName("preparation")
         PREPARATION,
+        /**
+         * War day.
+         */
         @SerialName("war")
         WAR,
+        /**
+         * CWL ended.
+         */
         @SerialName("ended")
         ENDED
     }

@@ -28,14 +28,51 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.exception
+package tech.ixirsii.klash.error
 
-sealed class ClashAPIException(message: String): Exception(message) {
-    class BadRequest(message: String): ClashAPIException(message)
-    class Forbidden(message: String): ClashAPIException(message)
-    class NotFound(message: String): ClashAPIException(message)
-    class TooManyRequests(message: String): ClashAPIException(message)
-    class InternalServerError(message: String): ClashAPIException(message)
-    class ServiceUnavailable(message: String): ClashAPIException(message)
-    class Unknown(message: String): ClashAPIException(message)
+/**
+ * Represents an error returned by the Clash of Clans API.
+ *
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
+sealed class ClashAPIError(message: String): Exception(message) {
+    /**
+     * 400 Bad Request error.
+     */
+    class BadRequest(message: String): ClashAPIError(message)
+
+    /**
+     * Deserialization error.
+     */
+    class DeserializationError(message: String): ClashAPIError(message)
+
+    /**
+     * 403 Forbidden error.
+     */
+    class Forbidden(message: String): ClashAPIError(message)
+
+    /**
+     * 404 Not Found error.
+     */
+    class NotFound(message: String): ClashAPIError(message)
+
+    /**
+     * 429 Too Many Requests error.
+     */
+    class TooManyRequests(message: String): ClashAPIError(message)
+
+    /**
+     * 500 Internal Server Error error.
+     */
+    class InternalServerError(message: String): ClashAPIError(message)
+
+    /**
+     * 503 Service Unavailable error.
+     */
+    class ServiceUnavailable(message: String): ClashAPIError(message)
+
+    /**
+     * Unknown error.
+     */
+    class Unknown(message: String): ClashAPIError(message)
 }
