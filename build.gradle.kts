@@ -52,7 +52,7 @@ jacoco {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(21)
 }
 
 val excludePaths: List<String> = listOf("tech/ixirsii/types/**")
