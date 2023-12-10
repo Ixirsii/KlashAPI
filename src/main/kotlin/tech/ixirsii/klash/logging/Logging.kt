@@ -28,29 +28,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.logging
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import org.slf4j.Logger
 
-@Serializable
-data class ClanWarLeagueGroup(
-    val clans: List<ClanWarLeagueClan>,
-    val rounds: List<ClanWarLeagueRound>,
-    val season: String,
-    val state: State,
-    val tag: String = "",
-) {
-    enum class State {
-        @SerialName("groupNotFound")
-        GROUP_NOT_FOUND,
-        @SerialName("notInWar")
-        NOT_IN_WAR,
-        @SerialName("preparation")
-        PREPARATION,
-        @SerialName("war")
-        WAR,
-        @SerialName("ended")
-        ENDED
-    }
+interface Logging {
+    val log: Logger
 }

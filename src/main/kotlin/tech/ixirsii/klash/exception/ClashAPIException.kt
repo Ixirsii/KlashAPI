@@ -28,29 +28,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.exception
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class ClanWarLeagueGroup(
-    val clans: List<ClanWarLeagueClan>,
-    val rounds: List<ClanWarLeagueRound>,
-    val season: String,
-    val state: State,
-    val tag: String = "",
-) {
-    enum class State {
-        @SerialName("groupNotFound")
-        GROUP_NOT_FOUND,
-        @SerialName("notInWar")
-        NOT_IN_WAR,
-        @SerialName("preparation")
-        PREPARATION,
-        @SerialName("war")
-        WAR,
-        @SerialName("ended")
-        ENDED
-    }
+sealed class ClashAPIException(message: String): Exception(message) {
+    class BadRequest(message: String): ClashAPIException(message)
+    class Forbidden(message: String): ClashAPIException(message)
+    class NotFound(message: String): ClashAPIException(message)
+    class TooManyRequests(message: String): ClashAPIException(message)
+    class InternalServerError(message: String): ClashAPIException(message)
+    class ServiceUnavailable(message: String): ClashAPIException(message)
+    class Unknown(message: String): ClashAPIException(message)
 }

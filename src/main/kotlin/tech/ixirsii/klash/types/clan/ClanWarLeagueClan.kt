@@ -30,6 +30,7 @@
 
 package tech.ixirsii.klash.types.clan
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tech.ixirsii.klash.types.BadgeURLs
 
@@ -39,5 +40,6 @@ data class ClanWarLeagueClan(
     val clanLevel: Int,
     val name: String,
     val members: List<ClanWarLeagueMember>,
+    @SerialName("badgeUrls")
     val badgeURLs: BadgeURLs,
 )
