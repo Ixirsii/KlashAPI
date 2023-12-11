@@ -41,16 +41,40 @@ import java.time.ZonedDateTime
  */
 @Serializable
 data class War(
+    /**
+     * First clan in war.
+     */
     val clan: WarClan,
+    /**
+     * War end time.
+     */
     @Serializable(with = ZonedDateTimeSerializer::class)
     val endTime: ZonedDateTime,
+    /**
+     * Second clan in war.
+     */
     val opponent: WarClan,
     @Serializable(with = ZonedDateTimeSerializer::class)
+    /**
+     * Preparation start time.
+     */
     val preparationStartTime: ZonedDateTime,
     @Serializable(with = ZonedDateTimeSerializer::class)
+    /**
+     * Start time (?).
+     */
     val startTime: ZonedDateTime,
+    /**
+     * War state.
+     */
     val state: State,
+    /**
+     * Team size.
+     */
     val teamSize: Int,
+    /**
+     * War start time (?).
+     */
     @Serializable(with = ZonedDateTimeSerializer::class)
     val warStartTime: ZonedDateTime,
 )

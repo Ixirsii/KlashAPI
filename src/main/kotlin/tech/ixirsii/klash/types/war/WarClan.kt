@@ -41,13 +41,37 @@ import tech.ixirsii.klash.types.BadgeURLs
  */
 @Serializable
 data class WarClan(
+    /**
+     * Number of attacks made.
+     */
     val attacks: Int,
+    /**
+     * Clan badge URLs.
+     */
     @SerialName("badgeUrls")
     val badgeURLs: BadgeURLs,
+    /**
+     * Clan level.
+     */
     val clanLevel: Int,
+    /**
+     * Average destruction percentage.
+     */
     val destructionPercentage: Double,
+    /**
+     * War members.
+     */
     val members: List<WarClanMember>,
+    /**
+     * Clan name.
+     */
     val name: String,
+    /**
+     * Total number of attack stars.
+     */
     val stars: Int,
+    /**
+     * Clan tag.
+     */
     val tag: String
 )

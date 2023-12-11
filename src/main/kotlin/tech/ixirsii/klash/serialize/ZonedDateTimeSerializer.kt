@@ -42,8 +42,20 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
 
+/**
+ * (De)serializer for [ZonedDateTime]s.
+ *
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 class ZonedDateTimeSerializer : KSerializer<ZonedDateTime> {
+    /**
+     * Formatter for deserializing date times from the API.
+     */
     private val deserializeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss.SSS'Z'")
+
+    /**
+     * Unused, formatter for serializing date times.
+     */
     private val serializeFormatter: DateTimeFormatter = DateTimeFormatterBuilder().appendInstant(3).toFormatter()
 
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ZonedDateTime", PrimitiveKind.STRING)

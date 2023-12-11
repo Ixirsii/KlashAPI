@@ -33,16 +33,70 @@ package tech.ixirsii.klash.types.war
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Clan war state.
+ *
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 enum class State {
-    @SerialName("clanNotFound") CLAN_NOT_FOUND,
-    @SerialName("accessDenied") ACCESS_DENIED,
-    @SerialName("notInWar") NOT_IN_WAR,
-    @SerialName("inMatchmaking") IN_MATCHMAKING,
-    @SerialName("enterWar") ENTER_WAR,
-    @SerialName("matched") MATCHED,
-    @SerialName("preparation") PREPARATION,
-    @SerialName("war") WAR,
-    @SerialName("inWar") IN_WAR,
-    @SerialName("warEnded") ENDED
+    /**
+     * Clan not found.
+     */
+    @SerialName("clanNotFound")
+    CLAN_NOT_FOUND,
+
+    /**
+     * Access denied.
+     */
+    @SerialName("accessDenied")
+    ACCESS_DENIED,
+
+    /**
+     * Not in war.
+     */
+    @SerialName("notInWar")
+    NOT_IN_WAR,
+
+    /**
+     * War ended.
+     */
+    @SerialName("inMatchmaking")
+    IN_MATCHMAKING,
+
+    /**
+     * Enter war(?).
+     */
+    @SerialName("enterWar")
+    ENTER_WAR,
+
+    /**
+     * Matched.
+     */
+    @SerialName("matched")
+    MATCHED,
+
+    /**
+     * Preparation.
+     */
+    @SerialName("preparation")
+    PREPARATION,
+
+    /**
+     * War (?).
+     */
+    @SerialName("war")
+    WAR,
+
+    /**
+     * In war.
+     */
+    @SerialName("inWar")
+    IN_WAR,
+
+    /**
+     * War ended.
+     */
+    @SerialName("warEnded")
+    ENDED
 }

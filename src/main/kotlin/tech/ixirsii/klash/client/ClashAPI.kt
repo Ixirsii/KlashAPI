@@ -86,6 +86,12 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
         return response.map { either -> either.flatMap { deserialize<ClanWarLeagueGroup>(it.body?.string() ?: "") } }
     }
 
+    /**
+     * Get a war league war.
+     *
+     * @param tag Clan war tag (without leading '#').
+     * @return The war league war.
+     */
     fun leagueWar(tag: String): Mono<Either<ClashAPIError, War>> {
         log.trace("Getting league war {}", tag)
 

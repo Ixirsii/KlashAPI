@@ -33,14 +33,40 @@ package tech.ixirsii.klash.types.war
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Clan war member.
+ *
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class WarClanMember(
+    /**
+     * Attacks made by member.
+     */
     val attacks: List<WarClanMemberAttack> = emptyList(),
+    /**
+     * Best attack against member.
+     */
     val bestOpponentAttack: WarClanMemberAttack? = null,
+    /**
+     * Position on the map.
+     */
     val mapPosition: Int,
+    /**
+     * Member name.
+     */
     val name: String,
+    /**
+     * How many attacks were made against the member.
+     */
     val opponentAttacks: Int,
+    /**
+     * Player tag.
+     */
     val tag: String,
+    /**
+     * Town hall level.
+     */
     @SerialName("townhallLevel")
     val townHallLevel: Int,
 )

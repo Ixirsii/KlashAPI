@@ -32,12 +32,35 @@ package tech.ixirsii.klash.types.war
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Clan war attack.
+ *
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class WarClanMemberAttack(
+    /**
+     * Attacker's player tag.
+     */
     val attackerTag: String,
+    /**
+     * Defender's player tag.
+     */
     val defenderTag: String,
+    /**
+     * Destruction percentage.
+     */
     val destructionPercentage: Double,
+    /**
+     * Duration in seconds.
+     */
     val duration: Int,
+    /**
+     * Attack order in war.
+     */
     val order: Int,
+    /**
+     * Stars earned.
+     */
     val stars: Int,
 )

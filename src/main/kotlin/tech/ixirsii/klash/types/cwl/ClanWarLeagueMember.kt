@@ -40,15 +40,15 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ClanWarLeagueMember(
     /**
-     * Member's name.
+     * Player name.
      */
     val name: String,
     /**
-     * Member's tag.
+     * Player tag.
      */
     val tag: String,
     /**
-     * Member's town hall level.
+     * Town hall level.
      */
     val townHallLevel: Int,
 )
