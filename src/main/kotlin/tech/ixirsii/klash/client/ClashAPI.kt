@@ -35,6 +35,7 @@ import arrow.core.flatMap
 import arrow.core.left
 import arrow.core.right
 import kotlinx.serialization.json.Json
+import okhttp3.Call
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
@@ -46,7 +47,8 @@ import reactor.core.publisher.Mono
 import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.logging.Logging
 import tech.ixirsii.klash.logging.LoggingImpl
-import tech.ixirsii.klash.types.clan.ClanWarLeagueGroup
+import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
+import tech.ixirsii.klash.types.war.War
 import java.io.IOException
 
 /**
@@ -64,7 +66,6 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
      * JSON serializer/deserializer.
      */
     private val json = Json {
-        ignoreUnknownKeys = true
         coerceInputValues = true
         prettyPrint = true
     }
@@ -78,9 +79,19 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
      * @return The war league group for the clan.
      */
     fun leagueGroup(tag: String): Mono<Either<ClashAPIError, ClanWarLeagueGroup>> {
+        log.trace("Getting league group for clan {}", tag)
+
         val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$tag/currentwar/leaguegroup")
 
         return response.map { either -> either.flatMap { deserialize<ClanWarLeagueGroup>(it.body?.string() ?: "") } }
+    }
+
+    fun leagueWar(tag: String): Mono<Either<ClashAPIError, War>> {
+        log.trace("Getting league war {}", tag)
+
+        val response: Mono<Either<ClashAPIError, Response>> = get("/clanwarleagues/wars/%23$tag")
+
+        return response.map { either -> either.flatMap { deserialize<War>(it.body?.string() ?: "") } }
     }
 
     /* *************************************** Private utility functions **************************************** */
@@ -106,9 +117,15 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
      * @return [Either.Right] with the response if successful, [Either.Left] with an error otherwise.
      */
     private fun checkResponse(response: Mono<Response>): Mono<Either<ClashAPIError, Response>> = response.map {
+        log.trace("Checking response {}", it)
+
         if (it.isSuccessful) {
+            log.debug("Received successful response: {}", it)
+
             it.right()
         } else {
+            log.warn("Received error response: {} {}", it.code, it.message)
+
             when (it.code) {
                 400 -> ClashAPIError.BadRequest(it.message).left()
                 403 -> ClashAPIError.Forbidden(it.message).left()
@@ -132,7 +149,10 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
     private inline fun <reified T> deserialize(body: String = ""): Either<ClashAPIError.DeserializationError, T> =
         Either.catch {
             json.decodeFromString<T>(body)
-        }.mapLeft { ClashAPIError.DeserializationError(it.message ?: "Caught exception deserializing response") }
+        }.mapLeft {
+            log.error("Caught exception deserializing response", it)
+            ClashAPIError.DeserializationError(it.message ?: "Caught exception deserializing response")
+        }
 
     /**
      * Make a GET request.
@@ -141,7 +161,13 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
      * @return [Either.Right] with the response if successful, [Either.Left] with an error otherwise.
      */
     private fun get(endpoint: String): Mono<Either<ClashAPIError, Response>> {
-        val response: Mono<Response> = Mono.fromCallable { http.newCall(baseRequest(endpoint).build()).execute() }
+        log.trace("Making GET request to {}", endpoint)
+
+        val call: Call = http.newCall(baseRequest(endpoint).build())
+
+        log.debug("Making GET request to {}", call.request().url)
+
+        val response: Mono<Response> = Mono.fromCallable { call.execute() }
 
         return checkResponse(response)
     }
@@ -161,7 +187,9 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
         queryParams += queryParameter("after", after, queryParams.length > 1)
         queryParams += queryParameter("before", before, queryParams.length > 1)
 
-        return if (queryParams.length > 1) queryParams else ""
+        log.debug("Pagination query parameters: {}", queryParams)
+
+        return queryParams
     }
 
     /**
@@ -172,7 +200,13 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
      * @return [Either.Right] with the response if successful, [Either.Left] with an error otherwise.
      */
     private fun post(endpoint: String, body: RequestBody): Mono<Either<ClashAPIError, Response>> {
-        val response: Mono<Response> = Mono.fromCallable { http.newCall(baseRequest(endpoint).post(body).build()).execute() }
+        log.trace("Making POST request to {}", endpoint)
+
+        val call: Call = http.newCall(baseRequest(endpoint).post(body).build())
+
+        log.debug("Making POST request to {}", call.request().url)
+
+        val response: Mono<Response> = Mono.fromCallable { call.execute() }
 
         return checkResponse(response)
     }

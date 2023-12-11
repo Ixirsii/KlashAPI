@@ -28,27 +28,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types.war
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-/**
- * Member of a clan in a Clan War League.
- *
- * @author Ixirsii <ixirsii@ixirsii.tech>
- */
 @Serializable
-data class ClanWarLeagueMember(
-    /**
-     * Member's tag.
-     */
-    val tag: String,
-    /**
-     * Member's town hall level.
-     */
-    val townHallLevel: Int,
-    /**
-     * Member's name.
-     */
+data class WarClanMember(
+    val attacks: List<WarClanMemberAttack> = emptyList(),
+    val bestOpponentAttack: WarClanMemberAttack? = null,
+    val mapPosition: Int,
     val name: String,
+    val opponentAttacks: Int,
+    val tag: String,
+    @SerialName("townhallLevel")
+    val townHallLevel: Int,
 )

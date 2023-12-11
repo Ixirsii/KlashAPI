@@ -32,13 +32,16 @@ package tech.ixirsii.klash.client
 
 import arrow.core.Either
 import org.junit.jupiter.api.assertDoesNotThrow
-import reactor.core.publisher.Mono
 import tech.ixirsii.klash.error.ClashAPIError
-import tech.ixirsii.klash.types.clan.ClanWarLeagueGroup
+import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
+import tech.ixirsii.klash.types.war.State
+import tech.ixirsii.klash.types.war.War
 import java.io.FileInputStream
-import java.util.Properties
+import java.time.ZonedDateTime
+import java.util.*
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
@@ -56,12 +59,10 @@ internal class ClashAPITest {
     @Test
     internal fun `GIVEN clan tag WHEN leagueGroup THEN returns league group or not found`() {
         // When
-        val actual: Mono<Either<ClashAPIError, ClanWarLeagueGroup>> = underTest.leagueGroup(CLAN_TAG)
+        val actual: Either<ClashAPIError, ClanWarLeagueGroup> = underTest.leagueGroup(CLAN_TAG).block()!!
 
         // Then
-        val either: Either<ClashAPIError, ClanWarLeagueGroup> = actual.block()!!
-
-        either.onRight { leagueGroup ->
+        actual.onRight { leagueGroup ->
             assertTrue("Clans should not be empty") { leagueGroup.clans.isNotEmpty() }
             assertDoesNotThrow("") { leagueGroup.clans.first { it.tag.endsWith(CLAN_TAG) } }
             assertTrue { leagueGroup.rounds.isNotEmpty() }
@@ -76,9 +77,37 @@ internal class ClashAPITest {
             }
     }
 
+    @Test
+    internal fun `GIVEN war tag WHEN leagueWar THEN returns league war`() {
+        // When
+        val actual: Either<ClashAPIError, War> = underTest.leagueWar(CLAN_WAR_LEAGUE_WAR_TAG).block()!!
+
+        // Then
+        actual.onRight { war ->
+            assertEquals(State.ENDED, war.state, "War should be ended")
+            assertEquals(30, war.teamSize, "Team size should equal expected")
+            assertEquals(ZonedDateTime.parse("2023-12-08T03:06:27.000Z"), war.endTime, "End time should equal expected")
+            assertEquals(
+                ZonedDateTime.parse("2023-12-06T03:08:12.000Z"),
+                war.preparationStartTime,
+                "Preparation start time should equal expected"
+            )
+            assertEquals(ZonedDateTime.parse("2023-12-07T03:06:27.000Z"), war.startTime, "Start time should equal expected")
+            assertEquals(
+                ZonedDateTime.parse("2023-12-07T03:06:27.000Z"),
+                war.warStartTime,
+                "War start time should equal expected"
+            )
+        }
+            .onLeft {
+                fail("War should be right")
+            }
+    }
+
     companion object {
         private const val CLAN_TAG = "2Q82UJVY"
         private const val CONFIG = "tokens.properties"
         private const val PLAYER_TAG = "2Q09RPGL8"
+        private const val CLAN_WAR_LEAGUE_WAR_TAG = "82P0QP0Y2"
     }
 }

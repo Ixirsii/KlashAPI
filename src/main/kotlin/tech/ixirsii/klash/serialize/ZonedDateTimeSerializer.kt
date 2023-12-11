@@ -28,38 +28,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.serialize
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import tech.ixirsii.klash.types.BadgeURLs
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import java.time.LocalDateTime
+import java.time.ZoneOffset.UTC
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
 
-/**
- * Clan in a Clan War League.
- *
- * @author Ixirsii <ixirsii@ixirsii.tech>
- */
-@Serializable
-data class ClanWarLeagueClan(
-    /**
-     * Clan tag.
-     */
-    val tag: String,
-    /**
-     * Clan level.
-     */
-    val clanLevel: Int,
-    /**
-     * Clan name.
-     */
-    val name: String,
-    /**
-     * Clan members.
-     */
-    val members: List<ClanWarLeagueMember>,
-    /**
-     * Clan badge URLs.
-     */
-    @SerialName("badgeUrls")
-    val badgeURLs: BadgeURLs,
-)
+class ZonedDateTimeSerializer : KSerializer<ZonedDateTime> {
+    private val deserializeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss.SSS'Z'")
+    private val serializeFormatter: DateTimeFormatter = DateTimeFormatterBuilder().appendInstant(3).toFormatter()
+
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ZonedDateTime", PrimitiveKind.STRING)
+
+    override fun deserialize(decoder: Decoder): ZonedDateTime = LocalDateTime.parse(
+        decoder.decodeString(),
+        deserializeFormatter
+    ).atZone(UTC)
+
+    override fun serialize(encoder: Encoder, value: ZonedDateTime) = encoder.encodeString(
+        value.format(serializeFormatter)
+    )
+}

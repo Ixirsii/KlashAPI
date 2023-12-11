@@ -28,19 +28,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types.war
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import tech.ixirsii.klash.types.BadgeURLs
 
 /**
- * Represents a clan war league round.
+ * Clan war clan.
  *
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanWarLeagueRound(
-    /**
-     * War tags in this round of CWL.
-     */
-    val warTags: List<String>,
+data class WarClan(
+    val attacks: Int,
+    @SerialName("badgeUrls")
+    val badgeURLs: BadgeURLs,
+    val clanLevel: Int,
+    val destructionPercentage: Double,
+    val members: List<WarClanMember>,
+    val name: String,
+    val stars: Int,
+    val tag: String
 )

@@ -110,8 +110,5 @@ tasks.jacocoTestReport {
 tasks.test {
     finalizedBy(tasks.jacocoTestReport)
 
-    systemProperty("junit.jupiter.execution.parallel.enabled", true)
-    systemProperty("junit.jupiter.execution.parallel.mode.default", "concurrent")
-
     useJUnitPlatform()
 }
