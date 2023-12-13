@@ -36,12 +36,14 @@ import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
 import tech.ixirsii.klash.types.war.State
 import tech.ixirsii.klash.types.war.War
+import tech.ixirsii.klash.types.war.WarLog
 import java.io.FileInputStream
 import java.time.ZonedDateTime
 import java.util.*
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
@@ -67,12 +69,11 @@ internal class ClashAPITest {
             assertDoesNotThrow("") { leagueGroup.clans.first { it.tag.endsWith(CLAN_TAG) } }
             assertTrue { leagueGroup.rounds.isNotEmpty() }
             assertNotEquals("", leagueGroup.season, "Season should not be empty")
-        }
-            .onLeft {
+        }.onLeft {
                 when (it) {
                     // Succeed test on NotFound because CWL may not be active when test is run
                     is ClashAPIError.NotFound -> Unit
-                    else -> fail("Unexpected error")
+                    else -> fail("Unexpected error \"$it\"")
                 }
             }
     }
@@ -92,16 +93,96 @@ internal class ClashAPITest {
                 war.preparationStartTime,
                 "Preparation start time should equal expected"
             )
-            assertEquals(ZonedDateTime.parse("2023-12-07T03:06:27.000Z"), war.startTime, "Start time should equal expected")
+            assertEquals(
+                ZonedDateTime.parse("2023-12-07T03:06:27.000Z"), war.startTime, "Start time should equal expected"
+            )
             assertEquals(
                 ZonedDateTime.parse("2023-12-07T03:06:27.000Z"),
                 war.warStartTime,
                 "War start time should equal expected"
             )
-        }
-            .onLeft {
-                fail("War should be right")
-            }
+        }.onLeft { fail("War should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN clan tag WHEN warLog THEN returns war log`() {
+        // When
+        val actual: Either<ClashAPIError, WarLog> = underTest.warLog(CLAN_TAG).block()!!
+
+        // Then
+        actual.onRight { warLog ->
+            assertTrue("War log should not be empty") { warLog.items.isNotEmpty() }
+            assertEquals("", warLog.paging.cursors.after, "After cursor should be empty")
+            assertEquals("", warLog.paging.cursors.before, "Before cursor should be empty")
+        }.onLeft { fail("War log should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN limit WHEN warLog THEN returns war log`() {
+        // When
+        val actual: Either<ClashAPIError, WarLog> = underTest.warLog(CLAN_TAG, limit = 1).block()!!
+
+        // Then
+        actual.onRight { warLog ->
+            assertEquals(1, warLog.items.size, "War log should have one item")
+            assertNotEquals("", warLog.paging.cursors.after, "After cursor should not be empty")
+            assertEquals("", warLog.paging.cursors.before, "Before cursor should be empty")
+        }.onLeft { fail("War log should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN after WHEN warLog THEN returns war log after cursor`() {
+        // Given
+        val prefix: Either<ClashAPIError, WarLog> = underTest.warLog(CLAN_TAG, limit = 1).block()!!
+
+        prefix.onRight { prefixWarLog ->
+            // When
+            val actual: Either<ClashAPIError, WarLog> =
+                underTest.warLog(CLAN_TAG, limit = 1, after = prefixWarLog.paging.cursors.after).block()!!
+
+            // Then
+            actual.onRight { warLog ->
+                assertEquals(1, warLog.items.size, "War log should have one item")
+                assertNotEquals("", warLog.paging.cursors.after, "After cursor should not be empty")
+                assertNotEquals("", warLog.paging.cursors.before, "Before cursor should not be empty")
+                prefixWarLog.items.forEach { prefixItem ->
+                    assertFalse("Actual should not contain prefix items") { warLog.items.contains(prefixItem) }
+                }
+            }.onLeft { fail("War log should be right but was \"$it\"") }
+        }.onLeft { fail("Prefix should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN before WHEN warLog THEN returns war log before cursor`() {
+        // Given
+        val prefix: Either<ClashAPIError, WarLog> = underTest.warLog(CLAN_TAG, limit = 1).block()!!
+
+        prefix.onRight { prefixWarLog ->
+            // When
+            val suffix: Either<ClashAPIError, WarLog> =
+                underTest.warLog(CLAN_TAG, limit = 1, after = prefixWarLog.paging.cursors.after).block()!!
+
+            // Then
+            suffix.onRight { suffixWarLog ->
+                // When
+                val actual: Either<ClashAPIError, WarLog> =
+                    underTest.warLog(CLAN_TAG, limit = 1, before = suffixWarLog.paging.cursors.before).block()!!
+
+                actual.onRight { actualWarLog ->
+                    assertEquals(1, actualWarLog.items.size, "War log should have one item")
+                    assertNotEquals("", actualWarLog.paging.cursors.after, "After cursor should not be empty")
+                    assertEquals("", actualWarLog.paging.cursors.before, "Before cursor should be empty")
+
+                    prefixWarLog.items.forEach { prefixItem ->
+                        assertTrue("Actual should contain prefix items") { actualWarLog.items.contains(prefixItem) }
+                    }
+
+                    suffixWarLog.items.forEach { suffixItem ->
+                        assertFalse("Actual should not contain suffix items") { actualWarLog.items.contains(suffixItem) }
+                    }
+                }.onLeft { fail("War log should be right but was \"$it\"") }
+            }.onLeft { fail("suffix should be right but was \"$it\"") }
+        }.onLeft { fail("Prefix should be right but was \"$it\"") }
     }
 
     companion object {

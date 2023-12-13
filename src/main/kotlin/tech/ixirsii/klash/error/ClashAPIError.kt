@@ -30,49 +30,62 @@
 
 package tech.ixirsii.klash.error
 
+import tech.ixirsii.klash.types.error.ClientError
+
 /**
  * Represents an error returned by the Clash of Clans API.
  *
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
-sealed class ClashAPIError(message: String): Exception(message) {
+sealed interface ClashAPIError {
+    /**
+     * The error message.
+     */
+    val message: String
+
+    /**
+     *  The client error.
+     */
+    val error: ClientError?
+
     /**
      * 400 Bad Request error.
      */
-    class BadRequest(message: String): ClashAPIError(message)
+    data class BadRequest(override val message: String, override val error: ClientError) : ClashAPIError
 
     /**
      * Deserialization error.
      */
-    class DeserializationError(message: String): ClashAPIError(message)
+    data class DeserializationError(override val message: String, override val error: ClientError? = null) :
+        ClashAPIError
 
     /**
      * 403 Forbidden error.
      */
-    class Forbidden(message: String): ClashAPIError(message)
+    data class Forbidden(override val message: String, override val error: ClientError) : ClashAPIError
 
     /**
      * 404 Not Found error.
      */
-    class NotFound(message: String): ClashAPIError(message)
+    data class NotFound(override val message: String, override val error: ClientError) : ClashAPIError
 
     /**
      * 429 Too Many Requests error.
      */
-    class TooManyRequests(message: String): ClashAPIError(message)
+    data class TooManyRequests(override val message: String, override val error: ClientError) : ClashAPIError
 
     /**
      * 500 Internal Server Error error.
      */
-    class InternalServerError(message: String): ClashAPIError(message)
+    data class InternalServerError(override val message: String, override val error: ClientError) : ClashAPIError
 
     /**
      * 503 Service Unavailable error.
      */
-    class ServiceUnavailable(message: String): ClashAPIError(message)
+    data class ServiceUnavailable(override val message: String, override val error: ClientError) : ClashAPIError
 
     /**
      * Unknown error.
      */
-    class Unknown(message: String): ClashAPIError(message)
+    data class Unknown(override val message: String, override val error: ClientError) : ClashAPIError
 }
