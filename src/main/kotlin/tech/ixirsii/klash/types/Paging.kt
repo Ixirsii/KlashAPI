@@ -32,5 +32,11 @@ package tech.ixirsii.klash.types
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Pagination cursor.
+ *
+ * @property cursors Cursors object.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class Paging(val cursors: Cursors)

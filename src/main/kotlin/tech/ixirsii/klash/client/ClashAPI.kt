@@ -56,6 +56,7 @@ import java.io.IOException
 /**
  * Clash of Clans API client.
  *
+ * @property token Clash of Clans API token for authenticating requests.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
@@ -149,13 +150,13 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
                 val error: Either<ClashAPIError, ClientError> = deserialize(response.body?.string() ?: "")
 
                 when (response.code) {
-                    400 -> error.flatMap { ClashAPIError.BadRequest(response.message, it).left() }
-                    403 -> error.flatMap { ClashAPIError.Forbidden(response.message, it).left() }
-                    404 -> error.flatMap { ClashAPIError.NotFound(response.message, it).left() }
-                    429 -> error.flatMap { ClashAPIError.TooManyRequests(response.message, it).left() }
-                    500 -> error.flatMap { ClashAPIError.InternalServerError(response.message, it).left() }
-                    503 -> error.flatMap { ClashAPIError.ServiceUnavailable(response.message, it).left() }
-                    else -> error.flatMap { ClashAPIError.Unknown(response.message, it).left() }
+                    400 -> error.flatMap { ClashAPIError.ClientError.BadRequest(response.message, it).left() }
+                    403 -> error.flatMap { ClashAPIError.ClientError.Forbidden(response.message, it).left() }
+                    404 -> error.flatMap { ClashAPIError.ClientError.NotFound(response.message, it).left() }
+                    429 -> error.flatMap { ClashAPIError.ClientError.TooManyRequests(response.message, it).left() }
+                    500 -> error.flatMap { ClashAPIError.ClientError.InternalServerError(response.message, it).left() }
+                    503 -> error.flatMap { ClashAPIError.ClientError.ServiceUnavailable(response.message, it).left() }
+                    else -> error.flatMap { ClashAPIError.ClientError.Unknown(response.message, it).left() }
                 }
             }
         }

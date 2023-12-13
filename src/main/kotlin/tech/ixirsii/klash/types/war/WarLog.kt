@@ -33,6 +33,13 @@ package tech.ixirsii.klash.types.war
 import kotlinx.serialization.Serializable
 import tech.ixirsii.klash.types.Paging
 
+/**
+ * Clan war log.
+ *
+ * @property items List of war log entries.
+ * @property paging Paging information.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class WarLog (
     val items: List<WarLogEntry>,

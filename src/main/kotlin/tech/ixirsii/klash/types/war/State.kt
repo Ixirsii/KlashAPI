@@ -32,71 +32,61 @@ package tech.ixirsii.klash.types.war
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import tech.ixirsii.klash.types.war.State.ACCESS_DENIED
+import tech.ixirsii.klash.types.war.State.CLAN_NOT_FOUND
+import tech.ixirsii.klash.types.war.State.ENDED
+import tech.ixirsii.klash.types.war.State.ENTER_WAR
+import tech.ixirsii.klash.types.war.State.IN_MATCHMAKING
+import tech.ixirsii.klash.types.war.State.IN_WAR
+import tech.ixirsii.klash.types.war.State.MATCHED
+import tech.ixirsii.klash.types.war.State.NOT_IN_WAR
+import tech.ixirsii.klash.types.war.State.PREPARATION
+import tech.ixirsii.klash.types.war.State.WAR
 
 /**
  * Clan war state.
  *
+ * @property CLAN_NOT_FOUND Clan not found.
+ * @property ACCESS_DENIED Access denied.
+ * @property NOT_IN_WAR Not in war.
+ * @property IN_MATCHMAKING Matchmaking.
+ * @property ENTER_WAR Enter war (?).
+ * @property MATCHED Matched.
+ * @property PREPARATION Preparation.
+ * @property WAR War (?).
+ * @property IN_WAR In war.
+ * @property ENDED War ended.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
 enum class State {
-    /**
-     * Clan not found.
-     */
     @SerialName("clanNotFound")
     CLAN_NOT_FOUND,
 
-    /**
-     * Access denied.
-     */
     @SerialName("accessDenied")
     ACCESS_DENIED,
 
-    /**
-     * Not in war.
-     */
     @SerialName("notInWar")
     NOT_IN_WAR,
 
-    /**
-     * War ended.
-     */
     @SerialName("inMatchmaking")
     IN_MATCHMAKING,
 
-    /**
-     * Enter war(?).
-     */
     @SerialName("enterWar")
     ENTER_WAR,
 
-    /**
-     * Matched.
-     */
     @SerialName("matched")
     MATCHED,
 
-    /**
-     * Preparation.
-     */
     @SerialName("preparation")
     PREPARATION,
 
-    /**
-     * War (?).
-     */
     @SerialName("war")
     WAR,
 
-    /**
-     * In war.
-     */
     @SerialName("inWar")
     IN_WAR,
 
-    /**
-     * War ended.
-     */
     @SerialName("warEnded")
     ENDED
 }

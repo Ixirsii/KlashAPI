@@ -35,10 +35,10 @@ import org.slf4j.Logger
 /**
  * Implementation that injects a logger into a class.
  *
+ * @property log SLF4J logger.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
-class LoggingImpl(logger: Logger) : Logging {
-    override val log: Logger = logger
+class LoggingImpl(override val log: Logger) : Logging {
 
     companion object {
         /**

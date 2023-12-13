@@ -34,12 +34,21 @@ import kotlinx.serialization.Serializable
 import tech.ixirsii.klash.serialize.ZonedDateTimeSerializer
 import java.time.ZonedDateTime
 
+/**
+ * War log entry.
+ *
+ * @property attacksPerMember Number of attacks per member.
+ * @property clan First clan.
+ * @property endTime End time.
+ * @property opponent Second clan.
+ * @property result War result.
+ * @property teamSize Team size.
+ */
 @Serializable
 data class WarLogEntry(
     val attacksPerMember: Int,
     val clan: WarLogClan? = null,
-    @Serializable(with = ZonedDateTimeSerializer::class)
-    val endTime: ZonedDateTime,
+    @Serializable(with = ZonedDateTimeSerializer::class) val endTime: ZonedDateTime,
     val opponent: WarLogClan? = null,
     val result: Result? = null,
     val teamSize: Int,

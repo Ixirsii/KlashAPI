@@ -32,6 +32,13 @@ package tech.ixirsii.klash.types
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Pagination cursor.
+ *
+ * @property after After cursor.
+ * @property before Before cursor.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class Cursors(
     val after: String = "",

@@ -36,37 +36,22 @@ import kotlinx.serialization.Serializable
 /**
  * Clan war member.
  *
+ * @property attacks Attacks made by member.
+ * @property bestOpponentAttack Best attack against member.
+ * @property mapPosition Position on the map.
+ * @property name Member name.
+ * @property opponentAttacks How many attacks were made against the member.
+ * @property tag Player tag.
+ * @property townHallLevel Town hall level.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
 data class WarClanMember(
-    /**
-     * Attacks made by member.
-     */
     val attacks: List<WarClanMemberAttack> = emptyList(),
-    /**
-     * Best attack against member.
-     */
     val bestOpponentAttack: WarClanMemberAttack? = null,
-    /**
-     * Position on the map.
-     */
     val mapPosition: Int,
-    /**
-     * Member name.
-     */
     val name: String,
-    /**
-     * How many attacks were made against the member.
-     */
     val opponentAttacks: Int,
-    /**
-     * Player tag.
-     */
     val tag: String,
-    /**
-     * Town hall level.
-     */
-    @SerialName("townhallLevel")
-    val townHallLevel: Int,
+    @SerialName("townhallLevel") val townHallLevel: Int,
 )

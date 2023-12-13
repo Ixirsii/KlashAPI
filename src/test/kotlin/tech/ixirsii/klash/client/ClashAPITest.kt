@@ -72,7 +72,7 @@ internal class ClashAPITest {
         }.onLeft {
                 when (it) {
                     // Succeed test on NotFound because CWL may not be active when test is run
-                    is ClashAPIError.NotFound -> Unit
+                    is ClashAPIError.ClientError.NotFound -> Unit
                     else -> fail("Unexpected error \"$it\"")
                 }
             }
