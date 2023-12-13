@@ -35,44 +35,110 @@ package tech.ixirsii.klash.error
  *
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
-sealed class ClashAPIError(message: String): Exception(message) {
+sealed interface ClashAPIError {
     /**
-     * 400 Bad Request error.
+     * The error message.
      */
-    class BadRequest(message: String): ClashAPIError(message)
+    val message: String
+
+    sealed interface ClientError : ClashAPIError {
+        /**
+         *  The client error.
+         */
+        val error: tech.ixirsii.klash.types.error.ClientError
+
+        /**
+         * 400 Bad Request error.
+         *
+         * @property message The error message.
+         * @property error The client error.
+         * @author Ixirsii <ixirsii@ixirsii.tech>
+         */
+        data class BadRequest(
+            override val message: String,
+            override val error: tech.ixirsii.klash.types.error.ClientError,
+        ) : ClientError
+
+        /**
+         * 403 Forbidden error.
+         *
+         * @property message The error message.
+         * @property error The client error.
+         * @author Ixirsii <ixirsii@ixirsii.tech>
+         */
+        data class Forbidden(
+            override val message: String,
+            override val error: tech.ixirsii.klash.types.error.ClientError,
+        ) : ClientError
+
+        /**
+         * 404 Not Found error.
+         *
+         * @property message The error message.
+         * @property error The client error.
+         * @author Ixirsii <ixirsii@ixirsii.tech>
+         */
+        data class NotFound(
+            override val message: String,
+            override val error: tech.ixirsii.klash.types.error.ClientError,
+        ) : ClientError
+
+        /**
+         * 429 Too Many Requests error.
+         *
+         * @property message The error message.
+         * @property error The client error.
+         * @author Ixirsii <ixirsii@ixirsii.tech>
+         */
+        data class TooManyRequests(
+            override val message: String,
+            override val error: tech.ixirsii.klash.types.error.ClientError,
+        ) : ClientError
+
+        /**
+         * 500 Internal Server Error error.
+         *
+         * @property message The error message.
+         * @property error The client error.
+         * @author Ixirsii <ixirsii@ixirsii.tech>
+         */
+        data class InternalServerError(
+            override val message: String,
+            override val error: tech.ixirsii.klash.types.error.ClientError,
+        ) :
+            ClientError
+
+        /**
+         * 503 Service Unavailable error.
+         *
+         * @property message The error message.
+         * @property error The client error.
+         * @author Ixirsii <ixirsii@ixirsii.tech>
+         */
+        data class ServiceUnavailable(
+            override val message: String,
+            override val error: tech.ixirsii.klash.types.error.ClientError,
+        ) :
+            ClientError
+
+        /**
+         * Unknown error.
+         *
+         * @property message The error message.
+         * @property error The client error.
+         * @author Ixirsii <ixirsii@ixirsii.tech>
+         */
+        data class Unknown(
+            override val message: String,
+            override val error: tech.ixirsii.klash.types.error.ClientError,
+        ) : ClientError
+    }
 
     /**
      * Deserialization error.
+     *
+     * @property message The error message.
+     * @author Ixirsii <ixirsii@ixirsii.tech>
      */
-    class DeserializationError(message: String): ClashAPIError(message)
-
-    /**
-     * 403 Forbidden error.
-     */
-    class Forbidden(message: String): ClashAPIError(message)
-
-    /**
-     * 404 Not Found error.
-     */
-    class NotFound(message: String): ClashAPIError(message)
-
-    /**
-     * 429 Too Many Requests error.
-     */
-    class TooManyRequests(message: String): ClashAPIError(message)
-
-    /**
-     * 500 Internal Server Error error.
-     */
-    class InternalServerError(message: String): ClashAPIError(message)
-
-    /**
-     * 503 Service Unavailable error.
-     */
-    class ServiceUnavailable(message: String): ClashAPIError(message)
-
-    /**
-     * Unknown error.
-     */
-    class Unknown(message: String): ClashAPIError(message)
+    data class DeserializationError(override val message: String) : ClashAPIError
 }

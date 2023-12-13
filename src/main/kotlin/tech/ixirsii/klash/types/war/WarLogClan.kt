@@ -28,17 +28,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.cwl
+package tech.ixirsii.klash.types.war
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import tech.ixirsii.klash.types.BadgeURLs
 
 /**
- * Member of a clan in a Clan War League.
+ * War log entry clan.
  *
- * @property name Player name.
- * @property tag Player tag.
- * @property townHallLevel Town hall level.
+ * @property attacks Attacks made by clan.
+ * @property badgeUrls Clan badge URLs.
+ * @property clanLevel Clan level.
+ * @property destructionPercentage Average destruction percentage.
+ * @property expEarned Experience earned.
+ * @property name Clan name.
+ * @property stars Total number of attack stars.
+ * @property tag Clan tag.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanWarLeagueMember(val name: String, val tag: String, val townHallLevel: Int)
+data class WarLogClan(
+    val attacks: Int = 0,
+    @SerialName("badgeUrls") val badgeUrls: BadgeURLs? = null,
+    val clanLevel: Int = 0,
+    val destructionPercentage: Double = 0.0,
+    val expEarned: Int = 0,
+    val name: String = "",
+    val stars: Int = 0,
+    val tag: String = "",
+)

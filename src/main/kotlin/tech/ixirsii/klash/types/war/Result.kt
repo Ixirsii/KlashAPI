@@ -28,17 +28,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.cwl
+package tech.ixirsii.klash.types.war
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import tech.ixirsii.klash.types.war.Result.LOSE
+import tech.ixirsii.klash.types.war.Result.TIE
+import tech.ixirsii.klash.types.war.Result.WIN
 
 /**
- * Member of a clan in a Clan War League.
+ * Clan war result.
  *
- * @property name Player name.
- * @property tag Player tag.
- * @property townHallLevel Town hall level.
+ * @property LOSE Lost the war.
+ * @property WIN Won the war.
+ * @property TIE Tied the war.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanWarLeagueMember(val name: String, val tag: String, val townHallLevel: Int)
+enum class Result {
+    @SerialName("lose")
+    LOSE,
+
+    @SerialName("win")
+    WIN,
+
+    @SerialName("tie")
+    TIE
+}

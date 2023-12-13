@@ -37,29 +37,18 @@ import tech.ixirsii.klash.types.BadgeURLs
 /**
  * Clan in a Clan War League.
  *
+ * @property badgeURLs Clan badge URLs.
+ * @property clanLevel Clan level.
+ * @property members Clan members.
+ * @property name Clan name.
+ * @property tag Clan tag.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
 data class ClanWarLeagueClan(
-    /**
-     * Clan badge URLs.
-     */
-    @SerialName("badgeUrls")
-    val badgeURLs: BadgeURLs,
-    /**
-     * Clan level.
-     */
+    @SerialName("badgeUrls") val badgeURLs: BadgeURLs,
     val clanLevel: Int,
-    /**
-     * Clan members.
-     */
     val members: List<ClanWarLeagueMember>,
-    /**
-     * Clan name.
-     */
     val name: String,
-    /**
-     * Clan tag.
-     */
     val tag: String,
 )

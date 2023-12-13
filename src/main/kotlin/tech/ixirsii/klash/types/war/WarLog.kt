@@ -28,17 +28,20 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.cwl
+package tech.ixirsii.klash.types.war
 
 import kotlinx.serialization.Serializable
+import tech.ixirsii.klash.types.Paging
 
 /**
- * Member of a clan in a Clan War League.
+ * Clan war log.
  *
- * @property name Player name.
- * @property tag Player tag.
- * @property townHallLevel Town hall level.
+ * @property items List of war log entries.
+ * @property paging Paging information.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanWarLeagueMember(val name: String, val tag: String, val townHallLevel: Int)
+data class WarLog (
+    val items: List<WarLogEntry>,
+    val paging: Paging,
+)

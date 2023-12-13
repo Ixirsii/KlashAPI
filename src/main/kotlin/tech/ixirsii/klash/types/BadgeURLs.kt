@@ -35,20 +35,10 @@ import kotlinx.serialization.Serializable
 /**
  * Clan badge URLs.
  *
+ * @property small Small badge URL.
+ * @property medium Medium badge URL.
+ * @property large Large badge URL.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class BadgeURLs(
-    /**
-     * Small badge URL.
-     */
-    val small: String = "",
-    /**
-     * Medium badge URL.
-     */
-    val medium: String = "",
-    /**
-     * Large badge URL.
-     */
-    val large: String = "",
-)
+data class BadgeURLs(val small: String = "", val medium: String = "", val large: String = "")

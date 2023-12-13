@@ -35,32 +35,20 @@ import kotlinx.serialization.Serializable
 /**
  * Clan war attack.
  *
+ * @property attackerTag Attacker's player tag.
+ * @property defenderTag Defender's player tag.
+ * @property destructionPercentage Destruction percentage.
+ * @property duration Duration in seconds.
+ * @property order Attack order in war.
+ * @property stars Stars earned.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
 data class WarClanMemberAttack(
-    /**
-     * Attacker's player tag.
-     */
     val attackerTag: String,
-    /**
-     * Defender's player tag.
-     */
     val defenderTag: String,
-    /**
-     * Destruction percentage.
-     */
     val destructionPercentage: Double,
-    /**
-     * Duration in seconds.
-     */
     val duration: Int,
-    /**
-     * Attack order in war.
-     */
     val order: Int,
-    /**
-     * Stars earned.
-     */
     val stars: Int,
 )

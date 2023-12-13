@@ -35,20 +35,10 @@ import kotlinx.serialization.Serializable
 /**
  * Clash of Clans API request error.
  *
+ * @property reason Error reason.
+ * @property message Error message.
+ * @property type Error type.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClientError(
-    /**
-     * Error reason.
-     */
-    val reason: String = "",
-    /**
-     * Error message.
-     */
-    val message: String = "",
-    /**
-     * Error type.
-     */
-    val type: String = "",
-)
+data class ClientError(val reason: String = "", val message: String = "", val type: String = "")

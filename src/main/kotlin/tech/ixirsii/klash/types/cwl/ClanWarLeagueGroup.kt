@@ -36,29 +36,19 @@ import kotlinx.serialization.Serializable
 /**
  * Clan War League group.
  *
+ * @property clans Clans in CWL group.
+ * @property rounds CWL group rounds.
+ * @property season CWL group season.
+ * @property state CWL group state.
+ * @property tag CWL group tag. This seems to always be null.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
 data class ClanWarLeagueGroup(
-    /**
-     * Clans in CWL group.
-     */
     val clans: List<ClanWarLeagueClan>,
-    /**
-     * CWL group rounds.
-     */
     val rounds: List<ClanWarLeagueRound>,
-    /**
-     * CWL group season.
-     */
     val season: String,
-    /**
-     * CWL group state.
-     */
     val state: State,
-    /**
-     * CWL group tag. This seems to always be null.
-     */
     val tag: String = "",
 ) {
     /**
@@ -70,21 +60,25 @@ data class ClanWarLeagueGroup(
          */
         @SerialName("groupNotFound")
         GROUP_NOT_FOUND,
+
         /**
          * Not in war.
          */
         @SerialName("notInWar")
         NOT_IN_WAR,
+
         /**
          * Preparation day.
          */
         @SerialName("preparation")
         PREPARATION,
+
         /**
          * War day.
          */
         @SerialName("war")
         WAR,
+
         /**
          * CWL ended.
          */

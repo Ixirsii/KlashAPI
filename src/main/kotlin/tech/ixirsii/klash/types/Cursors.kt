@@ -28,17 +28,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.cwl
+package tech.ixirsii.klash.types
 
 import kotlinx.serialization.Serializable
 
 /**
- * Member of a clan in a Clan War League.
+ * Pagination cursor.
  *
- * @property name Player name.
- * @property tag Player tag.
- * @property townHallLevel Town hall level.
+ * @property after After cursor.
+ * @property before Before cursor.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanWarLeagueMember(val name: String, val tag: String, val townHallLevel: Int)
+data class Cursors(
+    val after: String = "",
+    val before: String = "",
+)

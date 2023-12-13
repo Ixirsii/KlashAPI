@@ -48,12 +48,15 @@ import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.logging.Logging
 import tech.ixirsii.klash.logging.LoggingImpl
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
+import tech.ixirsii.klash.types.error.ClientError
 import tech.ixirsii.klash.types.war.War
+import tech.ixirsii.klash.types.war.WarLog
 import java.io.IOException
 
 /**
  * Clash of Clans API client.
  *
+ * @property token Clash of Clans API token for authenticating requests.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
@@ -100,6 +103,20 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
         return response.map { either -> either.flatMap { deserialize<War>(it.body?.string() ?: "") } }
     }
 
+    fun warLog(
+        tag: String,
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null,
+    ): Mono<Either<ClashAPIError, WarLog>> {
+        log.trace("Getting war log for clan {}", tag)
+
+        val endpoint = "/clans/%23$tag/warlog${paginationQueryParameters(limit, after, before)}"
+        val response: Mono<Either<ClashAPIError, Response>> = get(endpoint)
+
+        return response.map { either -> either.flatMap { deserialize<WarLog>(it.body?.string() ?: "") } }
+    }
+
     /* *************************************** Private utility functions **************************************** */
 
     /**
@@ -111,38 +128,38 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
      * @return [Request.Builder] with the authorization header set.
      */
     private fun baseRequest(suffix: String): Request.Builder {
-        return Request.Builder()
-            .header("Authorization", "Bearer $token")
-            .url(URL + API_VERSION + suffix)
+        return Request.Builder().header("Authorization", "Bearer $token").url(URL + API_VERSION + suffix)
     }
 
     /**
      * Check the response for errors.
      *
-     * @param response HTTP response.
+     * @param responseMono HTTP response.
      * @return [Either.Right] with the response if successful, [Either.Left] with an error otherwise.
      */
-    private fun checkResponse(response: Mono<Response>): Mono<Either<ClashAPIError, Response>> = response.map {
-        log.trace("Checking response {}", it)
+    private fun checkResponse(responseMono: Mono<Response>): Mono<Either<ClashAPIError, Response>> =
+        responseMono.map { response ->
+            log.trace("Checking response {}", response)
 
-        if (it.isSuccessful) {
-            log.debug("Received successful response: {}", it)
+            if (response.isSuccessful) {
+                log.debug("Received successful response: {}", response)
 
-            it.right()
-        } else {
-            log.warn("Received error response: {} {}", it.code, it.message)
+                response.right()
+            } else {
+                log.warn("Received error response: {} \"{}\"", response.code, response.message)
+                val error: Either<ClashAPIError, ClientError> = deserialize(response.body?.string() ?: "")
 
-            when (it.code) {
-                400 -> ClashAPIError.BadRequest(it.message).left()
-                403 -> ClashAPIError.Forbidden(it.message).left()
-                404 -> ClashAPIError.NotFound(it.message).left()
-                429 -> ClashAPIError.TooManyRequests(it.message).left()
-                500 -> ClashAPIError.InternalServerError(it.message).left()
-                503 -> ClashAPIError.ServiceUnavailable(it.message).left()
-                else -> ClashAPIError.Unknown(it.message).left()
+                when (response.code) {
+                    400 -> error.flatMap { ClashAPIError.ClientError.BadRequest(response.message, it).left() }
+                    403 -> error.flatMap { ClashAPIError.ClientError.Forbidden(response.message, it).left() }
+                    404 -> error.flatMap { ClashAPIError.ClientError.NotFound(response.message, it).left() }
+                    429 -> error.flatMap { ClashAPIError.ClientError.TooManyRequests(response.message, it).left() }
+                    500 -> error.flatMap { ClashAPIError.ClientError.InternalServerError(response.message, it).left() }
+                    503 -> error.flatMap { ClashAPIError.ClientError.ServiceUnavailable(response.message, it).left() }
+                    else -> error.flatMap { ClashAPIError.ClientError.Unknown(response.message, it).left() }
+                }
             }
         }
-    }
 
     /**
      * Deserialize the response body.
@@ -167,7 +184,7 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
      * @return [Either.Right] with the response if successful, [Either.Left] with an error otherwise.
      */
     private fun get(endpoint: String): Mono<Either<ClashAPIError, Response>> {
-        log.trace("Making GET request to {}", endpoint)
+        log.trace("Making GET request to \"{}\"", endpoint)
 
         val call: Call = http.newCall(baseRequest(endpoint).build())
 

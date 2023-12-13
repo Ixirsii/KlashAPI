@@ -28,17 +28,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.cwl
+package tech.ixirsii.klash.types.war
 
 import kotlinx.serialization.Serializable
+import tech.ixirsii.klash.serialize.ZonedDateTimeSerializer
+import java.time.ZonedDateTime
 
 /**
- * Member of a clan in a Clan War League.
+ * War log entry.
  *
- * @property name Player name.
- * @property tag Player tag.
- * @property townHallLevel Town hall level.
- * @author Ixirsii <ixirsii@ixirsii.tech>
+ * @property attacksPerMember Number of attacks per member.
+ * @property clan First clan.
+ * @property endTime End time.
+ * @property opponent Second clan.
+ * @property result War result.
+ * @property teamSize Team size.
  */
 @Serializable
-data class ClanWarLeagueMember(val name: String, val tag: String, val townHallLevel: Int)
+data class WarLogEntry(
+    val attacksPerMember: Int,
+    val clan: WarLogClan? = null,
+    @Serializable(with = ZonedDateTimeSerializer::class) val endTime: ZonedDateTime,
+    val opponent: WarLogClan? = null,
+    val result: Result? = null,
+    val teamSize: Int,
+)
