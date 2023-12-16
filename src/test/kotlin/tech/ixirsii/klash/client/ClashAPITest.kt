@@ -34,6 +34,7 @@ import arrow.core.Either
 import org.junit.jupiter.api.assertDoesNotThrow
 import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.types.clan.Clan
+import tech.ixirsii.klash.types.clan.ClanMember
 import tech.ixirsii.klash.types.clan.WarFrequency
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
 import tech.ixirsii.klash.types.pagination.Page
@@ -292,6 +293,22 @@ internal class ClashAPITest {
                 "War start time should equal expected"
             )
         }.onLeft { fail("War should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN clan tag WHEN members THEN returns members`() {
+        // When
+        val actual: Either<ClashAPIError, Page<ClanMember>> = underTest.members(CLAN_TAG).block()!!
+
+        // Then
+        actual.onRight { members ->
+            assertTrue("Members should not be empty") { members.items.isNotEmpty() }
+            assertTrue("Members should contain member with tag \"$PLAYER_TAG\"") {
+                members.items.any { member -> member.tag.endsWith(PLAYER_TAG) }
+            }
+            assertEquals("", members.paging?.cursors?.after, "After cursor should be empty")
+            assertEquals("", members.paging?.cursors?.before, "Before cursor should be empty")
+        }.onLeft { fail("Members should be right but was \"$it\"") }
     }
 
     @Test
