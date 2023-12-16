@@ -221,6 +221,21 @@ internal class ClashAPITest {
     }
 
     @Test
+    internal fun `GIVEN clan tag WHEN currentWar THEN returns current war`() {
+        // When
+        val actual: Either<ClashAPIError, War> = underTest.currentWar(CLAN_TAG).block()!!
+
+        // Then
+        actual.onRight { war: War ->
+            assertNotNull(war.clan, "Clan should not be null")
+            assertNotNull(war.opponent, "Opponent should not be null")
+            assertNotNull(war.endTime, "End time should not be null")
+            assertNotNull(war.preparationStartTime, "Preparation start time should not be null")
+            assertNotNull(war.startTime, "Start time should not be null")
+        }. onLeft { fail("War should be right but was \"$it\"") }
+    }
+
+    @Test
     internal fun `GIVEN clan tag WHEN leagueGroup THEN returns league group or not found`() {
         // When
         val actual: Either<ClashAPIError, ClanWarLeagueGroup> = underTest.leagueGroup(CLAN_TAG).block()!!

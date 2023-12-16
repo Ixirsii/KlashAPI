@@ -127,6 +127,20 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
     }
 
     /**
+     * Get the current war for a clan.
+     *
+     * @param tag The clan tag (without leading '#').
+     * @return The current war for the clan.
+     */
+    fun currentWar(tag: String): Mono<Either<ClashAPIError, War>> {
+        log.trace("Getting current war for clan {}", tag)
+
+        val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$tag/currentwar")
+
+        return response.map { either -> either.flatMap { deserialize<War>(it.body?.string() ?: "") } }
+    }
+
+    /**
      * Get the war league group for a clan.
      *
      * @param tag The clan tag (without leading '#').
@@ -220,7 +234,7 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
      * @return [Either.Right] with the deserialized response body if successful, [Either.Left] with an error otherwise.
      */
     @Throws(IOException::class)
-    private inline fun <reified T> deserialize(body: String = ""): Either<ClashAPIError.DeserializationError, T> =
+    private inline fun <reified T> deserialize(body: String): Either<ClashAPIError.DeserializationError, T> =
         Either.catch {
             json.decodeFromString<T>(body)
         }.mapLeft {
