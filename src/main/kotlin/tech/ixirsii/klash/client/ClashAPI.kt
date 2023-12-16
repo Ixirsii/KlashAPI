@@ -48,6 +48,7 @@ import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.logging.Logging
 import tech.ixirsii.klash.logging.LoggingImpl
 import tech.ixirsii.klash.types.clan.Clan
+import tech.ixirsii.klash.types.clan.ClanMember
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
 import tech.ixirsii.klash.types.error.ClientError
 import tech.ixirsii.klash.types.pagination.Page
@@ -180,6 +181,20 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
         val response: Mono<Either<ClashAPIError, Response>> = get("/clanwarleagues/wars/%23$warTag")
 
         return response.map { either -> either.flatMap { deserialize<War>(it.body?.string() ?: "") } }
+    }
+
+    /**
+     * Get a list of members in a clan.
+     *
+     * @param clanTag The clan tag (without leading '#').
+     * @return A list of members in the clan.
+     */
+    fun members(clanTag: String): Mono<Either<ClashAPIError, Page<ClanMember>>> {
+        log.trace("Getting members for clan {}", clanTag)
+
+        val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$clanTag/members")
+
+        return response.map { either -> either.flatMap { deserialize<Page<ClanMember>>(it.body?.string() ?: "") } }
     }
 
     fun warLog(
