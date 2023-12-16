@@ -33,6 +33,7 @@ package tech.ixirsii.klash.client
 import arrow.core.Either
 import org.junit.jupiter.api.assertDoesNotThrow
 import tech.ixirsii.klash.error.ClashAPIError
+import tech.ixirsii.klash.types.capital.CapitalRaidSeason
 import tech.ixirsii.klash.types.clan.Clan
 import tech.ixirsii.klash.types.clan.ClanMember
 import tech.ixirsii.klash.types.clan.WarFrequency
@@ -61,6 +62,21 @@ internal class ClashAPITest {
         val tokens = Properties()
         tokens.load(FileInputStream(CONFIG))
         underTest = ClashAPI(tokens.getProperty("apiKey"))
+    }
+
+    @Test
+    internal fun `GIVEN clan tag WHEN capitalRaidSeasons THEN returns capital raid seasons`() {
+        // Given
+        val limit = 10
+
+        // When
+        val actual: Either<ClashAPIError, Page<CapitalRaidSeason>> =
+            underTest.capitalRaidSeasons(CLAN_TAG, limit = limit).block()!!
+
+        // Then
+        actual.onRight { seasons ->
+            assertTrue("Seasons should not be empty") { seasons.items.isNotEmpty() }
+        }.onLeft { fail("Seasons should be right but was \"$it\"") }
     }
 
     @Test

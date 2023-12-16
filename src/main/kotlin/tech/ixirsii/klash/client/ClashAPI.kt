@@ -47,6 +47,7 @@ import reactor.core.publisher.Mono
 import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.logging.Logging
 import tech.ixirsii.klash.logging.LoggingImpl
+import tech.ixirsii.klash.types.capital.CapitalRaidSeason
 import tech.ixirsii.klash.types.clan.Clan
 import tech.ixirsii.klash.types.clan.ClanMember
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
@@ -79,10 +80,40 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
     /* *********************************************** Clan APIs ************************************************ */
 
     /**
-     * Get a clan.
+     * Get clan's capital raid seasons.
      *
      * @param clanTag The clan tag (without leading '#').
-     * @return The clan.
+     * @param limit Limit the number of items returned in the response.
+     * @param after Return only items that occur after this marker.
+     * @param before Return only items that occur before this marker.
+     * @return The clan's capital raid seasons.
+     */
+    fun capitalRaidSeasons(
+        clanTag: String,
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null,
+    ): Mono<Either<ClashAPIError, Page<CapitalRaidSeason>>> {
+        log.trace("Getting capital raid seasons for clan {}", clanTag)
+
+        val queryParameters: String = paginationQueryParameters(limit, after, before)
+        val response: Mono<Either<ClashAPIError, Response>> =
+            get("/clans/%23$clanTag/capitalraidseasons$queryParameters")
+
+        return response.map { either ->
+            either.flatMap {
+                deserialize<Page<CapitalRaidSeason>>(
+                    it.body?.string() ?: ""
+                )
+            }
+        }
+    }
+
+    /**
+     * Get clan information.
+     *
+     * @param clanTag The clan tag (without leading '#').
+     * @return Clan information.
      */
     fun clan(clanTag: String): Mono<Either<ClashAPIError, Clan>> {
         log.trace("Getting clan {}", clanTag)
@@ -93,7 +124,7 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
     }
 
     /**
-     * List clans.
+     * Search clans.
      *
      * @param name Search clans by name.
      * @param warFrequency Filter by war frequency.
@@ -106,6 +137,7 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
      * @param after Return only items that occur after this marker.
      * @param before Return only items that occur before this marker.
      * @param labelIDs Filter by clan labels.
+     * @return A list of clans that match the search criteria.
      */
     fun clans(
         name: String? = null,
@@ -142,10 +174,10 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
     }
 
     /**
-     * Get the current war for a clan.
+     * Get information about clan's current clan war.
      *
      * @param clanTag The clan tag (without leading '#').
-     * @return The current war for the clan.
+     * @return Information about clan's current clan war.
      */
     fun currentWar(clanTag: String): Mono<Either<ClashAPIError, War>> {
         log.trace("Getting current war for clan {}", clanTag)
@@ -156,10 +188,10 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
     }
 
     /**
-     * Get the war league group for a clan.
+     * Get information about clan's current clan war league group.
      *
      * @param clanTag The clan tag (without leading '#').
-     * @return The war league group for the clan.
+     * @return Information about clan's current clan war league group.
      */
     fun leagueGroup(clanTag: String): Mono<Either<ClashAPIError, ClanWarLeagueGroup>> {
         log.trace("Getting league group for clan {}", clanTag)
@@ -170,10 +202,10 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
     }
 
     /**
-     * Get a war league war.
+     * Get information about individual clan war league war.
      *
      * @param warTag Clan war tag (without leading '#').
-     * @return The war league war.
+     * @return Information about individual clan war league war.
      */
     fun leagueWar(warTag: String): Mono<Either<ClashAPIError, War>> {
         log.trace("Getting league war {}", warTag)
@@ -184,19 +216,37 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
     }
 
     /**
-     * Get a list of members in a clan.
+     * List clan members.
      *
      * @param clanTag The clan tag (without leading '#').
+     * @param limit Limit the number of items returned in the response.
+     * @param after Return only items that occur after this marker.
+     * @param before Return only items that occur before this marker.
      * @return A list of members in the clan.
      */
-    fun members(clanTag: String): Mono<Either<ClashAPIError, Page<ClanMember>>> {
+    fun members(
+        clanTag: String,
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null,
+    ): Mono<Either<ClashAPIError, Page<ClanMember>>> {
         log.trace("Getting members for clan {}", clanTag)
 
-        val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$clanTag/members")
+        val queryParameters: String = paginationQueryParameters(limit, after, before)
+        val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$clanTag/members$queryParameters")
 
         return response.map { either -> either.flatMap { deserialize<Page<ClanMember>>(it.body?.string() ?: "") } }
     }
 
+    /**
+     * Get clan's clan war log.
+     *
+     * @param clanTag The clan tag (without leading '#').
+     * @param limit Limit the number of items returned in the response.
+     * @param after Return only items that occur after this marker.
+     * @param before Return only items that occur before this marker.
+     * @return Clan's clan war log.
+     */
     fun warLog(
         clanTag: String,
         limit: Int? = null,
