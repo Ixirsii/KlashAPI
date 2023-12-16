@@ -78,6 +78,20 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
     /* *********************************************** Clan APIs ************************************************ */
 
     /**
+     * Get a clan.
+     *
+     * @param clanTag The clan tag (without leading '#').
+     * @return The clan.
+     */
+    fun clan(clanTag: String): Mono<Either<ClashAPIError, Clan>> {
+        log.trace("Getting clan {}", clanTag)
+
+        val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$clanTag")
+
+        return response.map { either -> either.flatMap { deserialize<Clan>(it.body?.string() ?: "") } }
+    }
+
+    /**
      * List clans.
      *
      * @param name Search clans by name.
@@ -129,13 +143,13 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
     /**
      * Get the current war for a clan.
      *
-     * @param tag The clan tag (without leading '#').
+     * @param clanTag The clan tag (without leading '#').
      * @return The current war for the clan.
      */
-    fun currentWar(tag: String): Mono<Either<ClashAPIError, War>> {
-        log.trace("Getting current war for clan {}", tag)
+    fun currentWar(clanTag: String): Mono<Either<ClashAPIError, War>> {
+        log.trace("Getting current war for clan {}", clanTag)
 
-        val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$tag/currentwar")
+        val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$clanTag/currentwar")
 
         return response.map { either -> either.flatMap { deserialize<War>(it.body?.string() ?: "") } }
     }
@@ -143,13 +157,13 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
     /**
      * Get the war league group for a clan.
      *
-     * @param tag The clan tag (without leading '#').
+     * @param clanTag The clan tag (without leading '#').
      * @return The war league group for the clan.
      */
-    fun leagueGroup(tag: String): Mono<Either<ClashAPIError, ClanWarLeagueGroup>> {
-        log.trace("Getting league group for clan {}", tag)
+    fun leagueGroup(clanTag: String): Mono<Either<ClashAPIError, ClanWarLeagueGroup>> {
+        log.trace("Getting league group for clan {}", clanTag)
 
-        val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$tag/currentwar/leaguegroup")
+        val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$clanTag/currentwar/leaguegroup")
 
         return response.map { either -> either.flatMap { deserialize<ClanWarLeagueGroup>(it.body?.string() ?: "") } }
     }
@@ -157,27 +171,27 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
     /**
      * Get a war league war.
      *
-     * @param tag Clan war tag (without leading '#').
+     * @param warTag Clan war tag (without leading '#').
      * @return The war league war.
      */
-    fun leagueWar(tag: String): Mono<Either<ClashAPIError, War>> {
-        log.trace("Getting league war {}", tag)
+    fun leagueWar(warTag: String): Mono<Either<ClashAPIError, War>> {
+        log.trace("Getting league war {}", warTag)
 
-        val response: Mono<Either<ClashAPIError, Response>> = get("/clanwarleagues/wars/%23$tag")
+        val response: Mono<Either<ClashAPIError, Response>> = get("/clanwarleagues/wars/%23$warTag")
 
         return response.map { either -> either.flatMap { deserialize<War>(it.body?.string() ?: "") } }
     }
 
     fun warLog(
-        tag: String,
+        clanTag: String,
         limit: Int? = null,
         after: String? = null,
         before: String? = null,
     ): Mono<Either<ClashAPIError, Page<WarLogEntry>>> {
-        log.trace("Getting war log for clan {}", tag)
+        log.trace("Getting war log for clan {}", clanTag)
 
-        val endpoint = "/clans/%23$tag/warlog${paginationQueryParameters(limit, after, before)}"
-        val response: Mono<Either<ClashAPIError, Response>> = get(endpoint)
+        val queryParameters: String = paginationQueryParameters(limit, after, before)
+        val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$clanTag/warlog$queryParameters")
 
         return response.map { either -> either.flatMap { deserialize<Page<WarLogEntry>>(it.body?.string() ?: "") } }
     }

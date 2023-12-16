@@ -63,6 +63,19 @@ internal class ClashAPITest {
     }
 
     @Test
+    internal fun `GIVEN clan tag WHEN clan THEN returns clan`() {
+        // When
+        val actual: Either<ClashAPIError, Clan> = underTest.clan(CLAN_TAG).block()!!
+
+        // Then
+        actual.onRight { clan: Clan ->
+            assertEquals("midwest warrior", clan.name, "Clan name should equal expected")
+        }.onLeft {
+            fail("Clan should be right but was \"$it\"")
+        }
+    }
+
+    @Test
     internal fun `GIVEN limit WHEN clans THEN returns clans`() {
         // Given
         val limit = 1
@@ -232,7 +245,7 @@ internal class ClashAPITest {
             assertNotNull(war.endTime, "End time should not be null")
             assertNotNull(war.preparationStartTime, "Preparation start time should not be null")
             assertNotNull(war.startTime, "Start time should not be null")
-        }. onLeft { fail("War should be right but was \"$it\"") }
+        }.onLeft { fail("War should be right but was \"$it\"") }
     }
 
     @Test
