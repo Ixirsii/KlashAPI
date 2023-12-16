@@ -28,17 +28,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.cwl
+package tech.ixirsii.klash.types.clan
 
 import kotlinx.serialization.Serializable
 
 /**
- * Member of a clan in a Clan War League.
+ * Clan location.
  *
- * @property name Player name.
- * @property tag Player tag.
- * @property townHallLevel Town hall level.
- * @author Ixirsii <ixirsii@ixirsii.tech>
+ * @property countryCode The location's country code.
+ * @property id The location's ID.
+ * @property isCountry Whether the location is a country.
+ * @property localizedName The location's localized name.
+ * @property name The location's name.
  */
 @Serializable
-data class ClanWarLeagueMember(val name: String = "", val tag: String = "", val townHallLevel: Int = 0)
+data class Location(
+    val countryCode: String = "",
+    val id: Int = 0,
+    val isCountry: Boolean = false,
+    val localizedName: String = "",
+    val name: String = "",
+)

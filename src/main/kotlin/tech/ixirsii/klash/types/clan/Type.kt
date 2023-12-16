@@ -28,17 +28,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.cwl
+package tech.ixirsii.klash.types.clan
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * Member of a clan in a Clan War League.
+ * Clan's invite type.
  *
- * @property name Player name.
- * @property tag Player tag.
- * @property townHallLevel Town hall level.
- * @author Ixirsii <ixirsii@ixirsii.tech>
+ * @property CLOSED The clan is closed.
+ * @property INVITE_ONLY The clan is invite only.
+ * @property OPEN The clan is open.
+ * @author Ixirsii <ixirii@ixirsii.tech>
  */
 @Serializable
-data class ClanWarLeagueMember(val name: String = "", val tag: String = "", val townHallLevel: Int = 0)
+enum class Type {
+    @SerialName("closed")
+    CLOSED,
+
+    @SerialName("inviteOnly")
+    INVITE_ONLY,
+
+    @SerialName("open")
+    OPEN
+}

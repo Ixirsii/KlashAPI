@@ -45,10 +45,10 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class WarClanMemberAttack(
-    val attackerTag: String,
-    val defenderTag: String,
-    val destructionPercentage: Double,
-    val duration: Int,
-    val order: Int,
-    val stars: Int,
+    val attackerTag: String = "",
+    val defenderTag: String = "",
+    val destructionPercentage: Double = 0.0,
+    val duration: Int = 0,
+    val order: Int = 0,
+    val stars: Int = 0,
 )

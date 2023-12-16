@@ -47,10 +47,12 @@ import reactor.core.publisher.Mono
 import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.logging.Logging
 import tech.ixirsii.klash.logging.LoggingImpl
+import tech.ixirsii.klash.types.clan.Clan
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
 import tech.ixirsii.klash.types.error.ClientError
+import tech.ixirsii.klash.types.pagination.Page
 import tech.ixirsii.klash.types.war.War
-import tech.ixirsii.klash.types.war.WarLog
+import tech.ixirsii.klash.types.war.WarLogEntry
 import java.io.IOException
 
 /**
@@ -74,6 +76,55 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
     }
 
     /* *********************************************** Clan APIs ************************************************ */
+
+    /**
+     * List clans.
+     *
+     * @param name Search clans by name.
+     * @param warFrequency Filter by war frequency.
+     * @param locationID Filter by location.
+     * @param minMembers Filter by minimum number of clan members.
+     * @param maxMembers Filter by maximum number of clan members.
+     * @param minClanPoints Filter by minimum amount of clan points.
+     * @param minClanLevel Filter by minimum clan level.
+     * @param limit Limit the number of items returned in the response.
+     * @param after Return only items that occur after this marker.
+     * @param before Return only items that occur before this marker.
+     * @param labelIDs Filter by clan labels.
+     */
+    fun clans(
+        name: String? = null,
+        warFrequency: String? = null,
+        locationID: Int? = null,
+        minMembers: Int? = null,
+        maxMembers: Int? = null,
+        minClanPoints: Int? = null,
+        minClanLevel: Int? = null,
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null,
+        labelIDs: String? = null,
+    ): Mono<Either<ClashAPIError, Page<Clan>>> {
+        log.trace("Getting clans")
+
+        var queryParams = "?"
+
+        queryParams += queryParameter("name", name, false)
+        queryParams += queryParameter("warFrequency", warFrequency, queryParams.length > 1)
+        queryParams += queryParameter("locationID", locationID, queryParams.length > 1)
+        queryParams += queryParameter("minMembers", minMembers, queryParams.length > 1)
+        queryParams += queryParameter("maxMembers", maxMembers, queryParams.length > 1)
+        queryParams += queryParameter("minClanPoints", minClanPoints, queryParams.length > 1)
+        queryParams += queryParameter("minClanLevel", minClanLevel, queryParams.length > 1)
+        queryParams += queryParameter("limit", limit, queryParams.length > 1)
+        queryParams += queryParameter("after", after, queryParams.length > 1)
+        queryParams += queryParameter("before", before, queryParams.length > 1)
+        queryParams += queryParameter("labelIds", labelIDs, queryParams.length > 1)
+
+        val response: Mono<Either<ClashAPIError, Response>> = get("/clans$queryParams")
+
+        return response.map { either -> either.flatMap { deserialize<Page<Clan>>(it.body?.string() ?: "") } }
+    }
 
     /**
      * Get the war league group for a clan.
@@ -108,13 +159,13 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
         limit: Int? = null,
         after: String? = null,
         before: String? = null,
-    ): Mono<Either<ClashAPIError, WarLog>> {
+    ): Mono<Either<ClashAPIError, Page<WarLogEntry>>> {
         log.trace("Getting war log for clan {}", tag)
 
         val endpoint = "/clans/%23$tag/warlog${paginationQueryParameters(limit, after, before)}"
         val response: Mono<Either<ClashAPIError, Response>> = get(endpoint)
 
-        return response.map { either -> either.flatMap { deserialize<WarLog>(it.body?.string() ?: "") } }
+        return response.map { either -> either.flatMap { deserialize<Page<WarLogEntry>>(it.body?.string() ?: "") } }
     }
 
     /* *************************************** Private utility functions **************************************** */

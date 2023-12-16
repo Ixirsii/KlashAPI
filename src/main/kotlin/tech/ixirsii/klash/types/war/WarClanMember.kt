@@ -49,9 +49,9 @@ import kotlinx.serialization.Serializable
 data class WarClanMember(
     val attacks: List<WarClanMemberAttack> = emptyList(),
     val bestOpponentAttack: WarClanMemberAttack? = null,
-    val mapPosition: Int,
-    val name: String,
-    val opponentAttacks: Int,
-    val tag: String,
-    @SerialName("townhallLevel") val townHallLevel: Int,
+    val mapPosition: Int = 0,
+    val name: String = "",
+    val opponentAttacks: Int = 0,
+    val tag: String = "",
+    @SerialName("townhallLevel") val townHallLevel: Int = 0,
 )

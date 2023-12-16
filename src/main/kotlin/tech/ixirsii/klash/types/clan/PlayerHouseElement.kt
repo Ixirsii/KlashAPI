@@ -28,17 +28,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.cwl
+package tech.ixirsii.klash.types.clan
 
 import kotlinx.serialization.Serializable
 
 /**
- * Member of a clan in a Clan War League.
+ * Represents an element of a player's Clan Capital house.
  *
- * @property name Player name.
- * @property tag Player tag.
- * @property townHallLevel Town hall level.
- * @author Ixirsii <ixirsii@ixirsii.tech>
+ * @property id Element ID.
+ * @property type Element type.
  */
 @Serializable
-data class ClanWarLeagueMember(val name: String = "", val tag: String = "", val townHallLevel: Int = 0)
+data class PlayerHouseElement(val id: Int = 0, val type: Type = Type.GROUND) {
+    /**
+     * The type of the element.
+     *
+     * @property GROUND The ground element.
+     * @property ROOF The roof element.
+     * @property FOOT The foot element (?).
+     * @property DECO The decoration element.
+     * @author Ixirsii <ixirsii@ixirsii.tech>
+     */
+    enum class Type {
+        GROUND,
+        ROOF,
+        FOOT,
+        DECO
+    }
+}

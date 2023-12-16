@@ -49,12 +49,12 @@ import tech.ixirsii.klash.types.BadgeURLs
  */
 @Serializable
 data class WarClan(
-    val attacks: Int,
-    @SerialName("badgeUrls") val badgeURLs: BadgeURLs,
-    val clanLevel: Int,
-    val destructionPercentage: Double,
-    val members: List<WarClanMember>,
-    val name: String,
-    val stars: Int,
-    val tag: String,
+    val attacks: Int = 0,
+    @SerialName("badgeUrls") val badgeURLs: BadgeURLs? = null,
+    val clanLevel: Int = 0,
+    val destructionPercentage: Double = 0.0,
+    val members: List<WarClanMember> = emptyList(),
+    val name: String = "",
+    val stars: Int = 0,
+    val tag: String = "",
 )

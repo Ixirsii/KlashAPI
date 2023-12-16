@@ -45,43 +45,33 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class ClanWarLeagueGroup(
-    val clans: List<ClanWarLeagueClan>,
-    val rounds: List<ClanWarLeagueRound>,
-    val season: String,
-    val state: State,
+    val clans: List<ClanWarLeagueClan> = emptyList(),
+    val rounds: List<ClanWarLeagueRound> = emptyList(),
+    val season: String = "",
+    val state: State = State.NOT_IN_WAR,
     val tag: String = "",
 ) {
     /**
      * CWL group state.
+     * @property GROUP_NOT_FOUND Group not found.
+     * @property NOT_IN_WAR Not in war.
+     * @property PREPARATION Preparation day.
+     * @property WAR War day.
+     * @property ENDED CWL ended.
      */
     enum class State {
-        /**
-         * Group not found.
-         */
         @SerialName("groupNotFound")
         GROUP_NOT_FOUND,
 
-        /**
-         * Not in war.
-         */
         @SerialName("notInWar")
         NOT_IN_WAR,
 
-        /**
-         * Preparation day.
-         */
         @SerialName("preparation")
         PREPARATION,
 
-        /**
-         * War day.
-         */
         @SerialName("war")
         WAR,
 
-        /**
-         * CWL ended.
-         */
         @SerialName("ended")
         ENDED
     }
