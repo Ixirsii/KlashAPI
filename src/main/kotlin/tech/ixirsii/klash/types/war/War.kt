@@ -37,11 +37,12 @@ import java.time.ZonedDateTime
 /**
  * Clan War League war.
  *
+ * @property attacksPerMember Attacks per member.
  * @property clan First clan in war.
  * @property endTime War end time.
  * @property opponent Second clan in war.
  * @property preparationStartTime Preparation start time.
- * @property startTime Start time (?).
+ * @property startTime Attack day start time.
  * @property state War state.
  * @property teamSize Team size.
  * @property warStartTime War start time (?).
@@ -49,6 +50,7 @@ import java.time.ZonedDateTime
  */
 @Serializable
 data class War(
+    val attacksPerMember: Int = 0,
     val clan: WarClan? = null,
     @Serializable(with = ZonedDateTimeSerializer::class) val endTime: ZonedDateTime? = null,
     val opponent: WarClan? = null,
