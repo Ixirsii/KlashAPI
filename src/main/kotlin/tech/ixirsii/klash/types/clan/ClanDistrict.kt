@@ -28,15 +28,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types
+package tech.ixirsii.klash.types.clan
 
 import kotlinx.serialization.Serializable
 
 /**
- * Pagination cursor.
+ * Clan capital district.
  *
- * @property cursors Cursors object.
+ * @property name The district's name.
+ * @property id The district's ID.
+ * @property districtHallLevel The district's hall level.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class Paging(val cursors: Cursors)
+data class ClanDistrict(val name: String = "", val id: Int = 0, val districtHallLevel: Int = 0)

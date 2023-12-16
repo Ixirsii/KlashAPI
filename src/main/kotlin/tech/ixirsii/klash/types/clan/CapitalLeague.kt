@@ -28,17 +28,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.cwl
+package tech.ixirsii.klash.types.clan
 
 import kotlinx.serialization.Serializable
 
 /**
- * Member of a clan in a Clan War League.
+ * Clan capital league that a clan is in.
  *
- * @property name Player name.
- * @property tag Player tag.
- * @property townHallLevel Town hall level.
+ * @property name Name of the clan capital league.
+ * @property id ID of the clan capital league.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanWarLeagueMember(val name: String = "", val tag: String = "", val townHallLevel: Int = 0)
+data class CapitalLeague(val name: String = "", val id: Int = 0)

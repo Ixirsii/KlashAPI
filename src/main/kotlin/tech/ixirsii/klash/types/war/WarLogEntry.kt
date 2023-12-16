@@ -46,10 +46,10 @@ import java.time.ZonedDateTime
  */
 @Serializable
 data class WarLogEntry(
-    val attacksPerMember: Int,
+    val attacksPerMember: Int = 0,
     val clan: WarLogClan? = null,
-    @Serializable(with = ZonedDateTimeSerializer::class) val endTime: ZonedDateTime,
+    @Serializable(with = ZonedDateTimeSerializer::class) val endTime: ZonedDateTime? = null,
     val opponent: WarLogClan? = null,
     val result: Result? = null,
-    val teamSize: Int,
+    val teamSize: Int = 0,
 )

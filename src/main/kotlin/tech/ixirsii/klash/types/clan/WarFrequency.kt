@@ -28,17 +28,43 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.cwl
+package tech.ixirsii.klash.types.clan
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * Member of a clan in a Clan War League.
+ * How often a clan wars.
  *
- * @property name Player name.
- * @property tag Player tag.
- * @property townHallLevel Town hall level.
+ * @property ALWAYS The clan wars always.
+ * @property ANY The clan wars any.
+ * @property MORE_THAN_ONCE_PER_WEEK The clan wars more than once per week.
+ * @property ONCE_PER_WEEK The clan wars once per week.
+ * @property LESS_THAN_ONCE_PER_WEEK The clan wars less than once per week.
+ * @property NEVER The clan wars never.
+ * @property UNKNOWN Unknown.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanWarLeagueMember(val name: String = "", val tag: String = "", val townHallLevel: Int = 0)
+enum class WarFrequency {
+    @SerialName("always")
+    ALWAYS,
+
+    @SerialName("any")
+    ANY,
+
+    @SerialName("moreThanOncePerWeek")
+    MORE_THAN_ONCE_PER_WEEK,
+
+    @SerialName("oncePerWeek")
+    ONCE_PER_WEEK,
+
+    @SerialName("lessThanOncePerWeek")
+    LESS_THAN_ONCE_PER_WEEK,
+
+    @SerialName("never")
+    NEVER,
+
+    @SerialName("unknown")
+    UNKNOWN
+}

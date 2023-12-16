@@ -38,7 +38,7 @@ import tech.ixirsii.klash.types.BadgeURLs
  * War log entry clan.
  *
  * @property attacks Attacks made by clan.
- * @property badgeUrls Clan badge URLs.
+ * @property badgeURLs Clan badge URLs.
  * @property clanLevel Clan level.
  * @property destructionPercentage Average destruction percentage.
  * @property expEarned Experience earned.
@@ -50,7 +50,7 @@ import tech.ixirsii.klash.types.BadgeURLs
 @Serializable
 data class WarLogClan(
     val attacks: Int = 0,
-    @SerialName("badgeUrls") val badgeUrls: BadgeURLs? = null,
+    @SerialName("badgeUrls") val badgeURLs: BadgeURLs? = null,
     val clanLevel: Int = 0,
     val destructionPercentage: Double = 0.0,
     val expEarned: Int = 0,

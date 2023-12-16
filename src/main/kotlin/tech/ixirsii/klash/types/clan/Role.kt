@@ -28,17 +28,34 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.cwl
+package tech.ixirsii.klash.types.clan
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * Member of a clan in a Clan War League.
+ * A player's role in a clan.
  *
- * @property name Player name.
- * @property tag Player tag.
- * @property townHallLevel Town hall level.
- * @author Ixirsii <ixirsii@ixirsii.tech>
+ * @property NOT_MEMBER Not a member of the clan.
+ * @property MEMBER A member of the clan.
+ * @property LEADER The leader of the clan.
+ * @property ADMIN An admin of the clan.
+ * @property CO_LEADER A co-leader of the clan.
  */
 @Serializable
-data class ClanWarLeagueMember(val name: String = "", val tag: String = "", val townHallLevel: Int = 0)
+enum class Role {
+    @SerialName("notMember")
+    NOT_MEMBER,
+
+    @SerialName("member")
+    MEMBER,
+
+    @SerialName("leader")
+    LEADER,
+
+    @SerialName("admin")
+    ADMIN,
+
+    @SerialName("coLeader")
+    CO_LEADER
+}

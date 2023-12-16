@@ -28,20 +28,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.war
+package tech.ixirsii.klash.types.pagination
 
 import kotlinx.serialization.Serializable
-import tech.ixirsii.klash.types.Paging
 
 /**
- * Clan war log.
+ * A page of items.
  *
- * @property items List of war log entries.
- * @property paging Paging information.
+ * @property items Items in the page.
+ * @property paging Paging object.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class WarLog (
-    val items: List<WarLogEntry>,
-    val paging: Paging,
-)
+data class Page<T>(val items: List<T> = emptyList(), val paging: Paging? = null)

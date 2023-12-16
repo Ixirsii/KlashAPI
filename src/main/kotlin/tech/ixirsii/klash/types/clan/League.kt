@@ -28,19 +28,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types
+package tech.ixirsii.klash.types.clan
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import tech.ixirsii.klash.types.IconURLs
 
 /**
- * Pagination cursor.
+ * League that a player is in.
  *
- * @property after After cursor.
- * @property before Before cursor.
+ * @property name Name of the league.
+ * @property id ID of the league.
+ * @property iconURLs Icon URLs for the league.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class Cursors(
-    val after: String = "",
-    val before: String = "",
-)
+data class League(val name: String = "", val id: Int = 0, @SerialName("iconUrls") val iconURLs: IconURLs? = null)

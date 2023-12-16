@@ -33,10 +33,13 @@ package tech.ixirsii.klash.client
 import arrow.core.Either
 import org.junit.jupiter.api.assertDoesNotThrow
 import tech.ixirsii.klash.error.ClashAPIError
+import tech.ixirsii.klash.types.clan.Clan
+import tech.ixirsii.klash.types.clan.WarFrequency
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
+import tech.ixirsii.klash.types.pagination.Page
 import tech.ixirsii.klash.types.war.State
 import tech.ixirsii.klash.types.war.War
-import tech.ixirsii.klash.types.war.WarLog
+import tech.ixirsii.klash.types.war.WarLogEntry
 import java.io.FileInputStream
 import java.time.ZonedDateTime
 import java.util.*
@@ -45,6 +48,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import kotlin.test.fail
 
@@ -59,6 +63,164 @@ internal class ClashAPITest {
     }
 
     @Test
+    internal fun `GIVEN limit WHEN clans THEN returns clans`() {
+        // Given
+        val limit = 1
+        val name = "midwest warrior"
+
+        // When
+        val actual: Either<ClashAPIError, Page<Clan>> = underTest.clans(name = name, limit = limit).block()!!
+
+        // Then
+        actual.onRight { clans ->
+            assertEquals(limit, clans.items.size, "Clans should have one item")
+            assertNotEquals("", clans.paging?.cursors?.after, "After cursor should not be empty")
+            assertEquals("", clans.paging?.cursors?.before, "Before cursor should be empty")
+        }.onLeft { fail("Clans should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN name WHEN clans THEN returns clans`() {
+        // Given
+        val name = "midwest warrior"
+
+        // When
+        val actual: Either<ClashAPIError, Page<Clan>> = underTest.clans(name = name).block()!!
+
+        // Then
+        actual.onRight { clans ->
+            assertTrue("Clans should not be empty") { clans.items.isNotEmpty() }
+            assertNotNull(clans.items.find { it.name == name }, "Clans should contain \"$name\"")
+        }.onLeft { fail("Clans should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN warFrequency WHEN clans THEN returns clans`() {
+        // Given
+        val limit = 10
+        val warFrequency = "always"
+
+        // When
+        val actual: Either<ClashAPIError, Page<Clan>> =
+            underTest.clans(warFrequency = warFrequency, limit = limit).block()!!
+
+        // Then
+        actual.onRight { clans ->
+            assertTrue("Clans should not be empty") { clans.items.isNotEmpty() }
+            assertTrue("Clans war frequency should be always") { clans.items.all { it.warFrequency == WarFrequency.ALWAYS } }
+        }.onLeft { fail("Clans should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN location ID WHEN clans THEN returns clans`() {
+        // Given
+        val limit = 10
+        val locationID = 32000218
+
+        // When
+        val actual: Either<ClashAPIError, Page<Clan>> =
+            underTest.clans(locationID = locationID, limit = limit).block()!!
+
+        // Then
+        actual.onRight { clans ->
+            assertTrue("Clans should not be empty") { clans.items.isNotEmpty() }
+            assertTrue("Clans location ID should be $locationID") { clans.items.all { it.location?.id == locationID } }
+        }.onLeft { fail("Clans should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN minMembers WHEN clans THEN returns clans`() {
+        // Given
+        val limit = 10
+        val minMembers = 10
+
+        // When
+        val actual: Either<ClashAPIError, Page<Clan>> =
+            underTest.clans(minMembers = minMembers, limit = limit).block()!!
+
+        // Then
+        actual.onRight { clans ->
+            assertTrue("Clans should not be empty") { clans.items.isNotEmpty() }
+            assertTrue("Clans should have at least $minMembers members") { clans.items.all { it.members >= minMembers } }
+        }.onLeft { fail("Clans should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN maxMembers WHEN clans THEN returns clans`() {
+        // Given
+        val limit = 10
+        val maxMembers = 10
+
+        // When
+        val actual: Either<ClashAPIError, Page<Clan>> =
+            underTest.clans(maxMembers = maxMembers, limit = limit).block()!!
+
+        // Then
+        actual.onRight { clans ->
+            assertTrue("Clans should not be empty") { clans.items.isNotEmpty() }
+            assertTrue("Clans should have at most $maxMembers members") { clans.items.all { it.members <= maxMembers } }
+        }.onLeft { fail("Clans should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN minClanPoints WHEN clans THEN returns clans`() {
+        // Given
+        val limit = 10
+        val minClanPoints = 1000
+
+        // When
+        val actual: Either<ClashAPIError, Page<Clan>> =
+            underTest.clans(minClanPoints = minClanPoints, limit = limit).block()!!
+
+        // Then
+        actual.onRight { clans ->
+            assertTrue("Clans should not be empty") { clans.items.isNotEmpty() }
+            assertTrue("Clans should have at least $minClanPoints points") { clans.items.all { it.clanPoints >= minClanPoints } }
+        }.onLeft { fail("Clans should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN minClanLevel WHEN clans THEN returns clans`() {
+        // Given
+        val limit = 10
+        val minClanLevel = 10
+
+        // When
+        val actual: Either<ClashAPIError, Page<Clan>> =
+            underTest.clans(minClanLevel = minClanLevel, limit = limit).block()!!
+
+        // Then
+        actual.onRight { clans ->
+            assertTrue("Clans should not be empty") { clans.items.isNotEmpty() }
+            assertTrue("Clans should be at least level $minClanLevel") { clans.items.all { it.clanLevel >= minClanLevel } }
+        }.onLeft { fail("Clans should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN label IDs WHEN clans THEN returns clans`() {
+        // Given
+        val limit = 10
+        val labelIDs: List<Int> = listOf(56000000, 56000004, 56000016)
+        val labelIDString = "56000000,56000004,56000016"
+
+        // When
+        val actual: Either<ClashAPIError, Page<Clan>> =
+            underTest.clans(labelIDs = labelIDString, limit = limit).block()!!
+
+        // Then
+        actual.onRight { clans ->
+            assertTrue("Clans should not be empty") { clans.items.isNotEmpty() }
+            assertTrue("Clans' labels should contain $labelIDString") {
+                clans.items.all { clan ->
+                    clan.labels.all { label ->
+                        labelIDs.contains(label.id)
+                    }
+                }
+            }
+        }.onLeft { fail("Clans should be right but was \"$it\"") }
+    }
+
+    @Test
     internal fun `GIVEN clan tag WHEN leagueGroup THEN returns league group or not found`() {
         // When
         val actual: Either<ClashAPIError, ClanWarLeagueGroup> = underTest.leagueGroup(CLAN_TAG).block()!!
@@ -70,12 +232,12 @@ internal class ClashAPITest {
             assertTrue { leagueGroup.rounds.isNotEmpty() }
             assertNotEquals("", leagueGroup.season, "Season should not be empty")
         }.onLeft {
-                when (it) {
-                    // Succeed test on NotFound because CWL may not be active when test is run
-                    is ClashAPIError.ClientError.NotFound -> Unit
-                    else -> fail("Unexpected error \"$it\"")
-                }
+            when (it) {
+                // Succeed test on NotFound because CWL may not be active when test is run
+                is ClashAPIError.ClientError.NotFound -> Unit
+                else -> fail("Unexpected error \"$it\"")
             }
+        }
     }
 
     @Test
@@ -107,44 +269,51 @@ internal class ClashAPITest {
     @Test
     internal fun `GIVEN clan tag WHEN warLog THEN returns war log`() {
         // When
-        val actual: Either<ClashAPIError, WarLog> = underTest.warLog(CLAN_TAG).block()!!
+        val actual: Either<ClashAPIError, Page<WarLogEntry>> = underTest.warLog(CLAN_TAG).block()!!
 
         // Then
         actual.onRight { warLog ->
             assertTrue("War log should not be empty") { warLog.items.isNotEmpty() }
-            assertEquals("", warLog.paging.cursors.after, "After cursor should be empty")
-            assertEquals("", warLog.paging.cursors.before, "Before cursor should be empty")
+            assertEquals("", warLog.paging?.cursors?.after, "After cursor should be empty")
+            assertEquals("", warLog.paging?.cursors?.before, "Before cursor should be empty")
         }.onLeft { fail("War log should be right but was \"$it\"") }
     }
 
     @Test
     internal fun `GIVEN limit WHEN warLog THEN returns war log`() {
+        // Given
+        val limit = 1
+
         // When
-        val actual: Either<ClashAPIError, WarLog> = underTest.warLog(CLAN_TAG, limit = 1).block()!!
+        val actual: Either<ClashAPIError, Page<WarLogEntry>> = underTest.warLog(CLAN_TAG, limit = limit).block()!!
 
         // Then
         actual.onRight { warLog ->
-            assertEquals(1, warLog.items.size, "War log should have one item")
-            assertNotEquals("", warLog.paging.cursors.after, "After cursor should not be empty")
-            assertEquals("", warLog.paging.cursors.before, "Before cursor should be empty")
+            assertEquals(limit, warLog.items.size, "War log should have one item")
+            assertNotEquals("", warLog.paging?.cursors?.after, "After cursor should not be empty")
+            assertEquals("", warLog.paging?.cursors?.before, "Before cursor should be empty")
         }.onLeft { fail("War log should be right but was \"$it\"") }
     }
 
+    /*
+     * The main thing this is testing is (de)serialization of the cursor.
+     */
     @Test
     internal fun `GIVEN after WHEN warLog THEN returns war log after cursor`() {
         // Given
-        val prefix: Either<ClashAPIError, WarLog> = underTest.warLog(CLAN_TAG, limit = 1).block()!!
+        val limit = 1
+        val prefix: Either<ClashAPIError, Page<WarLogEntry>> = underTest.warLog(CLAN_TAG, limit = limit).block()!!
 
         prefix.onRight { prefixWarLog ->
             // When
-            val actual: Either<ClashAPIError, WarLog> =
-                underTest.warLog(CLAN_TAG, limit = 1, after = prefixWarLog.paging.cursors.after).block()!!
+            val actual: Either<ClashAPIError, Page<WarLogEntry>> =
+                underTest.warLog(CLAN_TAG, limit = limit, after = prefixWarLog.paging?.cursors?.after).block()!!
 
             // Then
             actual.onRight { warLog ->
-                assertEquals(1, warLog.items.size, "War log should have one item")
-                assertNotEquals("", warLog.paging.cursors.after, "After cursor should not be empty")
-                assertNotEquals("", warLog.paging.cursors.before, "Before cursor should not be empty")
+                assertEquals(limit, warLog.items.size, "War log should have one item")
+                assertNotEquals("", warLog.paging?.cursors?.after, "After cursor should not be empty")
+                assertNotEquals("", warLog.paging?.cursors?.before, "Before cursor should not be empty")
                 prefixWarLog.items.forEach { prefixItem ->
                     assertFalse("Actual should not contain prefix items") { warLog.items.contains(prefixItem) }
                 }
@@ -152,26 +321,30 @@ internal class ClashAPITest {
         }.onLeft { fail("Prefix should be right but was \"$it\"") }
     }
 
+    /*
+     * The main thing this is testing is (de)serialization of the cursor.
+     */
     @Test
     internal fun `GIVEN before WHEN warLog THEN returns war log before cursor`() {
         // Given
-        val prefix: Either<ClashAPIError, WarLog> = underTest.warLog(CLAN_TAG, limit = 1).block()!!
+        val limit = 1
+        val prefix: Either<ClashAPIError, Page<WarLogEntry>> = underTest.warLog(CLAN_TAG, limit = limit).block()!!
 
         prefix.onRight { prefixWarLog ->
             // When
-            val suffix: Either<ClashAPIError, WarLog> =
-                underTest.warLog(CLAN_TAG, limit = 1, after = prefixWarLog.paging.cursors.after).block()!!
+            val suffix: Either<ClashAPIError, Page<WarLogEntry>> =
+                underTest.warLog(CLAN_TAG, limit = limit, after = prefixWarLog.paging?.cursors?.after).block()!!
 
             // Then
             suffix.onRight { suffixWarLog ->
                 // When
-                val actual: Either<ClashAPIError, WarLog> =
-                    underTest.warLog(CLAN_TAG, limit = 1, before = suffixWarLog.paging.cursors.before).block()!!
+                val actual: Either<ClashAPIError, Page<WarLogEntry>> =
+                    underTest.warLog(CLAN_TAG, limit = limit, before = suffixWarLog.paging?.cursors?.before).block()!!
 
                 actual.onRight { actualWarLog ->
-                    assertEquals(1, actualWarLog.items.size, "War log should have one item")
-                    assertNotEquals("", actualWarLog.paging.cursors.after, "After cursor should not be empty")
-                    assertEquals("", actualWarLog.paging.cursors.before, "Before cursor should be empty")
+                    assertEquals(limit, actualWarLog.items.size, "War log should have one item")
+                    assertNotEquals("", actualWarLog.paging?.cursors?.after, "After cursor should not be empty")
+                    assertEquals("", actualWarLog.paging?.cursors?.before, "Before cursor should be empty")
 
                     prefixWarLog.items.forEach { prefixItem ->
                         assertTrue("Actual should contain prefix items") { actualWarLog.items.contains(prefixItem) }
