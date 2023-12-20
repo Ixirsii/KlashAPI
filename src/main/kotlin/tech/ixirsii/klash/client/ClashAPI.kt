@@ -47,6 +47,7 @@ import reactor.core.publisher.Mono
 import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.logging.Logging
 import tech.ixirsii.klash.logging.LoggingImpl
+import tech.ixirsii.klash.types.TokenResponse
 import tech.ixirsii.klash.types.capital.CapitalRaidSeason
 import tech.ixirsii.klash.types.clan.Clan
 import tech.ixirsii.klash.types.clan.ClanMember
@@ -280,6 +281,29 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
         val response: Mono<Either<ClashAPIError, Response>> = get("/players/%23$playerTag")
 
         return response.map { either -> either.flatMap { deserialize<Player>(it.body?.string() ?: "") } }
+    }
+
+    /**
+     * Verify player API token.
+     *
+     * Verify player API token that can be found from the game settings. This API call can be used to check that players
+     * own the game accounts they claim to own as they need to provide the one-time use API token that exists inside
+     * the game.
+     *
+     * @param playerTag The player tag (without leading '#').
+     * @param token API token.
+     * @return Whether the token is valid.
+     */
+    fun isPlayerVerified(playerTag: String, token: String): Mono<Either<ClashAPIError, Boolean>> {
+        log.trace("Verifying player {}", playerTag)
+
+        val response: Mono<Either<ClashAPIError, Response>> =
+            post("/players/%23$playerTag/verifytoken", tokenVerificationBody(token))
+
+        return response.map { either ->
+            either.flatMap { deserialize<TokenResponse>(it.body?.string() ?: "") }
+                .map { it.status == "ok" }
+        }
     }
 
     /* ********************************************************************************************************** *
