@@ -32,6 +32,15 @@ package tech.ixirsii.klash.types.player
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Hero equipment.
+ *
+ * @property level The level of the hero equipment.
+ * @property maxLevel The max level of the hero equipment.
+ * @property name The name of the hero equipment.
+ * @property village The village of the hero equipment.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class HeroEquipment(
     val level: Int = 0,

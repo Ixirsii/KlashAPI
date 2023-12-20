@@ -34,6 +34,15 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import tech.ixirsii.klash.types.BadgeURLs
 
+/**
+ * Player clan.
+ *
+ * @property badgeURLs Badge URLs.
+ * @property clanLevel Clan level.
+ * @property name Clan name.
+ * @property tag Clan tag.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class PlayerClan(
     @SerialName("badgeUrls") val badgeURLs: BadgeURLs? = null,

@@ -33,6 +33,14 @@ package tech.ixirsii.klash.types.player
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Clash of Clans village.
+ *
+ * @property CLAN_CAPITAL Clan capital.
+ * @property BUILDER_BASE Builder base.
+ * @property HOME Home.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 enum class Village {
     @SerialName("clanCapital")

@@ -37,6 +37,39 @@ import tech.ixirsii.klash.types.League
 import tech.ixirsii.klash.types.PlayerHouse
 import tech.ixirsii.klash.types.Role
 
+/**
+ * Clash of Clans player.
+ *
+ * @property achievements List of player achievements.
+ * @property attackWins Number of attack wins.
+ * @property bestBuilderBaseTrophies Best builder base trophies.
+ * @property bestTrophies Best trophies.
+ * @property builderBaseLeague Builder base league.
+ * @property builderBaseTrophies Builder base trophies.
+ * @property builderHallLevel Builder hall level.
+ * @property clan Player's clan.
+ * @property clanCapitalContributions Clan capital contributions.
+ * @property defenseWins Number of defense wins.
+ * @property donations Number of troops donated.
+ * @property donationsReceived Number of troops received.
+ * @property expLevel Experience level.
+ * @property heroes Hero levels.
+ * @property heroEquipment Hero equipment.
+ * @property labels Player labels.
+ * @property league Player league.
+ * @property legendStatistics Player legend statistics.
+ * @property name Player name.
+ * @property playerHouse Clan capital house.
+ * @property role Clan role.
+ * @property spells Spell levels.
+ * @property tag Player tag.
+ * @property townHallLevel Town hall level.
+ * @property townHallWeaponLevel Town hall weapon level.
+ * @property troops Troop levels.
+ * @property trophies Number of trophies.
+ * @property warPreference War preference.
+ * @property warStars Number of war stars.
+ */
 @Serializable
 data class Player(
     val achievements: List<PlayerAchievementProgress> = emptyList(),

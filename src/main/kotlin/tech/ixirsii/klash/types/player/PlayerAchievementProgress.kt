@@ -32,6 +32,18 @@ package tech.ixirsii.klash.types.player
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Player achievement progress.
+ *
+ * @property completionInfo The completion info of the achievement.
+ * @property info The info of the achievement.
+ * @property name The name of the achievement.
+ * @property stars How many stars in the achievement the player has.
+ * @property target The target of the achievement.
+ * @property value The value of the achievement.
+ * @property village The village of the achievement.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class PlayerAchievementProgress(
     val completionInfo: String = "",

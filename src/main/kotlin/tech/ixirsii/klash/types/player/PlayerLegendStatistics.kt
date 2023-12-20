@@ -32,6 +32,17 @@ package tech.ixirsii.klash.types.player
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Player legend league statistics.
+ *
+ * @property bestBuilderBaseSeason Best builder base legend league season trophy count.
+ * @property bestSeason Best legend league season trophy count.
+ * @property currentSeason Current legend league season trophy count.
+ * @property legendTrophies How many total legend trophies the player has.
+ * @property previousBuilderBaseSeason Previous builder base legend league season trophy count.
+ * @property previousSeason Previous legend league season trophy count.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class PlayerLegendStatistics(
     val bestBuilderBaseSeason: LegendLeagueTournamentSeasonResult? = null,

@@ -32,6 +32,17 @@ package tech.ixirsii.klash.types.player
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Player item level.
+ *
+ * @property equipment Optional item equipment.
+ * @property level The level of the item.
+ * @property maxLevel The max level of the item.
+ * @property name The name of the item.
+ * @property superTroopIsActive Whether the item is a super troop or not.
+ * @property village The village of the item.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class PlayerItemLevel(
     val equipment: List<HeroEquipment> = emptyList(),

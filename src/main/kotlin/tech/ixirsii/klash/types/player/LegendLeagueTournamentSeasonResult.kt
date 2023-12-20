@@ -32,5 +32,13 @@ package tech.ixirsii.klash.types.player
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Legend league tournament season result.
+ *
+ * @property trophies How many trophies the player got this season.
+ * @property id The id of the season.
+ * @property rank The rank of the player in the season.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 data class LegendLeagueTournamentSeasonResult(val trophies: Int = 0, val id: String = "", val rank: Int = 0)

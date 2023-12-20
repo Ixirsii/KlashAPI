@@ -33,6 +33,13 @@ package tech.ixirsii.klash.types.player
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Represents a player's war preference.
+ *
+ * @property OUT The player is not interested in participating in wars.
+ * @property IN The player is interested in participating in wars.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
+ */
 @Serializable
 enum class WarPreference {
     @SerialName("out")
