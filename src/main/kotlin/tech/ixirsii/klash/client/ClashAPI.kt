@@ -53,6 +53,7 @@ import tech.ixirsii.klash.types.clan.ClanMember
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
 import tech.ixirsii.klash.types.error.ClientError
 import tech.ixirsii.klash.types.pagination.Page
+import tech.ixirsii.klash.types.player.Player
 import tech.ixirsii.klash.types.war.War
 import tech.ixirsii.klash.types.war.WarLogEntry
 import java.io.IOException
@@ -77,7 +78,9 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
         prettyPrint = true
     }
 
-    /* *********************************************** Clan APIs ************************************************ */
+    /* ********************************************************************************************************** *
+     *                                                  Clan APIs                                                 *
+     * ********************************************************************************************************** */
 
     /**
      * Get clan's capital raid seasons.
@@ -261,7 +264,27 @@ class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
         return response.map { either -> either.flatMap { deserialize<Page<WarLogEntry>>(it.body?.string() ?: "") } }
     }
 
-    /* *************************************** Private utility functions **************************************** */
+    /* ********************************************************************************************************** *
+     *                                                 Player APIs                                                *
+     * ********************************************************************************************************** */
+
+    /**
+     * Get player information.
+     *
+     * @param playerTag The player tag (without leading '#').
+     * @return Player information.
+     */
+    fun player(playerTag: String): Mono<Either<ClashAPIError, Player>> {
+        log.trace("Getting player {}", playerTag)
+
+        val response: Mono<Either<ClashAPIError, Response>> = get("/players/%23$playerTag")
+
+        return response.map { either -> either.flatMap { deserialize<Player>(it.body?.string() ?: "") } }
+    }
+
+    /* ********************************************************************************************************** *
+     *                                          Private utility functions                                         *
+     * ********************************************************************************************************** */
 
     /**
      * Create a base request builder with the authorization header set.

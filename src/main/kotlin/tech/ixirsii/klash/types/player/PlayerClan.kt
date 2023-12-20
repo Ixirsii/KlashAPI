@@ -28,19 +28,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types.player
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tech.ixirsii.klash.types.IconURLs
+import tech.ixirsii.klash.types.BadgeURLs
 
 /**
- * League that a player is in.
+ * Player clan.
  *
- * @property name Name of the league.
- * @property id ID of the league.
- * @property iconURLs Icon URLs for the league.
+ * @property badgeURLs Badge URLs.
+ * @property clanLevel Clan level.
+ * @property name Clan name.
+ * @property tag Clan tag.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class League(val name: String = "", val id: Int = 0, @SerialName("iconUrls") val iconURLs: IconURLs? = null)
+data class PlayerClan(
+    @SerialName("badgeUrls") val badgeURLs: BadgeURLs? = null,
+    val clanLevel: Int = 0,
+    val name: String = "",
+    val tag: String = "",
+)

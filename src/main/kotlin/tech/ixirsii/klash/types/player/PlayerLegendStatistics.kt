@@ -28,31 +28,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types.player
 
 import kotlinx.serialization.Serializable
 
 /**
- * Represents an element of a player's Clan Capital house.
+ * Player legend league statistics.
  *
- * @property id Element ID.
- * @property type Element type.
+ * @property bestBuilderBaseSeason Best builder base legend league season trophy count.
+ * @property bestSeason Best legend league season trophy count.
+ * @property currentSeason Current legend league season trophy count.
+ * @property legendTrophies How many total legend trophies the player has.
+ * @property previousBuilderBaseSeason Previous builder base legend league season trophy count.
+ * @property previousSeason Previous legend league season trophy count.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class PlayerHouseElement(val id: Int = 0, val type: Type = Type.GROUND) {
-    /**
-     * The type of the element.
-     *
-     * @property GROUND The ground element.
-     * @property ROOF The roof element.
-     * @property FOOT The foot element (?).
-     * @property DECO The decoration element.
-     * @author Ixirsii <ixirsii@ixirsii.tech>
-     */
-    enum class Type {
-        GROUND,
-        ROOF,
-        FOOT,
-        DECO
-    }
-}
+data class PlayerLegendStatistics(
+    val bestBuilderBaseSeason: LegendLeagueTournamentSeasonResult? = null,
+    val bestSeason: LegendLeagueTournamentSeasonResult? = null,
+    val currentSeason: LegendLeagueTournamentSeasonResult? = null,
+    val legendTrophies: Int = 0,
+    val previousBuilderBaseSeason: LegendLeagueTournamentSeasonResult? = null,
+    val previousSeason: LegendLeagueTournamentSeasonResult? = null,
+)

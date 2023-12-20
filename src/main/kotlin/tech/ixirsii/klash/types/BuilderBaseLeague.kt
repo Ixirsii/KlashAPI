@@ -28,7 +28,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types
 
 import kotlinx.serialization.Serializable
 

@@ -28,14 +28,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types.player
 
 import kotlinx.serialization.Serializable
 
 /**
- * Represents a player's Clan Capital house.
+ * Player achievement progress.
  *
- * @property elements The elements of the house.
+ * @property completionInfo The completion info of the achievement.
+ * @property info The info of the achievement.
+ * @property name The name of the achievement.
+ * @property stars How many stars in the achievement the player has.
+ * @property target The target of the achievement.
+ * @property value The value of the achievement.
+ * @property village The village of the achievement.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class PlayerHouse(val elements: List<PlayerHouseElement> = emptyList())
+data class PlayerAchievementProgress(
+    val completionInfo: String = "",
+    val info: String = "",
+    val name: String = "",
+    val stars: Int = 0,
+    val target: Int = 0,
+    val value: Int = 0,
+    val village: Village = Village.HOME,
+)

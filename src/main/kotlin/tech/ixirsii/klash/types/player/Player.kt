@@ -28,49 +28,77 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types.player
 
 import kotlinx.serialization.Serializable
 import tech.ixirsii.klash.types.BuilderBaseLeague
+import tech.ixirsii.klash.types.Label
 import tech.ixirsii.klash.types.League
 import tech.ixirsii.klash.types.PlayerHouse
 import tech.ixirsii.klash.types.Role
 
 /**
- * Member of a clan.
+ * Clash of Clans player.
  *
- * @property builderBaseLeague The builder base league the player is in.
- * @property builderBaseTrophies The player's builder base trophies.
- * @property clanRank The player's rank in the clan.
- * @property donations The number of troops the player has donated.
- * @property donationsReceived The number of troops the player has received.
- * @property expLevel The player's experience level.
- * @property league The league the player is in.
- * @property name The player's name.
- * @property playerHouse The player's home.
- * @property previousClanRank The player's previous rank in the clan.
- * @property role The player's role in the clan.
- * @property tag The player's tag.
- * @property townHallLevel The player's town hall level.
- * @property trophies The player's trophies.
- * @property versusTrophies The player's builder base trophies.
- * @author Ixirsii <ixirsii@ixirsii.tech>
+ * @property achievements List of player achievements.
+ * @property attackWins Number of attack wins.
+ * @property bestBuilderBaseTrophies Best builder base trophies.
+ * @property bestTrophies Best trophies.
+ * @property builderBaseLeague Builder base league.
+ * @property builderBaseTrophies Builder base trophies.
+ * @property builderHallLevel Builder hall level.
+ * @property clan Player's clan.
+ * @property clanCapitalContributions Clan capital contributions.
+ * @property defenseWins Number of defense wins.
+ * @property donations Number of troops donated.
+ * @property donationsReceived Number of troops received.
+ * @property expLevel Experience level.
+ * @property heroes Hero levels.
+ * @property heroEquipment Hero equipment.
+ * @property labels Player labels.
+ * @property league Player league.
+ * @property legendStatistics Player legend statistics.
+ * @property name Player name.
+ * @property playerHouse Clan capital house.
+ * @property role Clan role.
+ * @property spells Spell levels.
+ * @property tag Player tag.
+ * @property townHallLevel Town hall level.
+ * @property townHallWeaponLevel Town hall weapon level.
+ * @property troops Troop levels.
+ * @property trophies Number of trophies.
+ * @property warPreference War preference.
+ * @property warStars Number of war stars.
  */
 @Serializable
-data class ClanMember(
+data class Player(
+    val achievements: List<PlayerAchievementProgress> = emptyList(),
+    val attackWins: Int = 0,
+    val bestBuilderBaseTrophies: Int = 0,
+    val bestTrophies: Int = 0,
     val builderBaseLeague: BuilderBaseLeague? = null,
     val builderBaseTrophies: Int = 0,
-    val clanRank: Int = 0,
+    val builderHallLevel: Int = 0,
+    val clan: PlayerClan? = null,
+    val clanCapitalContributions: Int = 0,
+    val defenseWins: Int = 0,
     val donations: Int = 0,
     val donationsReceived: Int = 0,
     val expLevel: Int = 0,
+    val heroes: List<PlayerItemLevel> = emptyList(),
+    val heroEquipment: List<HeroEquipment> = emptyList(),
+    val labels: List<Label> = emptyList(),
     val league: League? = null,
+    val legendStatistics: PlayerLegendStatistics? = null,
     val name: String = "",
     val playerHouse: PlayerHouse? = null,
-    val previousClanRank: Int = 0,
     val role: Role = Role.NOT_MEMBER,
+    val spells: List<PlayerItemLevel> = emptyList(),
     val tag: String = "",
     val townHallLevel: Int = 0,
+    val townHallWeaponLevel: Int = 0,
+    val troops: List<PlayerItemLevel> = emptyList(),
     val trophies: Int = 0,
-    val versusTrophies: Int = 0,
+    val warPreference: WarPreference = WarPreference.OUT,
+    val warStars: Int = 0,
 )

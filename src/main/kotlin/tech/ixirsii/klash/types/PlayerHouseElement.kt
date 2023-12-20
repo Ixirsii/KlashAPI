@@ -28,34 +28,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * A player's role in a clan.
+ * Represents an element of a player's Clan Capital house.
  *
- * @property NOT_MEMBER Not a member of the clan.
- * @property MEMBER A member of the clan.
- * @property LEADER The leader of the clan.
- * @property ADMIN An admin of the clan.
- * @property CO_LEADER A co-leader of the clan.
+ * @property id Element ID.
+ * @property type Element type.
  */
 @Serializable
-enum class Role {
-    @SerialName("notMember")
-    NOT_MEMBER,
-
-    @SerialName("member")
-    MEMBER,
-
-    @SerialName("leader")
-    LEADER,
-
-    @SerialName("admin")
-    ADMIN,
-
-    @SerialName("coLeader")
-    CO_LEADER
+data class PlayerHouseElement(val id: Int = 0, val type: Type = Type.GROUND) {
+    /**
+     * The type of the element.
+     *
+     * @property GROUND The ground element.
+     * @property ROOF The roof element.
+     * @property FOOT The foot element (?).
+     * @property DECO The decoration element.
+     * @author Ixirsii <ixirsii@ixirsii.tech>
+     */
+    enum class Type {
+        GROUND,
+        ROOF,
+        FOOT,
+        DECO
+    }
 }

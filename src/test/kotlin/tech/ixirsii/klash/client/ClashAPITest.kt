@@ -39,6 +39,7 @@ import tech.ixirsii.klash.types.clan.ClanMember
 import tech.ixirsii.klash.types.clan.WarFrequency
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
 import tech.ixirsii.klash.types.pagination.Page
+import tech.ixirsii.klash.types.player.Player
 import tech.ixirsii.klash.types.war.State
 import tech.ixirsii.klash.types.war.War
 import tech.ixirsii.klash.types.war.WarLogEntry
@@ -63,6 +64,8 @@ internal class ClashAPITest {
         tokens.load(FileInputStream(CONFIG))
         underTest = ClashAPI(tokens.getProperty("apiKey"))
     }
+
+    /* *********************************************** Clan APIs ************************************************ */
 
     @Test
     internal fun `GIVEN clan tag WHEN capitalRaidSeasons THEN returns capital raid seasons`() {
@@ -418,6 +421,23 @@ internal class ClashAPITest {
             }.onLeft { fail("suffix should be right but was \"$it\"") }
         }.onLeft { fail("Prefix should be right but was \"$it\"") }
     }
+
+    /* ********************************************** Player APIs *********************************************** */
+
+    @Test
+    internal fun `GIVEN player tag WHEN player THEN returns player`() {
+        // When
+        val actual: Either<ClashAPIError, Player> = underTest.player(PLAYER_TAG).block()!!
+
+        // Then
+        actual.onRight { player ->
+            assertEquals("Ixirsii", player.name, "Player name should equal expected")
+        }.onLeft { fail("Player should be right but was \"$it\"") }
+    }
+
+    /* ******************************************** Error responses ********************************************* */
+
+    /* *************************************** Private utility functions **************************************** */
 
     companion object {
         private const val CLAN_TAG = "2Q82UJVY"
