@@ -63,21 +63,18 @@ import java.io.IOException
  * Clash of Clans API client.
  *
  * @property token Clash of Clans API token for authenticating requests.
+ * @property http HTTP client for making requests.
+ * @property json JSON (de)serializer. Default configuration is `coerceInputValues = true, prettyPrint = true`.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
-class ClashAPI(private val token: String) : Logging by LoggingImpl<ClashAPI>() {
-    /**
-     * HTTP client for making requests.
-     */
-    private val http: OkHttpClient = OkHttpClient()
-
-    /**
-     * JSON serializer/deserializer.
-     */
-    private val json = Json {
+class ClashAPI(
+    private val token: String,
+    private val http: OkHttpClient = OkHttpClient(),
+    private val json: Json = Json {
         coerceInputValues = true
         prettyPrint = true
-    }
+    },
+) : Logging by LoggingImpl<ClashAPI>() {
 
     /* ********************************************************************************************************** *
      *                                                  Clan APIs                                                 *
