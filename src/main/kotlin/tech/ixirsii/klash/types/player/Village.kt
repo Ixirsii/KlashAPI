@@ -28,16 +28,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types.player
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-/**
- * Builder base league that a player is in.
- *
- * @property name Name of the builder base league.
- * @property id ID of the builder base league.
- * @author Ixirsii <ixirsii@ixirsii.tech>
- */
 @Serializable
-data class BuilderBaseLeague(val name: String = "", val id: Int = 0)
+enum class Village {
+    @SerialName("clanCapital")
+    CLAN_CAPITAL,
+
+    @SerialName("builderBase")
+    BUILDER_BASE,
+
+    @SerialName("home")
+    HOME,
+}

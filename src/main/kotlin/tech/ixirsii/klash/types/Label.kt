@@ -28,14 +28,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import tech.ixirsii.klash.types.IconURLs
 
 /**
- * Represents a player's Clan Capital house.
+ * Represents a clan label.
  *
- * @property elements The elements of the house.
+ * @property id The label's ID.
+ * @property iconURLs The label's icon URLs.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class PlayerHouse(val elements: List<PlayerHouseElement> = emptyList())
+data class Label(val id: Int = 0, val name: String = "", @SerialName("iconUrls") val iconURLs: IconURLs? = null)

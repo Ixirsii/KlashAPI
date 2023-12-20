@@ -28,18 +28,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tech.ixirsii.klash.types.IconURLs
 
 /**
- * Represents a clan label.
+ * Builder base league that a player is in.
  *
- * @property id The label's ID.
- * @property iconURLs The label's icon URLs.
+ * @property name Name of the builder base league.
+ * @property id ID of the builder base league.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class Label(val id: Int = 0, val name: String = "", @SerialName("iconUrls") val iconURLs: IconURLs? = null)
+data class BuilderBaseLeague(val name: String = "", val id: Int = 0)

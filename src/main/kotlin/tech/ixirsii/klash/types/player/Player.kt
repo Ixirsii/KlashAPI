@@ -28,19 +28,44 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types.player
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tech.ixirsii.klash.types.IconURLs
+import tech.ixirsii.klash.types.BuilderBaseLeague
+import tech.ixirsii.klash.types.Label
+import tech.ixirsii.klash.types.League
+import tech.ixirsii.klash.types.PlayerHouse
+import tech.ixirsii.klash.types.Role
 
-/**
- * League that a player is in.
- *
- * @property name Name of the league.
- * @property id ID of the league.
- * @property iconURLs Icon URLs for the league.
- * @author Ixirsii <ixirsii@ixirsii.tech>
- */
 @Serializable
-data class League(val name: String = "", val id: Int = 0, @SerialName("iconUrls") val iconURLs: IconURLs? = null)
+data class Player(
+    val achievements: List<PlayerAchievementProgress> = emptyList(),
+    val attackWins: Int = 0,
+    val bestBuilderBaseTrophies: Int = 0,
+    val bestTrophies: Int = 0,
+    val builderBaseLeague: BuilderBaseLeague? = null,
+    val builderBaseTrophies: Int = 0,
+    val builderHallLevel: Int = 0,
+    val clan: PlayerClan? = null,
+    val clanCapitalContributions: Int = 0,
+    val defenseWins: Int = 0,
+    val donations: Int = 0,
+    val donationsReceived: Int = 0,
+    val expLevel: Int = 0,
+    val heroes: List<PlayerItemLevel> = emptyList(),
+    val heroEquipment: List<HeroEquipment> = emptyList(),
+    val labels: List<Label> = emptyList(),
+    val league: League? = null,
+    val legendStatistics: PlayerLegendStatistics? = null,
+    val name: String = "",
+    val playerHouse: PlayerHouse? = null,
+    val role: Role = Role.NOT_MEMBER,
+    val spells: List<PlayerItemLevel> = emptyList(),
+    val tag: String = "",
+    val townHallLevel: Int = 0,
+    val townHallWeaponLevel: Int = 0,
+    val troops: List<PlayerItemLevel> = emptyList(),
+    val trophies: Int = 0,
+    val warPreference: WarPreference = WarPreference.OUT,
+    val warStars: Int = 0,
+)

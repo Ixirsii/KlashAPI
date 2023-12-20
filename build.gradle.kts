@@ -55,7 +55,11 @@ kotlin {
     jvmToolchain(21)
 }
 
-val excludePaths: List<String> = listOf("tech/ixirsii/types/**")
+tasks.check {
+    dependsOn(tasks.jacocoTestCoverageVerification)
+}
+
+val excludePaths: List<String> = listOf("tech/ixirsii/klash/types/**")
 
 tasks.jacocoTestReport {
     classDirectories.setFrom(
@@ -68,8 +72,6 @@ tasks.jacocoTestReport {
     reports {
         csv.required = false
         xml.required = true
-        xml.outputLocation = file("${buildDir}/reports/jacoco/report.xml")
-        html.outputLocation = file("${buildDir}/reports/jacoco")
     }
 }
 
@@ -78,7 +80,14 @@ tasks.jacocoTestCoverageVerification {
         rule {
             excludes = excludePaths
             limit {
-                minimum = 0.1.toBigDecimal()
+                counter = "LINE"
+                value = "COVEREDRATIO"
+                minimum = 0.70.toBigDecimal()
+            }
+            limit {
+                counter = "BRANCH"
+                value = "COVEREDRATIO"
+                minimum =0.70.toBigDecimal()
             }
         }
     }

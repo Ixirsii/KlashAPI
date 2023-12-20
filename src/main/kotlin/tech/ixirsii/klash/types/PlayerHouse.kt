@@ -28,34 +28,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * A player's role in a clan.
+ * Represents a player's Clan Capital house.
  *
- * @property NOT_MEMBER Not a member of the clan.
- * @property MEMBER A member of the clan.
- * @property LEADER The leader of the clan.
- * @property ADMIN An admin of the clan.
- * @property CO_LEADER A co-leader of the clan.
+ * @property elements The elements of the house.
  */
 @Serializable
-enum class Role {
-    @SerialName("notMember")
-    NOT_MEMBER,
-
-    @SerialName("member")
-    MEMBER,
-
-    @SerialName("leader")
-    LEADER,
-
-    @SerialName("admin")
-    ADMIN,
-
-    @SerialName("coLeader")
-    CO_LEADER
-}
+data class PlayerHouse(val elements: List<PlayerHouseElement> = emptyList())
