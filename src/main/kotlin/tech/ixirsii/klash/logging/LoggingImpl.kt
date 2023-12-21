@@ -44,8 +44,7 @@ class LoggingImpl(override val log: Logger) : Logging {
         /**
          * Overload the invoke operator to create a logger for a class.
          */
-        inline operator fun <reified T> invoke(): LoggingImpl {
-            return LoggingImpl(org.slf4j.LoggerFactory.getLogger(T::class.java))
-        }
+        inline operator fun <reified T> invoke(): LoggingImpl =
+            LoggingImpl(org.slf4j.LoggerFactory.getLogger(T::class.java))
     }
 }

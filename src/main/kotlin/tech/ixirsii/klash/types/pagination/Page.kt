@@ -35,6 +35,7 @@ import kotlinx.serialization.Serializable
 /**
  * A page of items.
  *
+ * @param T The type of items in the page.
  * @property items Items in the page.
  * @property paging Paging object.
  * @author Ixirsii <ixirsii@ixirsii.tech>

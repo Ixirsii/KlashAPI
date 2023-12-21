@@ -45,9 +45,7 @@ internal class APICookieJar : CookieJar {
      */
     private val cookieStore: MutableMap<String, List<Cookie>> = HashMap()
 
-    override fun loadForRequest(url: HttpUrl): List<Cookie> {
-        return cookieStore[url.host] ?: emptyList()
-    }
+    override fun loadForRequest(url: HttpUrl): List<Cookie> = cookieStore[url.host] ?: emptyList()
 
     override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
         cookieStore[url.host] = cookies

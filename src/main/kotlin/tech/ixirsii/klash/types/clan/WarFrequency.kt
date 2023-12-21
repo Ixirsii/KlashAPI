@@ -36,13 +36,6 @@ import kotlinx.serialization.Serializable
 /**
  * How often a clan wars.
  *
- * @property ALWAYS The clan wars always.
- * @property ANY The clan wars any.
- * @property MORE_THAN_ONCE_PER_WEEK The clan wars more than once per week.
- * @property ONCE_PER_WEEK The clan wars once per week.
- * @property LESS_THAN_ONCE_PER_WEEK The clan wars less than once per week.
- * @property NEVER The clan wars never.
- * @property UNKNOWN Unknown.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable

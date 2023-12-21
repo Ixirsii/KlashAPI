@@ -32,16 +32,10 @@ package tech.ixirsii.klash.types.war
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tech.ixirsii.klash.types.war.Result.LOSE
-import tech.ixirsii.klash.types.war.Result.TIE
-import tech.ixirsii.klash.types.war.Result.WIN
 
 /**
  * Clan war result.
  *
- * @property LOSE Lost the war.
- * @property WIN Won the war.
- * @property TIE Tied the war.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable

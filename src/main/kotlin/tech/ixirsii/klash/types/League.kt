@@ -32,7 +32,6 @@ package tech.ixirsii.klash.types
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tech.ixirsii.klash.types.IconURLs
 
 /**
  * League that a player is in.

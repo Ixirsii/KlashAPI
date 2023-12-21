@@ -43,8 +43,6 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import reactor.core.publisher.Mono
-import tech.ixirsii.klash.client.ClashAPI.Companion.CLIENT
-import tech.ixirsii.klash.client.ClashAPI.Companion.JSON
 import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.error.ClashTokenError
 import tech.ixirsii.klash.logging.Logging
@@ -60,15 +58,14 @@ import tech.ixirsii.klash.types.pagination.Page
 import tech.ixirsii.klash.types.player.Player
 import tech.ixirsii.klash.types.war.War
 import tech.ixirsii.klash.types.war.WarLogEntry
-import java.io.IOException
-import java.util.*
 
 /**
  * Clash of Clans API client.
  *
- * @property token Clash of Clans API token for authenticating requests.
- * @property CLIENT HTTP client for making requests.
- * @property JSON JSON (de)serializer.
+ * @constructor Create a new Clash of Clans API client.
+ * @param token Clash of Clans API token for authenticating requests.
+ * @param client HTTP client for making requests.
+ * @param json JSON (de)serializer.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 class ClashAPI(
@@ -359,9 +356,8 @@ class ClashAPI(
      * @param suffix The specific endpoint to append to the base URL.
      * @return [Request.Builder] with the authorization header set.
      */
-    private fun baseRequest(suffix: String): Request.Builder {
-        return Request.Builder().header("Authorization", "Bearer $token").url(URL + API_VERSION + suffix)
-    }
+    private fun baseRequest(suffix: String): Request.Builder =
+        Request.Builder().header("Authorization", "Bearer $token").url(URL + API_VERSION + suffix)
 
     /**
      * Check the response for errors.
@@ -396,8 +392,8 @@ class ClashAPI(
     /**
      * Deserialize the response body.
      *
-     * @param body HTTP response body.
      * @param T Type to deserialize the response body to.
+     * @param body HTTP response body.
      * @return [Either.Right] with the deserialized response body if successful, [Either.Left] with an error otherwise.
      */
     private inline fun <reified T> deserialize(body: String): Either<ClashAPIError.DeserializationError, T> =
@@ -468,9 +464,11 @@ class ClashAPI(
     /**
      * Get a substring for a single query parameter.
      *
+     * @param T Type of the query parameter value.
      * @param parameter Query parameter name.
      * @param value Query parameter value.
      * @param hasAmpersand Whether the query parameter string needs an ampersand prefix.
+     * @return Query parameter substring.
      */
     private fun <T> queryParameter(parameter: String, value: T?, hasAmpersand: Boolean): String {
         return if (value != null) {
@@ -513,6 +511,7 @@ class ClashAPI(
          * @param password Clash of Clans developer portal password.
          * @param client HTTP client for making requests.
          * @param json JSON (de)serializer.
+         * @return Clash of Clans API client.
          */
         operator fun invoke(
             email: String,

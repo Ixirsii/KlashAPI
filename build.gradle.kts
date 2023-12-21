@@ -1,9 +1,8 @@
-import java.math.MathContext
-
 plugins {
     kotlin("jvm") version "1.9.21"
     kotlin("plugin.serialization") version "1.9.21"
 
+    id("io.gitlab.arturbosch.detekt") version "1.23.4"
     id("org.jetbrains.dokka") version "1.9.10"
 
     jacoco
@@ -17,6 +16,7 @@ repositories {
 }
 
 val arrowVersion: String by project
+val detektVersion: String by project
 val dokkaVersion: String by project
 val junitVersion: String by project
 val kotlinxSerializationVersion: String by project
@@ -27,6 +27,10 @@ val reactorVersion: String by project
 val slf4JVersion: String by project
 
 dependencies {
+    // Detekt plugins
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-rules-libraries:$detektVersion")
+
     // Arrow
     implementation("io.arrow-kt:arrow-core:$arrowVersion")
     // Kotlin serialization
@@ -50,6 +54,11 @@ dependencies {
     testImplementation("ch.qos.logback:logback-classic:$logbackVersion")
 }
 
+detekt {
+    buildUponDefaultConfig = true
+    config.setFrom("$projectDir/config/detekt.yml")
+}
+
 jacoco {
     toolVersion = "0.8.11"
 }
@@ -60,6 +69,13 @@ kotlin {
 
 tasks.check {
     dependsOn(tasks.jacocoTestCoverageVerification)
+}
+
+tasks.detekt {
+    reports {
+        xml.required = true
+        html.required = true
+    }
 }
 
 val excludePaths: List<String> = listOf(

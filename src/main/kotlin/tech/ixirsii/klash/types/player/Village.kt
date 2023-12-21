@@ -36,9 +36,6 @@ import kotlinx.serialization.Serializable
 /**
  * Clash of Clans village.
  *
- * @property CLAN_CAPITAL Clan capital.
- * @property BUILDER_BASE Builder base.
- * @property HOME Home.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
