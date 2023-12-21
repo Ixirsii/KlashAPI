@@ -25,6 +25,7 @@ jobs:
         env:
           API_EMAIL: ${{ secrets.API_EMAIL }}
           API_PASSWORD: ${{ secrets.API_PASSWORD }}
+          API_TOKEN: ${{ secrets.API_TOKEN }}
         run: |
           ./gradlew build
 
