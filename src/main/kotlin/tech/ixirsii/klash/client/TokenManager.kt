@@ -93,8 +93,7 @@ internal class TokenManager(
      * @return Clash of Clans API key.
      */
     private fun createKey(ip: String): Either<ClashTokenError, Key> {
-        val keyCreation = CreateAPIKeyBody(listOf(ip))
-        val body: RequestBody = json.encodeToString(keyCreation).toRequestBody(MEDIA_TYPE)
+        val body: RequestBody = json.encodeToString(CreateAPIKeyBody(cidrRanges = listOf(ip))).toRequestBody(MEDIA_TYPE)
         val request: Request = Request.Builder().url("$DEVELOPER_URL/apikey/create").post(body).build()
         val call: Call = client.newCall(request)
 
@@ -104,6 +103,7 @@ internal class TokenManager(
             if (response.isSuccessful) {
                 deserialize<CreateAPIKeyResponse>(response.body.string()).map { it.key }
             } else {
+                log.error("Failed to create new key: {}", response.body.string())
                 ClashTokenError.CreateAPIKeyError(response.message).left()
             }
         }

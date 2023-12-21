@@ -501,6 +501,7 @@ class ClashAPI(
          */
         private val JSON: Json = Json {
             coerceInputValues = true
+            encodeDefaults = true
             ignoreUnknownKeys = true
             prettyPrint = true
         }
