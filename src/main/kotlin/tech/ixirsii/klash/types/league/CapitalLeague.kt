@@ -28,16 +28,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types.clan
+package tech.ixirsii.klash.types.league
 
 import kotlinx.serialization.Serializable
 
 /**
  * Clan capital league that a clan is in.
  *
- * @property name Name of the clan capital league.
  * @property id ID of the clan capital league.
+ * @property name Name of the clan capital league.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class CapitalLeague(val name: String = "", val id: Int = 0)
+data class CapitalLeague(val id: Int = 0, val name: String = "")

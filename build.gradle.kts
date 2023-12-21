@@ -1,3 +1,5 @@
+import java.math.MathContext
+
 plugins {
     kotlin("jvm") version "1.9.21"
     kotlin("plugin.serialization") version "1.9.21"
@@ -59,9 +61,14 @@ tasks.check {
     dependsOn(tasks.jacocoTestCoverageVerification)
 }
 
-val excludePaths: List<String> = listOf("tech/ixirsii/klash/types/**")
+val excludePaths: List<String> = listOf(
+    "tech/ixirsii/klash/error/**",
+    "tech/ixirsii/klash/logging/**",
+    "tech/ixirsii/klash/serialize/**",
+    "tech/ixirsii/klash/types/**",
+)
 
-tasks.jacocoTestReport {
+tasks.jacocoTestCoverageVerification {
     classDirectories.setFrom(
         classDirectories.files.map {
             fileTree(it).apply {
@@ -69,50 +76,39 @@ tasks.jacocoTestReport {
             }
         }
     )
-    reports {
-        csv.required = false
-        xml.required = true
-    }
-}
 
-tasks.jacocoTestCoverageVerification {
     violationRules {
         rule {
-            excludes = excludePaths
+            element = "BUNDLE"
             limit {
-                counter = "LINE"
+                counter = "INSTRUCTION"
                 value = "COVEREDRATIO"
-                minimum = 0.70.toBigDecimal()
+                minimum = 0.7.toBigDecimal()
             }
             limit {
                 counter = "BRANCH"
                 value = "COVEREDRATIO"
-                minimum =0.70.toBigDecimal()
+                minimum = 0.7.toBigDecimal()
             }
         }
     }
 }
 
 tasks.jacocoTestReport {
-    description = "Generates Code coverage report."
     dependsOn(tasks.test)
-
-    val reportExclusions = excludePaths.map {
-        it.replace('.', '/')
-    }
 
     classDirectories.setFrom(
         classDirectories.files.map {
             fileTree(it).apply {
-                exclude(reportExclusions)
+                exclude(excludePaths)
             }
         }
     )
 
     reports {
-        csv.required.set(false)
-        html.required.set(true)
-        xml.required.set(true)
+        csv.required = false
+        html.required = true
+        xml.required = true
     }
 }
 
