@@ -48,6 +48,7 @@ import tech.ixirsii.klash.client.internal.MEDIA_TYPE
 import tech.ixirsii.klash.client.internal.TokenManager
 import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.error.ClashTokenError
+import tech.ixirsii.klash.league.PlayerRanking
 import tech.ixirsii.klash.logging.Logging
 import tech.ixirsii.klash.logging.LoggingImpl
 import tech.ixirsii.klash.types.League
@@ -369,6 +370,36 @@ class ClashAPI(
         return response.map { either: Either<ClashAPIError, Response> ->
             either.flatMap { response: Response ->
                 response.use { deserialize<Page<League>>(it.body.string()) }
+            }
+        }
+    }
+
+    /**
+     * Get league season rankings.
+     *
+     * @param leagueID League ID.
+     * @param seasonID Season ID.
+     * @param limit Limit the number of items returned in the response.
+     * @param after Return only items that occur after this marker.
+     * @param before Return only items that occur before this marker.
+     * @return League season rankings.
+     */
+    fun leagueSeason(
+        leagueID: String,
+        seasonID: String,
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null,
+    ): Mono<Either<ClashAPIError, Page<PlayerRanking>>> {
+        log.trace("Getting league season")
+
+        val queryParameters: String = paginationQueryParameters(limit, after, before)
+        val response: Mono<Either<ClashAPIError, Response>> =
+            get("/leagues/$leagueID/seasons/$seasonID$queryParameters")
+
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response ->
+                response.use { deserialize<Page<PlayerRanking>>(it.body.string()) }
             }
         }
     }

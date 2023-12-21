@@ -35,6 +35,7 @@ import arrow.core.getOrElse
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.assertDoesNotThrow
 import tech.ixirsii.klash.error.ClashAPIError
+import tech.ixirsii.klash.league.PlayerRanking
 import tech.ixirsii.klash.types.League
 import tech.ixirsii.klash.types.capital.CapitalRaidSeason
 import tech.ixirsii.klash.types.clan.Clan
@@ -493,6 +494,23 @@ internal class ClashAPITest {
         actual.onRight { leagues: Page<League> ->
             assertTrue("Leagues should not be empty") { leagues.items.isNotEmpty() }
         }.onLeft { fail("Leagues should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN ids WHEN leagueSeason THEN returns leagueSeasons`() {
+        // Given
+        val limit = 10
+        val leagueID = "29000022"
+        val seasonID = "2023-11"
+
+        // When
+        val actual: Either<ClashAPIError, Page<PlayerRanking>> =
+            underTest.leagueSeason(leagueID = leagueID, seasonID = seasonID, limit = limit).block()!!
+
+        // Then
+        actual.onRight { rankings: Page<PlayerRanking> ->
+            assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+        }.onLeft { fail("Rankings should be right but was \"$it\"") }
     }
 
     /* ******************************************** Error responses ********************************************* */
