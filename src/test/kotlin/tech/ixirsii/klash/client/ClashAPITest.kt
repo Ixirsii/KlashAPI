@@ -31,6 +31,8 @@
 package tech.ixirsii.klash.client
 
 import arrow.core.Either
+import arrow.core.getOrElse
+import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.assertDoesNotThrow
 import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.types.capital.CapitalRaidSeason
@@ -44,9 +46,7 @@ import tech.ixirsii.klash.types.player.Player
 import tech.ixirsii.klash.types.war.State
 import tech.ixirsii.klash.types.war.War
 import tech.ixirsii.klash.types.war.WarLogEntry
-import java.io.FileInputStream
 import java.time.ZonedDateTime
-import java.util.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -55,14 +55,15 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import kotlin.test.fail
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class ClashAPITest {
-    private val tokens: Properties = Properties()
     private val underTest: ClashAPI
 
     init {
-        tokens.load(FileInputStream(CONFIG))
+        val email: String = System.getenv("API_EMAIL")
+        val password: String = System.getenv("API_PASSWORD")
 
-        underTest = ClashAPI(tokens.getProperty("apiKey"))
+        underTest = ClashAPI(email, password).getOrElse { fail("Failed to create ClashAPI: $it") }
     }
 
     /* *********************************************** Clan APIs ************************************************ */
@@ -438,9 +439,10 @@ internal class ClashAPITest {
     internal fun `GIVEN API token WHEN isPlayerVerified THEN returns verification status`() {
         // When
         val actual: Either<ClashAPIError, Boolean> =
-            underTest.isPlayerVerified(PLAYER_TAG, tokens.getProperty("apiToken")).block()!!
+            underTest.isPlayerVerified(PLAYER_TAG, System.getenv("API_TOKEN")).block()!!
 
         // Then
+        // This is a one-time-use token, so it will be invalid, and thus we can't assert anything about the result.
         actual.onLeft { fail("Player should be right but was \"$it\"") }
     }
 
@@ -466,7 +468,6 @@ internal class ClashAPITest {
 
     companion object {
         private const val CLAN_TAG = "2Q82UJVY"
-        private const val CONFIG = "tokens.properties"
         private const val PLAYER_TAG = "2Q09RPGL8"
         private const val CLAN_WAR_LEAGUE_WAR_TAG = "82P0QP0Y2"
     }
