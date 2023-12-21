@@ -36,10 +36,10 @@ import kotlinx.serialization.Serializable
 /**
  * League that a player is in.
  *
- * @property name Name of the league.
- * @property id ID of the league.
  * @property iconURLs Icon URLs for the league.
+ * @property id ID of the league.
+ * @property name Name of the league.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class League(val name: String = "", val id: Int = 0, @SerialName("iconUrls") val iconURLs: IconURLs? = null)
+data class League(@SerialName("iconUrls") val iconURLs: IconURLs? = null, val id: Int = 0, val name: String = "")

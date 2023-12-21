@@ -43,10 +43,14 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import reactor.core.publisher.Mono
+import tech.ixirsii.klash.client.internal.APICookieJar
+import tech.ixirsii.klash.client.internal.MEDIA_TYPE
+import tech.ixirsii.klash.client.internal.TokenManager
 import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.error.ClashTokenError
 import tech.ixirsii.klash.logging.Logging
 import tech.ixirsii.klash.logging.LoggingImpl
+import tech.ixirsii.klash.types.League
 import tech.ixirsii.klash.types.TokenResponse
 import tech.ixirsii.klash.types.capital.CapitalRaidSeason
 import tech.ixirsii.klash.types.clan.Clan
@@ -340,6 +344,31 @@ class ClashAPI(
         return response.map { either: Either<ClashAPIError, Response> ->
             either.flatMap { response: Response ->
                 response.use { deserialize<Page<CapitalLeague>>(it.body.string()) }
+            }
+        }
+    }
+
+    /**
+     * List leagues.
+     *
+     * @param limit Limit the number of items returned in the response.
+     * @param after Return only items that occur after this marker.
+     * @param before Return only items that occur before this marker.
+     * @return A list of leagues.
+     */
+    fun leagues(
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null,
+    ): Mono<Either<ClashAPIError, Page<League>>> {
+        log.trace("Getting leagues")
+
+        val queryParameters: String = paginationQueryParameters(limit, after, before)
+        val response: Mono<Either<ClashAPIError, Response>> = get("/leagues$queryParameters")
+
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response ->
+                response.use { deserialize<Page<League>>(it.body.string()) }
             }
         }
     }

@@ -28,26 +28,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.client
+package tech.ixirsii.klash.client.internal
 
-import okhttp3.Cookie
-import okhttp3.CookieJar
-import okhttp3.HttpUrl
+import kotlinx.serialization.Serializable
 
 /**
- * Provided to OkHttpClient to store and use auth cookies.
+ * A Clash of Clans API key.
  *
+ * @property cidrRanges List of IP addresses that can use this key.
+ * @property key The key.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
-internal class APICookieJar : CookieJar {
-    /**
-     * Stores cookies for each host.
-     */
-    private val cookieStore: MutableMap<String, List<Cookie>> = HashMap()
-
-    override fun loadForRequest(url: HttpUrl): List<Cookie> = cookieStore[url.host] ?: emptyList()
-
-    override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
-        cookieStore[url.host] = cookies
-    }
-}
+@Serializable
+internal data class Key(
+    val cidrRanges: List<String> = emptyList(),
+    val key: String = "",
+)

@@ -28,7 +28,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.client
+package tech.ixirsii.klash.client.internal
 
 import arrow.core.Either
 import arrow.core.flatMap
