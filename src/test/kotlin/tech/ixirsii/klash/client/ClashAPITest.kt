@@ -31,6 +31,8 @@
 package tech.ixirsii.klash.client
 
 import arrow.core.Either
+import arrow.core.getOrElse
+import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.assertDoesNotThrow
 import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.types.capital.CapitalRaidSeason
@@ -53,12 +55,15 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import kotlin.test.fail
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class ClashAPITest {
     private val underTest: ClashAPI
 
     init {
-        val apiKey = System.getenv("API_KEY")
-        underTest = ClashAPI(apiKey)
+        val email: String = System.getenv("API_EMAIL")
+        val password: String = System.getenv("API_PASSWORD")
+
+        underTest = ClashAPI(email, password).getOrElse { fail("Failed to create ClashAPI: $it") }
     }
 
     /* *********************************************** Clan APIs ************************************************ */

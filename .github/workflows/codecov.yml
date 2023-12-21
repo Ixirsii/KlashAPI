@@ -23,7 +23,7 @@ jobs:
 
       - name: Build and run tests
         env:
-          API_USERNAME: ${{ secrets.API_USERNAME }}
+          API_EMAIL: ${{ secrets.API_EMAIL }}
           API_PASSWORD: ${{ secrets.API_PASSWORD }}
         run: |
           ./gradlew build

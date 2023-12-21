@@ -33,18 +33,20 @@ package tech.ixirsii.klash.client
 import arrow.core.Either
 import arrow.core.flatMap
 import arrow.core.left
+import arrow.core.raise.either
 import arrow.core.right
 import kotlinx.serialization.json.Json
 import okhttp3.Call
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import reactor.core.publisher.Mono
+import tech.ixirsii.klash.client.ClashAPI.Companion.CLIENT
+import tech.ixirsii.klash.client.ClashAPI.Companion.JSON
 import tech.ixirsii.klash.error.ClashAPIError
+import tech.ixirsii.klash.error.ClashTokenError
 import tech.ixirsii.klash.logging.Logging
 import tech.ixirsii.klash.logging.LoggingImpl
 import tech.ixirsii.klash.types.TokenResponse
@@ -59,22 +61,20 @@ import tech.ixirsii.klash.types.player.Player
 import tech.ixirsii.klash.types.war.War
 import tech.ixirsii.klash.types.war.WarLogEntry
 import java.io.IOException
+import java.util.*
 
 /**
  * Clash of Clans API client.
  *
  * @property token Clash of Clans API token for authenticating requests.
- * @property http HTTP client for making requests.
- * @property json JSON (de)serializer. Default configuration is `coerceInputValues = true, prettyPrint = true`.
+ * @property CLIENT HTTP client for making requests.
+ * @property JSON JSON (de)serializer.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 class ClashAPI(
     private val token: String,
-    private val http: OkHttpClient = OkHttpClient(),
-    private val json: Json = Json {
-        coerceInputValues = true
-        prettyPrint = true
-    },
+    private val client: OkHttpClient = CLIENT,
+    private val json: Json = JSON,
 ) : Logging by LoggingImpl<ClashAPI>() {
 
     /* ********************************************************************************************************** *
@@ -102,11 +102,9 @@ class ClashAPI(
         val response: Mono<Either<ClashAPIError, Response>> =
             get("/clans/%23$clanTag/capitalraidseasons$queryParameters")
 
-        return response.map { either ->
-            either.flatMap {
-                deserialize<Page<CapitalRaidSeason>>(
-                    it.body?.string()
-                )
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response ->
+                response.use { deserialize<Page<CapitalRaidSeason>>(it.body.string()) }
             }
         }
     }
@@ -122,7 +120,9 @@ class ClashAPI(
 
         val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$clanTag")
 
-        return response.map { either -> either.flatMap { deserialize<Clan>(it.body?.string()) } }
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response -> response.use { deserialize<Clan>(it.body.string()) } }
+        }
     }
 
     /**
@@ -172,7 +172,9 @@ class ClashAPI(
 
         val response: Mono<Either<ClashAPIError, Response>> = get("/clans$queryParams")
 
-        return response.map { either -> either.flatMap { deserialize<Page<Clan>>(it.body?.string()) } }
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response -> response.use { deserialize<Page<Clan>>(it.body.string()) } }
+        }
     }
 
     /**
@@ -186,7 +188,9 @@ class ClashAPI(
 
         val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$clanTag/currentwar")
 
-        return response.map { either -> either.flatMap { deserialize<War>(it.body?.string()) } }
+        return response.map { either ->
+            either.flatMap { response: Response -> response.use { deserialize<War>(it.body.string()) } }
+        }
     }
 
     /**
@@ -200,7 +204,9 @@ class ClashAPI(
 
         val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$clanTag/currentwar/leaguegroup")
 
-        return response.map { either -> either.flatMap { deserialize<ClanWarLeagueGroup>(it.body?.string()) } }
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response -> response.use { deserialize<ClanWarLeagueGroup>(it.body.string()) } }
+        }
     }
 
     /**
@@ -214,7 +220,9 @@ class ClashAPI(
 
         val response: Mono<Either<ClashAPIError, Response>> = get("/clanwarleagues/wars/%23$warTag")
 
-        return response.map { either -> either.flatMap { deserialize<War>(it.body?.string()) } }
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response -> response.use { deserialize<War>(it.body.string()) } }
+        }
     }
 
     /**
@@ -237,7 +245,9 @@ class ClashAPI(
         val queryParameters: String = paginationQueryParameters(limit, after, before)
         val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$clanTag/members$queryParameters")
 
-        return response.map { either -> either.flatMap { deserialize<Page<ClanMember>>(it.body?.string()) } }
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response -> response.use { deserialize<Page<ClanMember>>(it.body.string()) } }
+        }
     }
 
     /**
@@ -260,7 +270,9 @@ class ClashAPI(
         val queryParameters: String = paginationQueryParameters(limit, after, before)
         val response: Mono<Either<ClashAPIError, Response>> = get("/clans/%23$clanTag/warlog$queryParameters")
 
-        return response.map { either -> either.flatMap { deserialize<Page<WarLogEntry>>(it.body?.string()) } }
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response -> response.use { deserialize<Page<WarLogEntry>>(it.body.string()) } }
+        }
     }
 
     /* ********************************************************************************************************** *
@@ -278,7 +290,9 @@ class ClashAPI(
 
         val response: Mono<Either<ClashAPIError, Response>> = get("/players/%23$playerTag")
 
-        return response.map { either -> either.flatMap { deserialize<Player>(it.body?.string()) } }
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response -> response.use { deserialize<Player>(it.body.string()) } }
+        }
     }
 
     /**
@@ -296,10 +310,10 @@ class ClashAPI(
         log.trace("Verifying player {}", playerTag)
 
         val response: Mono<Either<ClashAPIError, Response>> =
-            post("/players/%23$playerTag/verifytoken", tokenVerificationBody(token))
+            post("/players/%23$playerTag/verifytoken", "{\"token\":\"$token\"}".toRequestBody(MEDIA_TYPE))
 
-        return response.map { either ->
-            either.flatMap { deserialize<TokenResponse>(it.body?.string()) }
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response -> response.use { deserialize<TokenResponse>(it.body.string()) } }
                 .map { it.status == "ok" }
         }
     }
@@ -310,19 +324,27 @@ class ClashAPI(
 
     /**
      * List capital leagues.
-     * 
+     *
      * @param limit Limit the number of items returned in the response.
      * @param after Return only items that occur after this marker.
      * @param before Return only items that occur before this marker.
      * @return A list of capital leagues.
      */
-    fun capitalLeagues(limit: Int? = null, after: String? = null, before: String? = null): Mono<Either<ClashAPIError, Page<CapitalLeague>>> {
+    fun capitalLeagues(
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null,
+    ): Mono<Either<ClashAPIError, Page<CapitalLeague>>> {
         log.trace("Getting capital leagues")
 
         val queryParameters: String = paginationQueryParameters(limit, after, before)
         val response: Mono<Either<ClashAPIError, Response>> = get("/capitalleagues$queryParameters")
 
-        return response.map { either -> either.flatMap { deserialize<Page<CapitalLeague>>(it.body?.string()) } }
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response ->
+                response.use { deserialize<Page<CapitalLeague>>(it.body.string()) }
+            }
+        }
     }
 
     /* ********************************************************************************************************** *
@@ -357,7 +379,7 @@ class ClashAPI(
                 response.right()
             } else {
                 log.warn("Received error response: {} \"{}\"", response.code, response.message)
-                val error: Either<ClashAPIError, ClientError> = deserialize(response.body?.string())
+                val error: Either<ClashAPIError, ClientError> = deserialize(response.body.string())
 
                 when (response.code) {
                     400 -> error.flatMap { ClashAPIError.ClientError.BadRequest(response.message, it).left() }
@@ -378,10 +400,9 @@ class ClashAPI(
      * @param T Type to deserialize the response body to.
      * @return [Either.Right] with the deserialized response body if successful, [Either.Left] with an error otherwise.
      */
-    @Throws(IOException::class)
-    private inline fun <reified T> deserialize(body: String?): Either<ClashAPIError.DeserializationError, T> =
+    private inline fun <reified T> deserialize(body: String): Either<ClashAPIError.DeserializationError, T> =
         Either.catch {
-            json.decodeFromString<T>(body ?: "")
+            json.decodeFromString<T>(body)
         }.mapLeft {
             log.error("Caught exception deserializing response", it)
             ClashAPIError.DeserializationError(it.message ?: "Caught exception deserializing response")
@@ -396,7 +417,7 @@ class ClashAPI(
     private fun get(endpoint: String): Mono<Either<ClashAPIError, Response>> {
         log.trace("Making GET request to \"{}\"", endpoint)
 
-        val call: Call = http.newCall(baseRequest(endpoint).build())
+        val call: Call = client.newCall(baseRequest(endpoint).build())
 
         log.debug("Making GET request to \"{}\"", call.request().url)
 
@@ -435,7 +456,7 @@ class ClashAPI(
     private fun post(endpoint: String, body: RequestBody): Mono<Either<ClashAPIError, Response>> {
         log.trace("Making POST request to \"{}\"", endpoint)
 
-        val call: Call = http.newCall(baseRequest(endpoint).post(body).build())
+        val call: Call = client.newCall(baseRequest(endpoint).post(body).build())
 
         log.debug("Making POST request to \"{}\"", call.request().url)
 
@@ -459,27 +480,48 @@ class ClashAPI(
         }
     }
 
-    /**
-     * Create a request body for a token verification request.
-     *
-     * @param token Player token to verify.
-     * @return Request body.
-     */
-    private fun tokenVerificationBody(token: String): RequestBody {
-        val contentType: MediaType? = "application/json; charset=utf-8".toMediaTypeOrNull()
-
-        return "{\"token\":\"$token\"}".toRequestBody(contentType)
-    }
-
     companion object {
+        /**
+         * Clash of Clans API version.
+         */
+        private const val API_VERSION = "v1"
+
         /**
          * Base URL for the Clash of Clans API.
          */
         private const val URL = "https://api.clashofclans.com/"
 
         /**
-         * Clash of Clans API version.
+         * Default HTTP client.
          */
-        private const val API_VERSION = "v1"
+        private val CLIENT: OkHttpClient = OkHttpClient.Builder().cookieJar(APICookieJar()).build()
+
+        /**
+         * Default JSON (de)serializer.
+         */
+        private val JSON: Json = Json {
+            coerceInputValues = true
+            ignoreUnknownKeys = true
+            prettyPrint = true
+        }
+
+        /**
+         * Clash of Clans API client.
+         *
+         * @param email Clash of Clans developer portal email.
+         * @param password Clash of Clans developer portal password.
+         * @param client HTTP client for making requests.
+         * @param json JSON (de)serializer.
+         */
+        operator fun invoke(
+            email: String,
+            password: String,
+            client: OkHttpClient = CLIENT,
+            json: Json = JSON,
+        ): Either<ClashTokenError, ClashAPI> = either {
+            val token: String = TokenManager(email, password, client, json).token.bind()
+
+            return ClashAPI(token, client, json).right()
+        }
     }
 }
