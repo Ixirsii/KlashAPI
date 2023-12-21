@@ -41,6 +41,11 @@ sealed interface ClashAPIError {
      */
     val message: String
 
+    /**
+     * Clash of Clans API error (non-successful response).
+     *
+     * @author Ixirsii <ixirsii@ixirsii.tech>
+     */
     sealed interface ClientError : ClashAPIError {
         /**
          *  The client error.

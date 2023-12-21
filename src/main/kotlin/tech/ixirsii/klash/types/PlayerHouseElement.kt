@@ -43,10 +43,6 @@ data class PlayerHouseElement(val id: Int = 0, val type: Type = Type.GROUND) {
     /**
      * The type of the element.
      *
-     * @property GROUND The ground element.
-     * @property ROOF The roof element.
-     * @property FOOT The foot element (?).
-     * @property DECO The decoration element.
      * @author Ixirsii <ixirsii@ixirsii.tech>
      */
     enum class Type {

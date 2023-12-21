@@ -141,7 +141,9 @@ internal class ClashAPITest {
         // Then
         actual.onRight { clans ->
             assertTrue("Clans should not be empty") { clans.items.isNotEmpty() }
-            assertTrue("Clans war frequency should be always") { clans.items.all { it.warFrequency == WarFrequency.ALWAYS } }
+            assertTrue("Clans war frequency should be always") {
+                clans.items.all { it.warFrequency == WarFrequency.ALWAYS }
+            }
         }.onLeft { fail("Clans should be right but was \"$it\"") }
     }
 
@@ -175,7 +177,9 @@ internal class ClashAPITest {
         // Then
         actual.onRight { clans ->
             assertTrue("Clans should not be empty") { clans.items.isNotEmpty() }
-            assertTrue("Clans should have at least $minMembers members") { clans.items.all { it.members >= minMembers } }
+            assertTrue("Clans should have at least $minMembers members") {
+                clans.items.all { it.members >= minMembers }
+            }
         }.onLeft { fail("Clans should be right but was \"$it\"") }
     }
 
@@ -209,7 +213,9 @@ internal class ClashAPITest {
         // Then
         actual.onRight { clans ->
             assertTrue("Clans should not be empty") { clans.items.isNotEmpty() }
-            assertTrue("Clans should have at least $minClanPoints points") { clans.items.all { it.clanPoints >= minClanPoints } }
+            assertTrue("Clans should have at least $minClanPoints points") {
+                clans.items.all { it.clanPoints >= minClanPoints }
+            }
         }.onLeft { fail("Clans should be right but was \"$it\"") }
     }
 
@@ -226,7 +232,9 @@ internal class ClashAPITest {
         // Then
         actual.onRight { clans ->
             assertTrue("Clans should not be empty") { clans.items.isNotEmpty() }
-            assertTrue("Clans should be at least level $minClanLevel") { clans.items.all { it.clanLevel >= minClanLevel } }
+            assertTrue("Clans should be at least level $minClanLevel") {
+                clans.items.all { it.clanLevel >= minClanLevel }
+            }
         }.onLeft { fail("Clans should be right but was \"$it\"") }
     }
 
@@ -305,7 +313,9 @@ internal class ClashAPITest {
                 "Preparation start time should equal expected"
             )
             assertEquals(
-                ZonedDateTime.parse("2023-12-07T03:06:27.000Z"), war.startTime, "Start time should equal expected"
+                ZonedDateTime.parse("2023-12-07T03:06:27.000Z"),
+                war.startTime,
+                "Start time should equal expected"
             )
             assertEquals(
                 ZonedDateTime.parse("2023-12-07T03:06:27.000Z"),
@@ -415,7 +425,9 @@ internal class ClashAPITest {
                     }
 
                     suffixWarLog.items.forEach { suffixItem ->
-                        assertFalse("Actual should not contain suffix items") { actualWarLog.items.contains(suffixItem) }
+                        assertFalse("Actual should not contain suffix items") {
+                            actualWarLog.items.contains(suffixItem)
+                        }
                     }
                 }.onLeft { fail("War log should be right but was \"$it\"") }
             }.onLeft { fail("suffix should be right but was \"$it\"") }

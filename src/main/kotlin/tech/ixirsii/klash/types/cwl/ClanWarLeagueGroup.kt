@@ -53,11 +53,8 @@ data class ClanWarLeagueGroup(
 ) {
     /**
      * CWL group state.
-     * @property GROUP_NOT_FOUND Group not found.
-     * @property NOT_IN_WAR Not in war.
-     * @property PREPARATION Preparation day.
-     * @property WAR War day.
-     * @property ENDED CWL ended.
+     *
+     * @author Ixirsii <ixirsii@ixirsii.tech>
      */
     enum class State {
         @SerialName("groupNotFound")

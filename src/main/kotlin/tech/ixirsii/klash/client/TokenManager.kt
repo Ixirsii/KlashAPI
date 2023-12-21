@@ -50,9 +50,11 @@ import java.net.URI
 /**
  * Get or create a token for the Clash of Clans API.
  *
- * @property client HTTP client.
- * @property email Clash of Clans developer portal email.
- * @property password Clash of Clans developer portal password.
+ * @constructor Create a new token manager.
+ * @param email Clash of Clans developer portal email.
+ * @param password Clash of Clans developer portal password.
+ * @param client HTTP client.
+ * @param json JSON serializer.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 internal class TokenManager(
@@ -112,8 +114,8 @@ internal class TokenManager(
     /**
      * Deserialize the response body.
      *
-     * @param body HTTP response body.
      * @param T Type to deserialize the response body to.
+     * @param body HTTP response body.
      * @return [Either.Right] with the deserialized response body if successful, [Either.Left] with an error otherwise.
      */
     private inline fun <reified T> deserialize(body: String): Either<ClashTokenError, T> =
@@ -168,7 +170,8 @@ internal class TokenManager(
         log.trace("Logging in with email \"{}\"", email)
 
         val request: Request = Request.Builder().url("$DEVELOPER_URL/login")
-            .post("{\"email\":\"$email\",\"password\":\"$password\"}".toRequestBody(MEDIA_TYPE)).build()
+            .post("{\"email\":\"$email\",\"password\":\"$password\"}".toRequestBody(MEDIA_TYPE))
+            .build()
         val call: Call = client.newCall(request)
 
         log.debug("Logging in to developer portal")

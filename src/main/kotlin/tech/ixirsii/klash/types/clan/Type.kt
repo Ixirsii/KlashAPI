@@ -36,9 +36,6 @@ import kotlinx.serialization.Serializable
 /**
  * Clan's invite type.
  *
- * @property CLOSED The clan is closed.
- * @property INVITE_ONLY The clan is invite only.
- * @property OPEN The clan is open.
  * @author Ixirsii <ixirii@ixirsii.tech>
  */
 @Serializable

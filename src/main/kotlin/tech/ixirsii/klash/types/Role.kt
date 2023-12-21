@@ -36,11 +36,7 @@ import kotlinx.serialization.Serializable
 /**
  * A player's role in a clan.
  *
- * @property NOT_MEMBER Not a member of the clan.
- * @property MEMBER A member of the clan.
- * @property LEADER The leader of the clan.
- * @property ADMIN An admin of the clan.
- * @property CO_LEADER A co-leader of the clan.
+ * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
 enum class Role {

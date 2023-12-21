@@ -32,12 +32,12 @@ package tech.ixirsii.klash.types
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tech.ixirsii.klash.types.IconURLs
 
 /**
  * Represents a clan label.
  *
  * @property id The label's ID.
+ * @property name The label's name.
  * @property iconURLs The label's icon URLs.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
