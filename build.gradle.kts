@@ -43,6 +43,7 @@ dependencies {
     // JUnit testing framework
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     // Kotlin test
     testImplementation(kotlin("test"))
     // SLF4J implementation for tests
