@@ -28,19 +28,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.client
+package tech.ixirsii.klash.client.internal
 
 import kotlinx.serialization.Serializable
 
 /**
- * A Clash of Clans API key.
+ * A list of Clash of Clans API keys.
  *
- * @property cidrRanges List of IP addresses that can use this key.
- * @property key The key.
+ * @property keys List of keys.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-internal data class Key(
-    val cidrRanges: List<String> = emptyList(),
-    val key: String = "",
-)
+internal data class KeyList(val keys: List<Key> = emptyList())

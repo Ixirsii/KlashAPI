@@ -35,6 +35,7 @@ import arrow.core.getOrElse
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.assertDoesNotThrow
 import tech.ixirsii.klash.error.ClashAPIError
+import tech.ixirsii.klash.types.League
 import tech.ixirsii.klash.types.capital.CapitalRaidSeason
 import tech.ixirsii.klash.types.clan.Clan
 import tech.ixirsii.klash.types.clan.ClanMember
@@ -60,10 +61,16 @@ internal class ClashAPITest {
     private val underTest: ClashAPI
 
     init {
-        val email: String = System.getenv("API_EMAIL")
-        val password: String = System.getenv("API_PASSWORD")
+        val token: String? = System.getenv("API_KEY")
 
-        underTest = ClashAPI(email, password).getOrElse { fail("Failed to create ClashAPI: $it") }
+        underTest = if (token != null) {
+            ClashAPI(token)
+        } else {
+            val email: String = System.getenv("API_EMAIL")
+            val password: String = System.getenv("API_PASSWORD")
+
+            ClashAPI(email, password).getOrElse { fail("Failed to create ClashAPI: $it") }
+        }
     }
 
     /* *********************************************** Clan APIs ************************************************ */
@@ -461,7 +468,7 @@ internal class ClashAPITest {
     /* ********************************************** League APIs *********************************************** */
 
     @Test
-    internal fun `GIVEN nothing WHEN capitalLeagues THEN returns capital leagues`() {
+    internal fun `GIVEN limit WHEN capitalLeagues THEN returns capital leagues`() {
         // Given
         val limit = 10
 
@@ -469,7 +476,21 @@ internal class ClashAPITest {
         val actual: Either<ClashAPIError, Page<CapitalLeague>> = underTest.capitalLeagues(limit = limit).block()!!
 
         // Then
-        actual.onRight { leagues ->
+        actual.onRight { leagues: Page<CapitalLeague> ->
+            assertTrue("Leagues should not be empty") { leagues.items.isNotEmpty() }
+        }.onLeft { fail("Leagues should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN limit WHEN leagues THEN returns leagues`() {
+        // Give
+        val limit = 10
+
+        // When
+        val actual: Either<ClashAPIError, Page<League>> = underTest.leagues(limit = limit).block()!!
+
+        // Then
+        actual.onRight { leagues: Page<League> ->
             assertTrue("Leagues should not be empty") { leagues.items.isNotEmpty() }
         }.onLeft { fail("Leagues should be right but was \"$it\"") }
     }
