@@ -38,6 +38,7 @@ import tech.ixirsii.klash.types.clan.Clan
 import tech.ixirsii.klash.types.clan.ClanMember
 import tech.ixirsii.klash.types.clan.WarFrequency
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
+import tech.ixirsii.klash.types.league.CapitalLeague
 import tech.ixirsii.klash.types.pagination.Page
 import tech.ixirsii.klash.types.player.Player
 import tech.ixirsii.klash.types.war.State
@@ -394,16 +395,15 @@ internal class ClashAPITest {
         val prefix: Either<ClashAPIError, Page<WarLogEntry>> = underTest.warLog(CLAN_TAG, limit = limit).block()!!
 
         prefix.onRight { prefixWarLog ->
-            // When
             val suffix: Either<ClashAPIError, Page<WarLogEntry>> =
                 underTest.warLog(CLAN_TAG, limit = limit, after = prefixWarLog.paging?.cursors?.after).block()!!
 
-            // Then
             suffix.onRight { suffixWarLog ->
                 // When
                 val actual: Either<ClashAPIError, Page<WarLogEntry>> =
                     underTest.warLog(CLAN_TAG, limit = limit, before = suffixWarLog.paging?.cursors?.before).block()!!
 
+                // Then
                 actual.onRight { actualWarLog ->
                     assertEquals(limit, actualWarLog.items.size, "War log should have one item")
                     assertNotEquals("", actualWarLog.paging?.cursors?.after, "After cursor should not be empty")
@@ -442,6 +442,22 @@ internal class ClashAPITest {
 
         // Then
         actual.onLeft { fail("Player should be right but was \"$it\"") }
+    }
+
+    /* ********************************************** League APIs *********************************************** */
+
+    @Test
+    internal fun `GIVEN nothing WHEN capitalLeagues THEN returns capital leagues`() {
+        // Given
+        val limit = 10
+
+        // When
+        val actual: Either<ClashAPIError, Page<CapitalLeague>> = underTest.capitalLeagues(limit = limit).block()!!
+
+        // Then
+        actual.onRight { leagues ->
+            assertTrue("Leagues should not be empty") { leagues.items.isNotEmpty() }
+        }.onLeft { fail("Leagues should be right but was \"$it\"") }
     }
 
     /* ******************************************** Error responses ********************************************* */
