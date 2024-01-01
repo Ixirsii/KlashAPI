@@ -349,14 +349,14 @@ class ClashAPI(
      * @param limit Limit the number of items returned in the response.
      * @param after Return only items that occur after this marker.
      * @param before Return only items that occur before this marker.
-     * @return A list of capital leagues.
+     * @return A list of builder base leagues.
      */
     fun builderBaseLeagues(
         limit: Int? = null,
         after: String? = null,
         before: String? = null,
     ): Mono<Either<ClashAPIError, Page<BuilderBaseLeague>>> {
-        log.trace("Getting capital leagues")
+        log.trace("Getting builder base leagues")
 
         val queryParameters: String = paginationQueryParameters(limit, after, before)
         val response: Mono<Either<ClashAPIError, Response>> = get("/builderbaseleagues$queryParameters")
@@ -407,6 +407,24 @@ class ClashAPI(
         return response.map { either: Either<ClashAPIError, Response> ->
             either.flatMap { response: Response ->
                 response.use { deserialize<Page<CapitalLeague>>(it.body.string()) }
+            }
+        }
+    }
+
+    /**
+     * Get league information.
+     *
+     * @param leagueID League ID.
+     * @return League information.
+     */
+    fun league(leagueID: String): Mono<Either<ClashAPIError, League>> {
+        log.trace("Getting league {}", leagueID)
+
+        val response: Mono<Either<ClashAPIError, Response>> = get("/leagues/$leagueID")
+
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response ->
+                response.use { deserialize<League>(it.body.string()) }
             }
         }
     }

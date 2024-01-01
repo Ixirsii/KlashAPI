@@ -532,6 +532,21 @@ internal class ClashAPITest {
     }
 
     @Test
+    internal fun `GIVEN league ID WHEN league THEN returns capital league`() {
+        // Given
+        val leagueID = "29000000"
+
+        // When
+        val actual: Either<ClashAPIError, League> = underTest.league(leagueID).block()!!
+
+        // Then
+        actual.onRight { league: League ->
+            assertEquals(leagueID, league.id.toString(), "League ID should equal expected")
+            assertEquals("Unranked", league.name, "League name should equal expected")
+        }.onLeft { fail("Leagues should be right but was \"$it\"") }
+    }
+
+    @Test
     internal fun `GIVEN limit WHEN leagues THEN returns leagues`() {
         // Give
         val limit = 10
