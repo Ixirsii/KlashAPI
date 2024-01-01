@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Ryan Porterfield 2023.
+ * Copyright (c) Ryan Porterfield 2024.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,36 +28,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.league
+package tech.ixirsii.klash.types.league
 
 import kotlinx.serialization.Serializable
-import tech.ixirsii.klash.types.League
 
 /**
- * Player ranking clan.
+ * Represents a League Season.
  *
- * @property attackWins Attack wins.
- * @property clan Clan.
- * @property defenseWins Defense wins.
- * @property expLevel Experience level.
- * @property league League.
- * @property name Name.
- * @property previousRank Previous rank.
- * @property rank Rank.
- * @property tag Tag.
- * @property trophies Trophies.
+ * @property id The ID of the season.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class PlayerRanking(
-    val attackWins: Int = 0,
-    val clan: PlayerRankingClan? = null,
-    val defenseWins: Int = 0,
-    val expLevel: Int = 0,
-    val league: League? = null,
-    val name: String = "",
-    val previousRank: Int = 0,
-    val rank: Int = 0,
-    val tag: String = "",
-    val trophies: Int = 0,
-)
+data class LeagueSeason(val id: String = "")

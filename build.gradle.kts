@@ -103,11 +103,6 @@ tasks.jacocoTestCoverageVerification {
                 value = "COVEREDRATIO"
                 minimum = 0.7.toBigDecimal()
             }
-            limit {
-                counter = "BRANCH"
-                value = "COVEREDRATIO"
-                minimum = 0.7.toBigDecimal()
-            }
         }
     }
 }

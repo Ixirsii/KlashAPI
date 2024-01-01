@@ -48,7 +48,6 @@ import tech.ixirsii.klash.client.internal.MEDIA_TYPE
 import tech.ixirsii.klash.client.internal.TokenManager
 import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.error.ClashTokenError
-import tech.ixirsii.klash.league.PlayerRanking
 import tech.ixirsii.klash.logging.Logging
 import tech.ixirsii.klash.logging.LoggingImpl
 import tech.ixirsii.klash.types.BuilderBaseLeague
@@ -60,6 +59,8 @@ import tech.ixirsii.klash.types.clan.ClanMember
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
 import tech.ixirsii.klash.types.error.ClientError
 import tech.ixirsii.klash.types.league.CapitalLeague
+import tech.ixirsii.klash.types.league.LeagueSeason
+import tech.ixirsii.klash.types.league.PlayerRanking
 import tech.ixirsii.klash.types.pagination.Page
 import tech.ixirsii.klash.types.player.Player
 import tech.ixirsii.klash.types.war.War
@@ -406,6 +407,28 @@ class ClashAPI(
         val queryParameters: String = paginationQueryParameters(limit, after, before)
 
         return get("/leagues/$leagueID/seasons/$seasonID$queryParameters")
+    }
+
+    /**
+     * Get league seasons.
+     *
+     * @param leagueID League ID.
+     * @param limit Limit the number of items returned in the response.
+     * @param after Return only items that occur after this marker.
+     * @param before Return only items that occur before this marker.
+     * @return League seasons.
+     */
+    fun leagueSeasons(
+        leagueID: String,
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null,
+    ): Mono<Either<ClashAPIError, Page<LeagueSeason>>> {
+        log.trace("Getting seasons for league {}", leagueID)
+
+        val queryParameters: String = paginationQueryParameters(limit, after, before)
+
+        return get("/leagues/$leagueID/seasons$queryParameters")
     }
 
     /* ********************************************************************************************************** *

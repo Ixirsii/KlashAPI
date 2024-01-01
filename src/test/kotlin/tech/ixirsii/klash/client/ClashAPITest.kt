@@ -35,7 +35,6 @@ import arrow.core.getOrElse
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.assertDoesNotThrow
 import tech.ixirsii.klash.error.ClashAPIError
-import tech.ixirsii.klash.league.PlayerRanking
 import tech.ixirsii.klash.types.BuilderBaseLeague
 import tech.ixirsii.klash.types.League
 import tech.ixirsii.klash.types.capital.CapitalRaidSeason
@@ -44,6 +43,8 @@ import tech.ixirsii.klash.types.clan.ClanMember
 import tech.ixirsii.klash.types.clan.WarFrequency
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
 import tech.ixirsii.klash.types.league.CapitalLeague
+import tech.ixirsii.klash.types.league.LeagueSeason
+import tech.ixirsii.klash.types.league.PlayerRanking
 import tech.ixirsii.klash.types.pagination.Page
 import tech.ixirsii.klash.types.player.Player
 import tech.ixirsii.klash.types.war.State
@@ -561,7 +562,7 @@ internal class ClashAPITest {
     }
 
     @Test
-    internal fun `GIVEN ids WHEN leagueSeason THEN returns leagueSeasons`() {
+    internal fun `GIVEN IDs WHEN leagueSeason THEN returns league seasons`() {
         // Given
         val limit = 10
         val leagueID = "29000022"
@@ -575,6 +576,22 @@ internal class ClashAPITest {
         actual.onRight { rankings: Page<PlayerRanking> ->
             assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
         }.onLeft { fail("Rankings should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN league ID WHEN leagueSeasons THEN returns league seasons`() {
+        // Given
+        val limit = 10
+        val leagueID = "29000022"
+
+        // When
+        val actual: Either<ClashAPIError, Page<LeagueSeason>> =
+            underTest.leagueSeasons(leagueID = leagueID, limit = limit).block()!!
+
+        // Then
+        actual.onRight { seasons: Page<LeagueSeason> ->
+            assertTrue("Seasons should not be empty") { seasons.items.isNotEmpty() }
+        }.onLeft { fail("Seasons should be right but was \"$it\"") }
     }
 
     /* *************************************** Private utility functions **************************************** */
