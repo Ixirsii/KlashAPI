@@ -146,4 +146,12 @@ sealed interface ClashAPIError {
      * @author Ixirsii <ixirsii@ixirsii.tech>
      */
     data class DeserializationError(override val message: String) : ClashAPIError
+
+    /**
+     * Request error.
+     *
+     * @property message The error message.
+     * @author Ixirsii <ixirsii@ixirsii.tech>
+     */
+    data class RequestError(override val message: String) : ClashAPIError
 }

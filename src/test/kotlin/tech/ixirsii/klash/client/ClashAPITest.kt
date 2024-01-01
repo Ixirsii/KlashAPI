@@ -36,6 +36,7 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.assertDoesNotThrow
 import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.league.PlayerRanking
+import tech.ixirsii.klash.types.BuilderBaseLeague
 import tech.ixirsii.klash.types.League
 import tech.ixirsii.klash.types.capital.CapitalRaidSeason
 import tech.ixirsii.klash.types.clan.Clan
@@ -307,8 +308,11 @@ internal class ClashAPITest {
 
     @Test
     internal fun `GIVEN war tag WHEN leagueWar THEN returns league war`() {
+        // Given
+        val leagueWarTag = "82P0QP0Y2"
+
         // When
-        val actual: Either<ClashAPIError, War> = underTest.leagueWar(CLAN_WAR_LEAGUE_WAR_TAG).block()!!
+        val actual: Either<ClashAPIError, War> = underTest.leagueWar(leagueWarTag).block()!!
 
         // Then
         actual.onRight { war ->
@@ -469,6 +473,21 @@ internal class ClashAPITest {
     /* ********************************************** League APIs *********************************************** */
 
     @Test
+    internal fun `GIVEN league ID WHEN builderBaseLeague THEN returns builder base league`() {
+        // Given
+        val leagueID = "44000000"
+
+        // When
+        val actual: Either<ClashAPIError, BuilderBaseLeague> = underTest.builderBaseLeague(leagueID).block()!!
+
+        // Then
+        actual.onRight { league: BuilderBaseLeague ->
+            assertEquals(leagueID, league.id.toString(), "League ID should equal expected")
+            assertEquals("Wood League V", league.name, "League name should equal expected")
+        }.onLeft { fail("Leagues should be right but was \"$it\"") }
+    }
+
+    @Test
     internal fun `GIVEN league ID WHEN capitalLeague THEN returns capital league`() {
         // Given
         val leagueID = "85000000"
@@ -528,13 +547,10 @@ internal class ClashAPITest {
         }.onLeft { fail("Rankings should be right but was \"$it\"") }
     }
 
-    /* ******************************************** Error responses ********************************************* */
-
     /* *************************************** Private utility functions **************************************** */
 
     companion object {
         private const val CLAN_TAG = "2Q82UJVY"
         private const val PLAYER_TAG = "2Q09RPGL8"
-        private const val CLAN_WAR_LEAGUE_WAR_TAG = "82P0QP0Y2"
     }
 }
