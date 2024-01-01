@@ -325,6 +325,24 @@ class ClashAPI(
      * ********************************************************************************************************** */
 
     /**
+     * Get capital league information.
+     *
+     * @param leagueID League ID.
+     * @return Capital league information.
+     */
+    fun capitalLeague(leagueID: String): Mono<Either<ClashAPIError, CapitalLeague>> {
+        log.trace("Getting capital league {}", leagueID)
+
+        val response: Mono<Either<ClashAPIError, Response>> = get("/capitalleagues/$leagueID")
+
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response ->
+                response.use { deserialize<CapitalLeague>(it.body.string()) }
+            }
+        }
+    }
+
+    /**
      * List capital leagues.
      *
      * @param limit Limit the number of items returned in the response.
