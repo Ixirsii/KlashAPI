@@ -488,6 +488,21 @@ internal class ClashAPITest {
     }
 
     @Test
+    internal fun `GIVEN limit WHEN builderBaseLeagues THEN returns capital leagues`() {
+        // Given
+        val limit = 10
+
+        // When
+        val actual: Either<ClashAPIError, Page<BuilderBaseLeague>> =
+            underTest.builderBaseLeagues(limit = limit).block()!!
+
+        // Then
+        actual.onRight { leagues: Page<BuilderBaseLeague> ->
+            assertTrue("Leagues should not be empty") { leagues.items.isNotEmpty() }
+        }.onLeft { fail("Leagues should be right but was \"$it\"") }
+    }
+
+    @Test
     internal fun `GIVEN league ID WHEN capitalLeague THEN returns capital league`() {
         // Given
         val leagueID = "85000000"

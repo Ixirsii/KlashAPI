@@ -344,6 +344,31 @@ class ClashAPI(
     }
 
     /**
+     * List capital leagues.
+     *
+     * @param limit Limit the number of items returned in the response.
+     * @param after Return only items that occur after this marker.
+     * @param before Return only items that occur before this marker.
+     * @return A list of capital leagues.
+     */
+    fun builderBaseLeagues(
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null,
+    ): Mono<Either<ClashAPIError, Page<BuilderBaseLeague>>> {
+        log.trace("Getting capital leagues")
+
+        val queryParameters: String = paginationQueryParameters(limit, after, before)
+        val response: Mono<Either<ClashAPIError, Response>> = get("/builderbaseleagues$queryParameters")
+
+        return response.map { either: Either<ClashAPIError, Response> ->
+            either.flatMap { response: Response ->
+                response.use { deserialize<Page<BuilderBaseLeague>>(it.body.string()) }
+            }
+        }
+    }
+
+    /**
      * Get capital league information.
      *
      * @param leagueID League ID.
@@ -479,7 +504,9 @@ class ClashAPI(
      * @param responseMono HTTP response.
      * @return [Either.Right] with the response if successful, [Either.Left] with an error otherwise.
      */
-    private fun checkResponse(responseMono: Mono<Either<ClashAPIError, Response>>): Mono<Either<ClashAPIError, Response>> =
+    private fun checkResponse(
+        responseMono: Mono<Either<ClashAPIError, Response>>,
+    ): Mono<Either<ClashAPIError, Response>> =
         responseMono.map { either: Either<ClashAPIError, Response> ->
             either.flatMap { response: Response ->
                 log.trace("Checking response {}", response)
@@ -511,7 +538,6 @@ class ClashAPI(
             }
         }
 
-
     /**
      * Deserialize the response body.
      *
@@ -540,15 +566,7 @@ class ClashAPI(
 
         log.debug("Making GET request to \"{}\"", call.request().url)
 
-        val response: Mono<Either<ClashAPIError, Response>> = Mono.fromCallable {
-            Either.catch {
-                call.execute()
-            }.mapLeft { throwable: Throwable ->
-                log.error("Caught exception making request", throwable)
-
-                ClashAPIError.RequestError(throwable.message ?: "Caught exception making request")
-            }
-        }
+        val response: Mono<Either<ClashAPIError, Response>> = callRequest(call)
 
         return checkResponse(response)
     }

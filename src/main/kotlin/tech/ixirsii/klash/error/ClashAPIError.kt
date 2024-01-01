@@ -110,8 +110,7 @@ sealed interface ClashAPIError {
         data class InternalServerError(
             override val message: String,
             override val error: tech.ixirsii.klash.types.error.ClientError,
-        ) :
-            ClientError
+        ) : ClientError
 
         /**
          * 503 Service Unavailable error.
@@ -123,8 +122,7 @@ sealed interface ClashAPIError {
         data class ServiceUnavailable(
             override val message: String,
             override val error: tech.ixirsii.klash.types.error.ClientError,
-        ) :
-            ClientError
+        ) : ClientError
 
         /**
          * Unknown error.
