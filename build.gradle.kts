@@ -2,8 +2,8 @@ plugins {
     kotlin("jvm") version "1.9.21"
     kotlin("plugin.serialization") version "1.9.21"
 
-    id("io.gitlab.arturbosch.detekt") version "1.23.4"
-    id("org.jetbrains.dokka") version "1.9.10"
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.dokka)
 
     jacoco
 }
@@ -15,43 +15,30 @@ repositories {
     mavenCentral()
 }
 
-val arrowVersion: String by project
-val detektVersion: String by project
-val dokkaVersion: String by project
-val junitVersion: String by project
-val kotlinxSerializationVersion: String by project
-val logbackVersion: String by project
-val okhttpVersion: String by project
-val reactorKotlinExtensionVersion: String by project
-val reactorVersion: String by project
-val slf4JVersion: String by project
-
 dependencies {
     // Detekt plugins
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-rules-libraries:$detektVersion")
+    detektPlugins(libs.bundles.detekt)
 
     // Arrow
-    implementation("io.arrow-kt:arrow-core:$arrowVersion")
+    implementation(libs.arrow.core)
     // Kotlin serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+    implementation(libs.kotlinx.serialization.json)
     // OkHttp
-    implementation("com.squareup.okhttp3:okhttp:$okhttpVersion")
+    implementation(libs.okhttp)
     // Reactor
-    implementation(platform("io.projectreactor:reactor-bom:$reactorVersion"))
-    implementation("io.projectreactor:reactor-core")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:reactorKotlinExtensionsVersion")
+    implementation(platform(libs.reactor.bom))
+    implementation(libs.reactor.core)
+    implementation(libs.reactor.kotlin.extensions)
     // SLF4J
-    implementation("org.slf4j:slf4j-api:$slf4JVersion")
+    implementation(libs.slf4j.api)
 
-    // JUnit testing framework
-    testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     // Kotlin test
     testImplementation(kotlin("test"))
+    // JUnit testing framework
+    testImplementation(libs.bundles.junit)
+    testRuntimeOnly(libs.junit.platform.launcher)
     // SLF4J implementation for tests
-    testImplementation("ch.qos.logback:logback-classic:$logbackVersion")
+    testImplementation(libs.logback.classic)
 }
 
 detekt {
