@@ -47,6 +47,7 @@ import tech.ixirsii.klash.types.league.LeagueSeason
 import tech.ixirsii.klash.types.league.PlayerRanking
 import tech.ixirsii.klash.types.league.WarLeague
 import tech.ixirsii.klash.types.location.ClanRanking
+import tech.ixirsii.klash.types.location.PlayerBuilderBaseRanking
 import tech.ixirsii.klash.types.pagination.Page
 import tech.ixirsii.klash.types.player.Player
 import tech.ixirsii.klash.types.war.State
@@ -644,7 +645,23 @@ internal class ClashAPITest {
     }
 
     @Test
-    internal fun `GIVEN location ID WHEN playerRankings THEN returns clan rankings`() {
+    internal fun `GIVEN location ID WHEN playerBuilderBaseRankings THEN returns player rankings`() {
+        // Given
+        val limit = 10
+        val locationID = 32000218
+
+        // When
+        val actual: Either<ClashAPIError, Page<PlayerBuilderBaseRanking>> =
+            underTest.playerBuilderBaseRankings(locationID, limit = limit).block()!!
+
+        // Then
+        actual.onRight { rankings: Page<PlayerBuilderBaseRanking> ->
+            assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+        }.onLeft { fail("Rankings should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN location ID WHEN playerRankings THEN returns player rankings`() {
         // Given
         val limit = 10
         val locationID = 32000218
