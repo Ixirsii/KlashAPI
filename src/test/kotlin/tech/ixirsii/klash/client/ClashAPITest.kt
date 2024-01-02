@@ -35,6 +35,7 @@ import arrow.core.getOrElse
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.assertDoesNotThrow
 import tech.ixirsii.klash.error.ClashAPIError
+import tech.ixirsii.klash.types.Label
 import tech.ixirsii.klash.types.capital.CapitalRaidSeason
 import tech.ixirsii.klash.types.clan.Clan
 import tech.ixirsii.klash.types.clan.ClanMember
@@ -751,6 +752,22 @@ internal class ClashAPITest {
 
         // Then
         actual.onLeft { fail("Season should be right but was \"$it\"") }
+    }
+
+    /* *********************************************** Label APIs *********************************************** */
+
+    @Test
+    internal fun `GIVEN limit WHEN playerLabels THEN returns player labels`() {
+        // Given
+        val limit = 10
+
+        // When
+        val actual: Either<ClashAPIError, Page<Label>> = underTest.playerLabels(limit = limit).block()!!
+
+        // Then
+        actual.onRight { labels: Page<Label> ->
+            assertTrue("Labels should not be empty") { labels.items.isNotEmpty() }
+        }.onLeft { fail("Labels should be right but was \"$it\"") }
     }
 
     /* *************************************** Private utility functions **************************************** */

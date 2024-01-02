@@ -50,6 +50,7 @@ import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.error.ClashTokenError
 import tech.ixirsii.klash.logging.Logging
 import tech.ixirsii.klash.logging.LoggingImpl
+import tech.ixirsii.klash.types.Label
 import tech.ixirsii.klash.types.TokenResponse
 import tech.ixirsii.klash.types.capital.CapitalRaidSeason
 import tech.ixirsii.klash.types.clan.Clan
@@ -629,6 +630,30 @@ class ClashAPI(
         log.trace("Getting current gold pass season")
 
         return get("/goldpass/seasons/current")
+    }
+
+    /* ********************************************************************************************************** *
+     *                                                 Label APIs                                                 *
+     * ********************************************************************************************************** */
+
+    /**
+     * List player labels.
+     *
+     * @param limit Limit the number of items returned in the response.
+     * @param after Return only items after this marker.
+     * @param before Return only items before this marker.
+     * @return A list of player labels.
+     */
+    fun playerLabels(
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null,
+    ): Mono<Either<ClashAPIError, Page<Label>>> {
+        log.trace("Getting labels for players")
+
+        val queryParameters: String = paginationQueryParameters(limit, after, before)
+
+        return get("/labels/players$queryParameters")
     }
 
     /* ********************************************************************************************************** *
