@@ -40,6 +40,7 @@ import tech.ixirsii.klash.types.clan.Clan
 import tech.ixirsii.klash.types.clan.ClanMember
 import tech.ixirsii.klash.types.clan.WarFrequency
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
+import tech.ixirsii.klash.types.goldpass.GoldPassSeason
 import tech.ixirsii.klash.types.league.BuilderBaseLeague
 import tech.ixirsii.klash.types.league.CapitalLeague
 import tech.ixirsii.klash.types.league.League
@@ -739,6 +740,17 @@ internal class ClashAPITest {
         actual.onRight { rankings: Page<tech.ixirsii.klash.types.location.PlayerRanking> ->
             assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
         }.onLeft { fail("Rankings should be right but was \"$it\"") }
+    }
+
+    /* ********************************************* Gold Pass APIs ********************************************* */
+
+    @Test
+    internal fun `GIVEN nothing WHEN currentGoldPassSeason THEN returns current gold pass season`() {
+        // When
+        val actual: Either<ClashAPIError, GoldPassSeason> = underTest.currentGoldPassSeason().block()!!
+
+        // Then
+        actual.onLeft { fail("Season should be right but was \"$it\"") }
     }
 
     /* *************************************** Private utility functions **************************************** */

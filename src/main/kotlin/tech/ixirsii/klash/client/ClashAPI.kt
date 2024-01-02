@@ -56,6 +56,7 @@ import tech.ixirsii.klash.types.clan.Clan
 import tech.ixirsii.klash.types.clan.ClanMember
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
 import tech.ixirsii.klash.types.error.ClientError
+import tech.ixirsii.klash.types.goldpass.GoldPassSeason
 import tech.ixirsii.klash.types.league.BuilderBaseLeague
 import tech.ixirsii.klash.types.league.CapitalLeague
 import tech.ixirsii.klash.types.league.League
@@ -613,6 +614,21 @@ class ClashAPI(
         val queryParameters: String = paginationQueryParameters(limit, after, before)
 
         return get("/locations/$locationID/rankings/players$queryParameters")
+    }
+
+    /* ********************************************************************************************************** *
+     *                                               Gold Pass APIs                                               *
+     * ********************************************************************************************************** */
+
+    /**
+     * Get information about the current gold pass season.
+     *
+     * @return Information about the current gold pass season.
+     */
+    fun currentGoldPassSeason(): Mono<Either<ClashAPIError, GoldPassSeason>> {
+        log.trace("Getting current gold pass season")
+
+        return get("/goldpass/seasons/current")
     }
 
     /* ********************************************************************************************************** *
