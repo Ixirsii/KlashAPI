@@ -35,16 +35,17 @@ import arrow.core.getOrElse
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.assertDoesNotThrow
 import tech.ixirsii.klash.error.ClashAPIError
-import tech.ixirsii.klash.types.BuilderBaseLeague
-import tech.ixirsii.klash.types.League
 import tech.ixirsii.klash.types.capital.CapitalRaidSeason
 import tech.ixirsii.klash.types.clan.Clan
 import tech.ixirsii.klash.types.clan.ClanMember
 import tech.ixirsii.klash.types.clan.WarFrequency
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
+import tech.ixirsii.klash.types.league.BuilderBaseLeague
 import tech.ixirsii.klash.types.league.CapitalLeague
+import tech.ixirsii.klash.types.league.League
 import tech.ixirsii.klash.types.league.LeagueSeason
 import tech.ixirsii.klash.types.league.PlayerRanking
+import tech.ixirsii.klash.types.league.WarLeague
 import tech.ixirsii.klash.types.pagination.Page
 import tech.ixirsii.klash.types.player.Player
 import tech.ixirsii.klash.types.war.State
@@ -485,7 +486,7 @@ internal class ClashAPITest {
         actual.onRight { league: BuilderBaseLeague ->
             assertEquals(leagueID, league.id.toString(), "League ID should equal expected")
             assertEquals("Wood League V", league.name, "League name should equal expected")
-        }.onLeft { fail("Leagues should be right but was \"$it\"") }
+        }.onLeft { fail("Builder base league should be right but was \"$it\"") }
     }
 
     @Test
@@ -500,7 +501,7 @@ internal class ClashAPITest {
         // Then
         actual.onRight { leagues: Page<BuilderBaseLeague> ->
             assertTrue("Leagues should not be empty") { leagues.items.isNotEmpty() }
-        }.onLeft { fail("Leagues should be right but was \"$it\"") }
+        }.onLeft { fail("Builder base leagues should be right but was \"$it\"") }
     }
 
     @Test
@@ -515,7 +516,7 @@ internal class ClashAPITest {
         actual.onRight { league: CapitalLeague ->
             assertEquals(leagueID, league.id.toString(), "League ID should equal expected")
             assertEquals("Unranked", league.name, "League name should equal expected")
-        }.onLeft { fail("Leagues should be right but was \"$it\"") }
+        }.onLeft { fail("Capital league should be right but was \"$it\"") }
     }
 
     @Test
@@ -529,7 +530,7 @@ internal class ClashAPITest {
         // Then
         actual.onRight { leagues: Page<CapitalLeague> ->
             assertTrue("Leagues should not be empty") { leagues.items.isNotEmpty() }
-        }.onLeft { fail("Leagues should be right but was \"$it\"") }
+        }.onLeft { fail("Capital leagues should be right but was \"$it\"") }
     }
 
     @Test
@@ -544,7 +545,7 @@ internal class ClashAPITest {
         actual.onRight { league: League ->
             assertEquals(leagueID, league.id.toString(), "League ID should equal expected")
             assertEquals("Unranked", league.name, "League name should equal expected")
-        }.onLeft { fail("Leagues should be right but was \"$it\"") }
+        }.onLeft { fail("League should be right but was \"$it\"") }
     }
 
     @Test
@@ -592,6 +593,21 @@ internal class ClashAPITest {
         actual.onRight { seasons: Page<LeagueSeason> ->
             assertTrue("Seasons should not be empty") { seasons.items.isNotEmpty() }
         }.onLeft { fail("Seasons should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN league ID WHEN warLeague THEN returns capital league`() {
+        // Given
+        val leagueID = "48000000"
+
+        // When
+        val actual: Either<ClashAPIError, WarLeague> = underTest.warLeague(leagueID).block()!!
+
+        // Then
+        actual.onRight { league: WarLeague ->
+            assertEquals(leagueID, league.id.toString(), "League ID should equal expected")
+            assertEquals("Unranked", league.name, "League name should equal expected")
+        }.onLeft { fail("War league should be right but was \"$it\"") }
     }
 
     /* *************************************** Private utility functions **************************************** */

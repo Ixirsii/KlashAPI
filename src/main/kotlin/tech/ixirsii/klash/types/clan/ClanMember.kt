@@ -31,10 +31,10 @@
 package tech.ixirsii.klash.types.clan
 
 import kotlinx.serialization.Serializable
-import tech.ixirsii.klash.types.BuilderBaseLeague
-import tech.ixirsii.klash.types.League
 import tech.ixirsii.klash.types.PlayerHouse
 import tech.ixirsii.klash.types.Role
+import tech.ixirsii.klash.types.league.BuilderBaseLeague
+import tech.ixirsii.klash.types.league.League
 
 /**
  * Member of a clan.

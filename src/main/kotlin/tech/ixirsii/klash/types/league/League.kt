@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Ryan Porterfield 2023.
+ * Copyright (c) Ryan Porterfield 2024.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,10 +28,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package tech.ixirsii.klash.types
+package tech.ixirsii.klash.types.league
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import tech.ixirsii.klash.types.IconURLs
 
 /**
  * League that a player is in.

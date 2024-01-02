@@ -35,6 +35,7 @@ import kotlinx.serialization.Serializable
 import tech.ixirsii.klash.types.BadgeURLs
 import tech.ixirsii.klash.types.Label
 import tech.ixirsii.klash.types.league.CapitalLeague
+import tech.ixirsii.klash.types.league.WarLeague
 
 /**
  * A clan.

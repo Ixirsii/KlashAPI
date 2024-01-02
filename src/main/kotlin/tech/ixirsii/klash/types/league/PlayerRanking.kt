@@ -31,7 +31,6 @@
 package tech.ixirsii.klash.types.league
 
 import kotlinx.serialization.Serializable
-import tech.ixirsii.klash.types.League
 
 /**
  * Player ranking clan.

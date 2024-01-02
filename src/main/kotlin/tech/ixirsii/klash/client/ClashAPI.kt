@@ -50,17 +50,18 @@ import tech.ixirsii.klash.error.ClashAPIError
 import tech.ixirsii.klash.error.ClashTokenError
 import tech.ixirsii.klash.logging.Logging
 import tech.ixirsii.klash.logging.LoggingImpl
-import tech.ixirsii.klash.types.BuilderBaseLeague
-import tech.ixirsii.klash.types.League
 import tech.ixirsii.klash.types.TokenResponse
 import tech.ixirsii.klash.types.capital.CapitalRaidSeason
 import tech.ixirsii.klash.types.clan.Clan
 import tech.ixirsii.klash.types.clan.ClanMember
 import tech.ixirsii.klash.types.cwl.ClanWarLeagueGroup
 import tech.ixirsii.klash.types.error.ClientError
+import tech.ixirsii.klash.types.league.BuilderBaseLeague
 import tech.ixirsii.klash.types.league.CapitalLeague
+import tech.ixirsii.klash.types.league.League
 import tech.ixirsii.klash.types.league.LeagueSeason
 import tech.ixirsii.klash.types.league.PlayerRanking
+import tech.ixirsii.klash.types.league.WarLeague
 import tech.ixirsii.klash.types.pagination.Page
 import tech.ixirsii.klash.types.player.Player
 import tech.ixirsii.klash.types.war.War
@@ -429,6 +430,18 @@ class ClashAPI(
         val queryParameters: String = paginationQueryParameters(limit, after, before)
 
         return get("/leagues/$leagueID/seasons$queryParameters")
+    }
+
+    /**
+     * Get war league information.
+     *
+     * @param leagueID League ID.
+     * @return War league information.
+     */
+    fun warLeague(leagueID: String): Mono<Either<ClashAPIError, WarLeague>> {
+        log.trace("Getting war league {}", leagueID)
+
+        return get("/warleagues/$leagueID")
     }
 
     /* ********************************************************************************************************** *
