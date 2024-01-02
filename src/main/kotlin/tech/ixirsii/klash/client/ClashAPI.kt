@@ -540,6 +540,18 @@ class ClashAPI(
     }
 
     /**
+     * Get location information.
+     *
+     * @param locationID Location ID.
+     * @return Location information.
+     */
+    fun location(locationID: Int): Mono<Either<ClashAPIError, Location>> {
+        log.trace("Getting location {}", locationID)
+
+        return get("/locations/$locationID")
+    }
+
+    /**
      * List locations.
      *
      * @param limit Limit the number of items returned in the response.

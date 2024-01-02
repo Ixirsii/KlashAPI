@@ -167,7 +167,7 @@ internal class ClashAPITest {
     internal fun `GIVEN location ID WHEN clans THEN returns clans`() {
         // Given
         val limit = 10
-        val locationID = 32000218
+        val locationID = 32000249
 
         // When
         val actual: Either<ClashAPIError, Page<Clan>> =
@@ -635,7 +635,7 @@ internal class ClashAPITest {
     internal fun `GIVEN location ID WHEN clanBuilderBaseRankings THEN returns clan rankings`() {
         // Given
         val limit = 10
-        val locationID = 32000218
+        val locationID = 32000249
 
         // When
         val actual: Either<ClashAPIError, Page<ClanBuilderBaseRanking>> =
@@ -651,7 +651,7 @@ internal class ClashAPITest {
     internal fun `GIVEN location ID WHEN clanRankings THEN returns clan rankings`() {
         // Given
         val limit = 10
-        val locationID = 32000218
+        val locationID = 32000249
 
         // When
         val actual: Either<ClashAPIError, Page<ClanRanking>> =
@@ -667,7 +667,7 @@ internal class ClashAPITest {
     internal fun `GIVEN location ID WHEN clanCapitalRankings THEN returns clan capital rankings`() {
         // Given
         val limit = 10
-        val locationID = 32000218
+        val locationID = 32000249
 
         // When
         val actual: Either<ClashAPIError, Page<ClanCapitalRanking>> =
@@ -677,6 +677,22 @@ internal class ClashAPITest {
         actual.onRight { rankings: Page<ClanCapitalRanking> ->
             assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
         }.onLeft { fail("Rankings should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN location ID WHEN location THEN returns location`() {
+        // Given
+        val locationID = 32000249
+
+        // When
+        val actual: Either<ClashAPIError, Location> = underTest.location(locationID).block()!!
+
+        // Then
+        actual.onRight { locations: Location ->
+            assertEquals("US", locations.countryCode, "Country code should equal expected")
+            assertTrue("Location should be a country") { locations.isCountry }
+            assertEquals("United States", locations.name, "Name should equal expected")
+        }.onLeft { fail("Location should be right but was \"$it\"") }
     }
 
     @Test
@@ -697,7 +713,7 @@ internal class ClashAPITest {
     internal fun `GIVEN location ID WHEN playerBuilderBaseRankings THEN returns player rankings`() {
         // Given
         val limit = 10
-        val locationID = 32000218
+        val locationID = 32000249
 
         // When
         val actual: Either<ClashAPIError, Page<PlayerBuilderBaseRanking>> =
@@ -713,7 +729,7 @@ internal class ClashAPITest {
     internal fun `GIVEN location ID WHEN playerRankings THEN returns player rankings`() {
         // Given
         val limit = 10
-        val locationID = 32000218
+        val locationID = 32000249
 
         // When
         val actual: Either<ClashAPIError, Page<tech.ixirsii.klash.types.location.PlayerRanking>> =
