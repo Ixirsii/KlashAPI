@@ -444,6 +444,26 @@ class ClashAPI(
         return get("/warleagues/$leagueID")
     }
 
+    /**
+     * List war leagues.
+     *
+     * @param limit Limit the number of items returned in the response.
+     * @param after Return only items that occur after this marker.
+     * @param before Return only items that occur before this marker.
+     * @return A list of war leagues.
+     */
+    fun warLeagues(
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null,
+    ): Mono<Either<ClashAPIError, Page<WarLeague>>> {
+        log.trace("Getting war leagues")
+
+        val queryParameters: String = paginationQueryParameters(limit, after, before)
+
+        return get("/warleagues$queryParameters")
+    }
+
     /* ********************************************************************************************************** *
      *                                          Private utility functions                                         *
      * ********************************************************************************************************** */

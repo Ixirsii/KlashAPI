@@ -610,6 +610,20 @@ internal class ClashAPITest {
         }.onLeft { fail("War league should be right but was \"$it\"") }
     }
 
+    @Test
+    internal fun `GIVEN limit WHEN warLeagues THEN returns league seasons`() {
+        // Given
+        val limit = 10
+
+        // When
+        val actual: Either<ClashAPIError, Page<WarLeague>> = underTest.warLeagues(limit = limit).block()!!
+
+        // Then
+        actual.onRight { leagues: Page<WarLeague> ->
+            assertTrue("War leagues should not be empty") { leagues.items.isNotEmpty() }
+        }.onLeft { fail("War leagues should be right but was \"$it\"") }
+    }
+
     /* *************************************** Private utility functions **************************************** */
 
     companion object {
