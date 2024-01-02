@@ -169,16 +169,17 @@ internal class ClashAPITest {
     internal fun `GIVEN location ID WHEN clans THEN returns clans`() {
         // Given
         val limit = 10
-        val locationID = 32000249
 
         // When
         val actual: Either<ClashAPIError, Page<Clan>> =
-            underTest.clans(locationID = locationID, limit = limit).block()!!
+            underTest.clans(locationID = LOCATION_ID, limit = limit).block()!!
 
         // Then
         actual.onRight { clans ->
             assertTrue("Clans should not be empty") { clans.items.isNotEmpty() }
-            assertTrue("Clans location ID should be $locationID") { clans.items.all { it.location?.id == locationID } }
+            assertTrue("Clans location ID should be $LOCATION_ID") {
+                clans.items.all { it.location?.id == LOCATION_ID }
+            }
         }.onLeft { fail("Clans should be right but was \"$it\"") }
     }
 
@@ -637,11 +638,10 @@ internal class ClashAPITest {
     internal fun `GIVEN location ID WHEN clanBuilderBaseRankings THEN returns clan rankings`() {
         // Given
         val limit = 10
-        val locationID = 32000249
 
         // When
         val actual: Either<ClashAPIError, Page<ClanBuilderBaseRanking>> =
-            underTest.clanBuilderBaseRankings(locationID, limit = limit).block()!!
+            underTest.clanBuilderBaseRankings(LOCATION_ID, limit = limit).block()!!
 
         // Then
         actual.onRight { rankings: Page<ClanBuilderBaseRanking> ->
@@ -653,11 +653,10 @@ internal class ClashAPITest {
     internal fun `GIVEN location ID WHEN clanRankings THEN returns clan rankings`() {
         // Given
         val limit = 10
-        val locationID = 32000249
 
         // When
         val actual: Either<ClashAPIError, Page<ClanRanking>> =
-            underTest.clanRankings(locationID, limit = limit).block()!!
+            underTest.clanRankings(LOCATION_ID, limit = limit).block()!!
 
         // Then
         actual.onRight { rankings: Page<ClanRanking> ->
@@ -669,11 +668,10 @@ internal class ClashAPITest {
     internal fun `GIVEN location ID WHEN clanCapitalRankings THEN returns clan capital rankings`() {
         // Given
         val limit = 10
-        val locationID = 32000249
 
         // When
         val actual: Either<ClashAPIError, Page<ClanCapitalRanking>> =
-            underTest.clanCapitalRankings(locationID, limit = limit).block()!!
+            underTest.clanCapitalRankings(LOCATION_ID, limit = limit).block()!!
 
         // Then
         actual.onRight { rankings: Page<ClanCapitalRanking> ->
@@ -683,11 +681,8 @@ internal class ClashAPITest {
 
     @Test
     internal fun `GIVEN location ID WHEN location THEN returns location`() {
-        // Given
-        val locationID = 32000249
-
         // When
-        val actual: Either<ClashAPIError, Location> = underTest.location(locationID).block()!!
+        val actual: Either<ClashAPIError, Location> = underTest.location(LOCATION_ID).block()!!
 
         // Then
         actual.onRight { locations: Location ->
@@ -715,11 +710,10 @@ internal class ClashAPITest {
     internal fun `GIVEN location ID WHEN playerBuilderBaseRankings THEN returns player rankings`() {
         // Given
         val limit = 10
-        val locationID = 32000249
 
         // When
         val actual: Either<ClashAPIError, Page<PlayerBuilderBaseRanking>> =
-            underTest.playerBuilderBaseRankings(locationID, limit = limit).block()!!
+            underTest.playerBuilderBaseRankings(LOCATION_ID, limit = limit).block()!!
 
         // Then
         actual.onRight { rankings: Page<PlayerBuilderBaseRanking> ->
@@ -731,11 +725,10 @@ internal class ClashAPITest {
     internal fun `GIVEN location ID WHEN playerRankings THEN returns player rankings`() {
         // Given
         val limit = 10
-        val locationID = 32000249
 
         // When
         val actual: Either<ClashAPIError, Page<tech.ixirsii.klash.types.location.PlayerRanking>> =
-            underTest.playerRankings(locationID, limit = limit).block()!!
+            underTest.playerRankings(LOCATION_ID, limit = limit).block()!!
 
         // Then
         actual.onRight { rankings: Page<tech.ixirsii.klash.types.location.PlayerRanking> ->
@@ -757,6 +750,20 @@ internal class ClashAPITest {
     /* *********************************************** Label APIs *********************************************** */
 
     @Test
+    internal fun `GIVEN limit WHEN clanLabels THEN returns clan labels`() {
+        // Given
+        val limit = 10
+
+        // When
+        val actual: Either<ClashAPIError, Page<Label>> = underTest.clanLabels(limit = limit).block()!!
+
+        // Then
+        actual.onRight { labels: Page<Label> ->
+            assertTrue("Labels should not be empty") { labels.items.isNotEmpty() }
+        }.onLeft { fail("Labels should be right but was \"$it\"") }
+    }
+
+    @Test
     internal fun `GIVEN limit WHEN playerLabels THEN returns player labels`() {
         // Given
         val limit = 10
@@ -774,6 +781,7 @@ internal class ClashAPITest {
 
     companion object {
         private const val CLAN_TAG = "2Q82UJVY"
+        private const val LOCATION_ID = 32000249
         private const val PLAYER_TAG = "2Q09RPGL8"
     }
 }

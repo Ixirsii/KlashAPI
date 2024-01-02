@@ -637,6 +637,26 @@ class ClashAPI(
      * ********************************************************************************************************** */
 
     /**
+     * List clan labels.
+     *
+     * @param limit Limit the number of items returned in the response.
+     * @param after Return only items after this marker.
+     * @param before Return only items before this marker.
+     * @return A list of clan labels.
+     */
+    fun clanLabels(
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null,
+    ): Mono<Either<ClashAPIError, Page<Label>>> {
+        log.trace("Getting labels for clans")
+
+        val queryParameters: String = paginationQueryParameters(limit, after, before)
+
+        return get("/labels/clans$queryParameters")
+    }
+
+    /**
      * List player labels.
      *
      * @param limit Limit the number of items returned in the response.
