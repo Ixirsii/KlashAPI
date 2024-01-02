@@ -46,6 +46,7 @@ import tech.ixirsii.klash.types.league.League
 import tech.ixirsii.klash.types.league.LeagueSeason
 import tech.ixirsii.klash.types.league.PlayerRanking
 import tech.ixirsii.klash.types.league.WarLeague
+import tech.ixirsii.klash.types.location.ClanRanking
 import tech.ixirsii.klash.types.pagination.Page
 import tech.ixirsii.klash.types.player.Player
 import tech.ixirsii.klash.types.war.State
@@ -622,6 +623,24 @@ internal class ClashAPITest {
         actual.onRight { leagues: Page<WarLeague> ->
             assertTrue("War leagues should not be empty") { leagues.items.isNotEmpty() }
         }.onLeft { fail("War leagues should be right but was \"$it\"") }
+    }
+
+    /* ********************************************* Location APIs ********************************************** */
+
+    @Test
+    internal fun `GIVEN location ID WHEN clanRankings THEN returns clan rankings`() {
+        // Given
+        val limit = 10
+        val locationID = 32000218
+
+        // When
+        val actual: Either<ClashAPIError, Page<ClanRanking>> =
+            underTest.clanRankings(locationID, limit = limit).block()!!
+
+        // Then
+        actual.onRight { rankings: Page<ClanRanking> ->
+            assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+        }.onLeft { fail("Rankings should be right but was \"$it\"") }
     }
 
     /* *************************************** Private utility functions **************************************** */
