@@ -48,6 +48,7 @@ import tech.ixirsii.klash.types.league.PlayerRanking
 import tech.ixirsii.klash.types.league.WarLeague
 import tech.ixirsii.klash.types.location.ClanBuilderBaseRanking
 import tech.ixirsii.klash.types.location.ClanRanking
+import tech.ixirsii.klash.types.location.Location
 import tech.ixirsii.klash.types.location.PlayerBuilderBaseRanking
 import tech.ixirsii.klash.types.pagination.Page
 import tech.ixirsii.klash.types.player.Player
@@ -659,6 +660,20 @@ internal class ClashAPITest {
         actual.onRight { rankings: Page<ClanRanking> ->
             assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
         }.onLeft { fail("Rankings should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN limit WHEN locations THEN returns locations`() {
+        // Given
+        val limit = 10
+
+        // When
+        val actual: Either<ClashAPIError, Page<Location>> = underTest.locations(limit = limit).block()!!
+
+        // Then
+        actual.onRight { locations: Page<Location> ->
+            assertTrue("Locations should not be empty") { locations.items.isNotEmpty() }
+        }.onLeft { fail("Locations should be right but was \"$it\"") }
     }
 
     @Test

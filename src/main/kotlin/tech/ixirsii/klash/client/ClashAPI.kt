@@ -64,6 +64,7 @@ import tech.ixirsii.klash.types.league.PlayerRanking
 import tech.ixirsii.klash.types.league.WarLeague
 import tech.ixirsii.klash.types.location.ClanBuilderBaseRanking
 import tech.ixirsii.klash.types.location.ClanRanking
+import tech.ixirsii.klash.types.location.Location
 import tech.ixirsii.klash.types.location.PlayerBuilderBaseRanking
 import tech.ixirsii.klash.types.pagination.Page
 import tech.ixirsii.klash.types.player.Player
@@ -513,6 +514,26 @@ class ClashAPI(
         val queryParameters: String = paginationQueryParameters(limit, after, before)
 
         return get("/locations/$locationID/rankings/clans$queryParameters")
+    }
+
+    /**
+     * List locations.
+     *
+     * @param limit Limit the number of items returned in the response.
+     * @param after Return only items after this marker.
+     * @param before Return only items before this marker.
+     * @return A list of locations.
+     */
+    fun locations(
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null
+    ): Mono<Either<ClashAPIError, Page<Location>>> {
+        log.trace("Getting locations")
+
+        val queryParameters: String = paginationQueryParameters(limit, after, before)
+
+        return get("/locations$queryParameters")
     }
 
     /**
