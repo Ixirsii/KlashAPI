@@ -30,33 +30,22 @@
 
 package tech.ixirsii.klash.types.location
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tech.ixirsii.klash.types.BadgeURLs
 
 /**
- * A clan ranking.
+ * A location.
  *
- * @property badgeURLs Badge URLs.
- * @property clanLevel Clan level.
- * @property clanPoints Clan points.
- * @property location Location.
- * @property members Number of members.
- * @property name Clan name.
- * @property previousRank Previous rank.
- * @property rank Rank.
- * @property tag Clan tag.
- * @author Ixirsii <ixirsii@ixirsii.tech>
+ * @property countryCode ISO country code if the location is a country.
+ * @property id Location ID.
+ * @property isCountry Whether the location is a country.
+ * @property localizedName Localized location name.
+ * @property name Location name.
  */
 @Serializable
-data class ClanRanking(
-    @SerialName("badgeUrls") val badgeURLs: BadgeURLs = BadgeURLs(),
-    val clanLevel: Int = 0,
-    val clanPoints: Int = 0,
-    val location: Location? = null,
-    val members: Int = 0,
+data class Location(
+    val countryCode: String = "",
+    val id: Int = 0,
+    val isCountry: Boolean = false,
+    val localizedName: String = "",
     val name: String = "",
-    val previousRank: Int = 0,
-    val rank: Int = 0,
-    val tag: String = "",
 )

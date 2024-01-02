@@ -30,33 +30,35 @@
 
 package tech.ixirsii.klash.types.location
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import tech.ixirsii.klash.types.BadgeURLs
+import tech.ixirsii.klash.types.league.League
+import tech.ixirsii.klash.types.league.PlayerRankingClan
 
 /**
- * A clan ranking.
+ * Player ranking.
  *
- * @property badgeURLs Badge URLs.
- * @property clanLevel Clan level.
- * @property clanPoints Clan points.
- * @property location Location.
- * @property members Number of members.
- * @property name Clan name.
+ * @property attackWins Attack wins.
+ * @property clan Clan.
+ * @property defenseWins Defense wins.
+ * @property expLevel Experience level.
+ * @property league League.
+ * @property name Player name.
  * @property previousRank Previous rank.
  * @property rank Rank.
- * @property tag Clan tag.
+ * @property tag Player tag.
+ * @property trophies Trophies.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanRanking(
-    @SerialName("badgeUrls") val badgeURLs: BadgeURLs = BadgeURLs(),
-    val clanLevel: Int = 0,
-    val clanPoints: Int = 0,
-    val location: Location? = null,
-    val members: Int = 0,
+data class PlayerRanking(
+    val attackWins: Int = 0,
+    val clan: PlayerRankingClan? = null,
+    val defenseWins: Int = 0,
+    val expLevel: Int = 0,
+    val league: League? = null,
     val name: String = "",
     val previousRank: Int = 0,
     val rank: Int = 0,
     val tag: String = "",
+    val trophies: Int = 0,
 )

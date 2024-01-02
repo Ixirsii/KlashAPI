@@ -491,6 +491,28 @@ class ClashAPI(
         return get("/locations/$locationID/rankings/clans$queryParameters")
     }
 
+    /**
+     * Get player rankings for a specific location.
+     *
+     * @param locationID Location ID.
+     * @param limit Limit the number of items returned in the response.
+     * @param after Return only items after this marker.
+     * @param before Return only items before this marker.
+     * @return Player rankings for a specific location.
+     */
+    fun playerRankings(
+        locationID: Int,
+        limit: Int? = null,
+        after: String? = null,
+        before: String? = null,
+    ): Mono<Either<ClashAPIError, Page<tech.ixirsii.klash.types.location.PlayerRanking>>> {
+        log.trace("Getting player rankings for location {}", locationID)
+
+        val queryParameters: String = paginationQueryParameters(limit, after, before)
+
+        return get("/locations/$locationID/rankings/players$queryParameters")
+    }
+
     /* ********************************************************************************************************** *
      *                                          Private utility functions                                         *
      * ********************************************************************************************************** */

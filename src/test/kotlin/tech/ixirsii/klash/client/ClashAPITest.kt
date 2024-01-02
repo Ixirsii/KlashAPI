@@ -643,6 +643,22 @@ internal class ClashAPITest {
         }.onLeft { fail("Rankings should be right but was \"$it\"") }
     }
 
+    @Test
+    internal fun `GIVEN location ID WHEN playerRankings THEN returns clan rankings`() {
+        // Given
+        val limit = 10
+        val locationID = 32000218
+
+        // When
+        val actual: Either<ClashAPIError, Page<tech.ixirsii.klash.types.location.PlayerRanking>> =
+            underTest.playerRankings(locationID, limit = limit).block()!!
+
+        // Then
+        actual.onRight { rankings: Page<tech.ixirsii.klash.types.location.PlayerRanking> ->
+            assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+        }.onLeft { fail("Rankings should be right but was \"$it\"") }
+    }
+
     /* *************************************** Private utility functions **************************************** */
 
     companion object {
