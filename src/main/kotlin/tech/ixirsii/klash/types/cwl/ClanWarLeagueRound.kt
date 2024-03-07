@@ -39,4 +39,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanWarLeagueRound(val warTags: List<String> = emptyList())
+public data class ClanWarLeagueRound(val warTags: List<String> = emptyList())

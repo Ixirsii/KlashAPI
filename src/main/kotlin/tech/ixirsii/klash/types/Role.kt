@@ -39,7 +39,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-enum class Role {
+public enum class Role {
     @SerialName("notMember")
     NOT_MEMBER,
 

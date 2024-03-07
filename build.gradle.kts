@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.dokka)
 
     jacoco
+    `maven-publish`
+    signing
 }
 
 group = "tech.ixirsii"
@@ -50,8 +52,66 @@ jacoco {
     toolVersion = "0.8.11"
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 kotlin {
+    explicitApi()
     jvmToolchain(21)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+            artifact(tasks["sourcesJar"])
+            artifact(tasks["javadocJar"])
+
+            pom {
+                groupId = "tech.ixirsii"
+                name = "KlashAPI"
+                description = "KlashAPI is a Kotlin library for the Clash of Clans API."
+                url = "https://github.com/Ixirsii/KlashAPI"
+                licenses {
+                    license {
+                        name = "BSD 3-Clause"
+                        url = "https://opensource.org/license/bsd-3-clause/"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git@github.com:Ixirsii/KlashAPI.git"
+                    developerConnection = "scm:git:git@github.com:Ixirsii/KlashAPI.git"
+                    url = "https://github.com/Ixirsii/KlashAPI.git"
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/ixirsii/KlashAPI")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+
+        maven {
+            name = "OSSRH"
+            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = System.getenv("OSSRH_USERNAME")
+                password = System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
+}
+
+signing {
+    sign(publishing.publications)
 }
 
 tasks.check {
@@ -109,6 +169,12 @@ tasks.jacocoTestReport {
         csv.required = false
         html.required = true
         xml.required = true
+    }
+}
+
+tasks.javadoc {
+    if (JavaVersion.current().isJava9Compatible) {
+        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
     }
 }
 

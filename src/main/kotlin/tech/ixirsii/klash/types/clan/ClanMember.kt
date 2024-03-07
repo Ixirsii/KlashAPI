@@ -57,7 +57,7 @@ import tech.ixirsii.klash.types.league.League
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanMember(
+public data class ClanMember(
     val builderBaseLeague: BuilderBaseLeague? = null,
     val builderBaseTrophies: Int = 0,
     val clanRank: Int = 0,

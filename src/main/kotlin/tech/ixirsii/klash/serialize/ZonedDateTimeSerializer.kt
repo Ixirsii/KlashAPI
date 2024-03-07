@@ -47,7 +47,7 @@ import java.time.format.DateTimeFormatterBuilder
  *
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
-class ZonedDateTimeSerializer : KSerializer<ZonedDateTime> {
+internal class ZonedDateTimeSerializer : KSerializer<ZonedDateTime> {
     /**
      * Formatter for deserializing date times from the API.
      */
@@ -65,7 +65,7 @@ class ZonedDateTimeSerializer : KSerializer<ZonedDateTime> {
         deserializeFormatter
     ).atZone(UTC)
 
-    override fun serialize(encoder: Encoder, value: ZonedDateTime) = encoder.encodeString(
+    override fun serialize(encoder: Encoder, value: ZonedDateTime): Unit = encoder.encodeString(
         value.format(serializeFormatter)
     )
 }

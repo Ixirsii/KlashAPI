@@ -46,7 +46,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class WarClanMember(
+public data class WarClanMember(
     val attacks: List<WarClanMemberAttack> = emptyList(),
     val bestOpponentAttack: WarClanMemberAttack? = null,
     val mapPosition: Int = 0,

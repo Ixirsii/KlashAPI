@@ -44,7 +44,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class WarClanMemberAttack(
+public data class WarClanMemberAttack(
     val attackerTag: String = "",
     val defenderTag: String = "",
     val destructionPercentage: Double = 0.0,

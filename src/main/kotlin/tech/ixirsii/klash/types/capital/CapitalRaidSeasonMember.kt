@@ -44,7 +44,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class CapitalRaidSeasonMember(
+public data class CapitalRaidSeasonMember(
     val attackLimit: Int = 0,
     val attacks: Int = 0,
     val bonusAttackLimit: Int = 0,

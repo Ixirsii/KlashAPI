@@ -39,7 +39,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-enum class Village {
+public enum class Village {
     @SerialName("clanCapital")
     CLAN_CAPITAL,
 

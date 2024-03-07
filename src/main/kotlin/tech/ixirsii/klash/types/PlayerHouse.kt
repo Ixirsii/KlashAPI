@@ -38,4 +38,4 @@ import kotlinx.serialization.Serializable
  * @property elements The elements of the house.
  */
 @Serializable
-data class PlayerHouse(val elements: List<PlayerHouseElement> = emptyList())
+public data class PlayerHouse(val elements: List<PlayerHouseElement> = emptyList())

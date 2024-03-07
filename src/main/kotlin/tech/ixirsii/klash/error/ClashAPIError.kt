@@ -35,22 +35,22 @@ package tech.ixirsii.klash.error
  *
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
-sealed interface ClashAPIError {
+public sealed interface ClashAPIError {
     /**
      * The error message.
      */
-    val message: String
+    public val message: String
 
     /**
      * Clash of Clans API error (non-successful response).
      *
      * @author Ixirsii <ixirsii@ixirsii.tech>
      */
-    sealed interface ClientError : ClashAPIError {
+    public sealed interface ClientError : ClashAPIError {
         /**
          *  The client error.
          */
-        val error: tech.ixirsii.klash.types.error.ClientError
+        public val error: tech.ixirsii.klash.types.error.ClientError
 
         /**
          * 400 Bad Request error.
@@ -59,7 +59,7 @@ sealed interface ClashAPIError {
          * @property error The client error.
          * @author Ixirsii <ixirsii@ixirsii.tech>
          */
-        data class BadRequest(
+        public data class BadRequest(
             override val message: String,
             override val error: tech.ixirsii.klash.types.error.ClientError,
         ) : ClientError
@@ -71,7 +71,7 @@ sealed interface ClashAPIError {
          * @property error The client error.
          * @author Ixirsii <ixirsii@ixirsii.tech>
          */
-        data class Forbidden(
+        public data class Forbidden(
             override val message: String,
             override val error: tech.ixirsii.klash.types.error.ClientError,
         ) : ClientError
@@ -83,7 +83,7 @@ sealed interface ClashAPIError {
          * @property error The client error.
          * @author Ixirsii <ixirsii@ixirsii.tech>
          */
-        data class NotFound(
+        public data class NotFound(
             override val message: String,
             override val error: tech.ixirsii.klash.types.error.ClientError,
         ) : ClientError
@@ -95,7 +95,7 @@ sealed interface ClashAPIError {
          * @property error The client error.
          * @author Ixirsii <ixirsii@ixirsii.tech>
          */
-        data class TooManyRequests(
+        public data class TooManyRequests(
             override val message: String,
             override val error: tech.ixirsii.klash.types.error.ClientError,
         ) : ClientError
@@ -107,7 +107,7 @@ sealed interface ClashAPIError {
          * @property error The client error.
          * @author Ixirsii <ixirsii@ixirsii.tech>
          */
-        data class InternalServerError(
+        public data class InternalServerError(
             override val message: String,
             override val error: tech.ixirsii.klash.types.error.ClientError,
         ) : ClientError
@@ -119,7 +119,7 @@ sealed interface ClashAPIError {
          * @property error The client error.
          * @author Ixirsii <ixirsii@ixirsii.tech>
          */
-        data class ServiceUnavailable(
+        public data class ServiceUnavailable(
             override val message: String,
             override val error: tech.ixirsii.klash.types.error.ClientError,
         ) : ClientError
@@ -131,7 +131,7 @@ sealed interface ClashAPIError {
          * @property error The client error.
          * @author Ixirsii <ixirsii@ixirsii.tech>
          */
-        data class Unknown(
+        public data class Unknown(
             override val message: String,
             override val error: tech.ixirsii.klash.types.error.ClientError,
         ) : ClientError
@@ -143,7 +143,7 @@ sealed interface ClashAPIError {
      * @property message The error message.
      * @author Ixirsii <ixirsii@ixirsii.tech>
      */
-    data class DeserializationError(override val message: String) : ClashAPIError
+    public data class DeserializationError(override val message: String) : ClashAPIError
 
     /**
      * Request error.
@@ -151,5 +151,5 @@ sealed interface ClashAPIError {
      * @property message The error message.
      * @author Ixirsii <ixirsii@ixirsii.tech>
      */
-    data class RequestError(override val message: String) : ClashAPIError
+    public data class RequestError(override val message: String) : ClashAPIError
 }

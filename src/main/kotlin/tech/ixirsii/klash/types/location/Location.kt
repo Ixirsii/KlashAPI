@@ -42,7 +42,7 @@ import kotlinx.serialization.Serializable
  * @property name Location name.
  */
 @Serializable
-data class Location(
+public data class Location(
     val countryCode: String = "",
     val id: Int = 0,
     val isCountry: Boolean = false,

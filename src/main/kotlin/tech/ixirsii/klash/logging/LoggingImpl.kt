@@ -38,7 +38,7 @@ import org.slf4j.Logger
  * @property log SLF4J logger.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
-class LoggingImpl(override val log: Logger) : Logging {
+internal class LoggingImpl(override val log: Logger) : Logging {
 
     companion object {
         /**

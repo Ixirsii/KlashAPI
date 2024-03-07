@@ -49,7 +49,7 @@ import tech.ixirsii.klash.types.BadgeURLs
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanRanking(
+public data class ClanRanking(
     @SerialName("badgeUrls") val badgeURLs: BadgeURLs = BadgeURLs(),
     val clanLevel: Int = 0,
     val clanPoints: Int = 0,

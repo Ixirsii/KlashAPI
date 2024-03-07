@@ -42,7 +42,7 @@ import java.time.ZonedDateTime
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class GoldPassSeason(
+public data class GoldPassSeason(
     @Serializable(with = ZonedDateTimeSerializer::class) val endTime: ZonedDateTime? = null,
     @Serializable(with = ZonedDateTimeSerializer::class) val startTime: ZonedDateTime? = null,
 )

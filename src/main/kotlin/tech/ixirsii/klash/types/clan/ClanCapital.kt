@@ -40,4 +40,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanCapital(val capitalHallLevel: Int = 0, val districts: List<ClanDistrict> = emptyList())
+public data class ClanCapital(val capitalHallLevel: Int = 0, val districts: List<ClanDistrict> = emptyList())

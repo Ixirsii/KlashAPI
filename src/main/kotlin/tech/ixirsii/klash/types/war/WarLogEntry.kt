@@ -45,7 +45,7 @@ import java.time.ZonedDateTime
  * @property teamSize Team size.
  */
 @Serializable
-data class WarLogEntry(
+public data class WarLogEntry(
     val attacksPerMember: Int = 0,
     val clan: WarLogClan? = null,
     @Serializable(with = ZonedDateTimeSerializer::class) val endTime: ZonedDateTime? = null,

@@ -43,7 +43,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class CapitalRaidSeasonDefenseLog(
+public data class CapitalRaidSeasonDefenseLog(
     val attackCount: Int = 0,
     val attacker: CapitalRaidSeasonClan? = null,
     val districtCount: Int = 0,

@@ -40,4 +40,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class WarLeague(val name: String = "", val id: Int = 0)
+public data class WarLeague(val name: String = "", val id: Int = 0)

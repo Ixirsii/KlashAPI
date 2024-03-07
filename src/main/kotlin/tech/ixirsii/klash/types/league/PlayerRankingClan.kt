@@ -42,7 +42,7 @@ import tech.ixirsii.klash.types.BadgeURLs
  * @property tag Clan tag.
  */
 @Serializable
-data class PlayerRankingClan(
+public data class PlayerRankingClan(
     @SerialName("badgeUrls") val badgeURLs: BadgeURLs? = null,
     val name: String = "",
     val tag: String = "",

@@ -37,7 +37,7 @@ import org.slf4j.Logger
  *
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
-interface Logging {
+internal interface Logging {
     /**
      * SLF4J logger.
      */

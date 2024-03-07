@@ -39,4 +39,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class Paging(val cursors: Cursors? = null)
+public data class Paging(val cursors: Cursors? = null)

@@ -71,7 +71,7 @@ import tech.ixirsii.klash.types.league.League
  * @property warStars Number of war stars.
  */
 @Serializable
-data class Player(
+public data class Player(
     val achievements: List<PlayerAchievementProgress> = emptyList(),
     val attackWins: Int = 0,
     val bestBuilderBaseTrophies: Int = 0,

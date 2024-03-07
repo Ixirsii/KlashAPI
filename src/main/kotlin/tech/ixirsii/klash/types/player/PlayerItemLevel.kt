@@ -44,7 +44,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class PlayerItemLevel(
+public data class PlayerItemLevel(
     val equipment: List<HeroEquipment> = emptyList(),
     val level: Int = 0,
     val maxLevel: Int = 0,

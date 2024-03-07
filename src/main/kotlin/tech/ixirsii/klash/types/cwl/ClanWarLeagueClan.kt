@@ -45,7 +45,7 @@ import tech.ixirsii.klash.types.BadgeURLs
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanWarLeagueClan(
+public data class ClanWarLeagueClan(
     @SerialName("badgeUrls") val badgeURLs: BadgeURLs? = null,
     val clanLevel: Int = 0,
     val members: List<ClanWarLeagueMember> = emptyList(),

@@ -48,7 +48,7 @@ import tech.ixirsii.klash.types.league.PlayerRankingClan
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class PlayerBuilderBaseRanking(
+public data class PlayerBuilderBaseRanking(
     val builderBaseLeague: BuilderBaseLeague? = null,
     val builderBaseTrophies: Int = 0,
     val clan: PlayerRankingClan? = null,

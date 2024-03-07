@@ -41,4 +41,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class Page<T>(val items: List<T> = emptyList(), val paging: Paging? = null)
+public data class Page<T>(val items: List<T> = emptyList(), val paging: Paging? = null)

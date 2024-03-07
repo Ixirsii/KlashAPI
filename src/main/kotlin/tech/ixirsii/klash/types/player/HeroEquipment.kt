@@ -42,7 +42,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class HeroEquipment(
+public data class HeroEquipment(
     val level: Int = 0,
     val maxLevel: Int = 0,
     val name: String = "",

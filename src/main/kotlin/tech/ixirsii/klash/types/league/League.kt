@@ -43,4 +43,4 @@ import tech.ixirsii.klash.types.IconURLs
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class League(@SerialName("iconUrls") val iconURLs: IconURLs? = null, val id: Int = 0, val name: String = "")
+public data class League(@SerialName("iconUrls") val iconURLs: IconURLs? = null, val id: Int = 0, val name: String = "")

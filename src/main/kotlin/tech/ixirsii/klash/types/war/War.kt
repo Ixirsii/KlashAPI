@@ -49,7 +49,7 @@ import java.time.ZonedDateTime
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class War(
+public data class War(
     val attacksPerMember: Int = 0,
     val clan: WarClan? = null,
     @Serializable(with = ZonedDateTimeSerializer::class) val endTime: ZonedDateTime? = null,

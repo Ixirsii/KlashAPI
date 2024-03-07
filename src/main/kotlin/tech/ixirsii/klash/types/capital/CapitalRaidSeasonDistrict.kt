@@ -46,7 +46,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class CapitalRaidSeasonDistrict(
+public data class CapitalRaidSeasonDistrict(
     val attackCount: Int = 0,
     val attacks: List<CapitalRaidSeasonAttack> = emptyList(),
     val destructionPercent: Int = 0,

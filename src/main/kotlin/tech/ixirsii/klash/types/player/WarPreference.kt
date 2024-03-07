@@ -39,7 +39,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-enum class WarPreference {
+public enum class WarPreference {
     @SerialName("out")
     OUT,
 
