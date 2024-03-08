@@ -32,6 +32,7 @@ package tech.ixirsii.klash.client
 
 import arrow.core.Either
 import arrow.core.getOrElse
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.assertDoesNotThrow
 import tech.ixirsii.klash.error.ClashAPIError
@@ -281,6 +282,7 @@ internal class ClashAPITest {
         }.onLeft { fail("Clans should be right but was \"$it\"") }
     }
 
+    @Disabled("Times will be null when the clan is NOT_IN_WAR")
     @Test
     internal fun `GIVEN clan tag WHEN currentWar THEN returns current war`() {
         // When
@@ -316,6 +318,7 @@ internal class ClashAPITest {
         }
     }
 
+    @Disabled("The leagueWarTag \"expires\" and the returned war might be NOT_IN_WAR")
     @Test
     internal fun `GIVEN war tag WHEN leagueWar THEN returns league war`() {
         // Given
@@ -469,6 +472,7 @@ internal class ClashAPITest {
         }.onLeft { fail("Player should be right but was \"$it\"") }
     }
 
+    @Disabled("Needs a new API token for every test")
     @Test
     internal fun `GIVEN API token WHEN isPlayerVerified THEN returns verification status`() {
         // When
@@ -570,12 +574,13 @@ internal class ClashAPITest {
         }.onLeft { fail("Leagues should be right but was \"$it\"") }
     }
 
+    @Disabled("This request times out if the seasonID is not the current league season.")
     @Test
     internal fun `GIVEN IDs WHEN leagueSeason THEN returns league seasons`() {
         // Given
         val limit = 10
         val leagueID = "29000022"
-        val seasonID = "2023-11"
+        val seasonID = "2024-03"
 
         // When
         val actual: Either<ClashAPIError, Page<PlayerRanking>> =

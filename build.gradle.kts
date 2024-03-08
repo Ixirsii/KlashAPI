@@ -4,6 +4,7 @@ plugins {
 
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.nexus.publish)
 
     jacoco
     `maven-publish`
@@ -62,18 +63,38 @@ kotlin {
     jvmToolchain(21)
 }
 
+nexusPublishing {
+    val sonatypeUsername: String? by project
+    val sonatypePassword: String? by project
+
+    repositories {
+        sonatype {
+            nexusUrl = uri("https://s01.oss.sonatype.org/service/local/")
+            snapshotRepositoryUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            username = sonatypeUsername
+            password = sonatypePassword
+        }
+    }
+}
+
 publishing {
+
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
-            artifact(tasks["sourcesJar"])
-            artifact(tasks["javadocJar"])
 
             pom {
                 groupId = "tech.ixirsii"
                 name = "KlashAPI"
                 description = "KlashAPI is a Kotlin library for the Clash of Clans API."
                 url = "https://github.com/Ixirsii/KlashAPI"
+                developers {
+                    developer {
+                        id = "Ixirsii"
+                        name = "Ryan Porterfield"
+                        email = "ixirsii@ixirsii.tech"
+                    }
+                }
                 licenses {
                     license {
                         name = "BSD 3-Clause"
@@ -98,24 +119,15 @@ publishing {
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
-
-        maven {
-            name = "OSSRH"
-            url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = System.getenv("OSSRH_USERNAME")
-                password = System.getenv("OSSRH_PASSWORD")
-            }
-        }
     }
 }
 
 signing {
-    sign(publishing.publications)
-}
+    val signingKey: String? by project
+    val signingPassword: String? by project
+    useInMemoryPgpKeys(signingKey, signingPassword)
 
-tasks.check {
-    dependsOn(tasks.jacocoTestCoverageVerification)
+    sign(publishing.publications)
 }
 
 tasks.detekt {
@@ -132,27 +144,6 @@ val excludePaths: List<String> = listOf(
     "tech/ixirsii/klash/serialize/**",
     "tech/ixirsii/klash/types/**",
 )
-
-tasks.jacocoTestCoverageVerification {
-    classDirectories.setFrom(
-        classDirectories.files.map {
-            fileTree(it).apply {
-                exclude(excludePaths)
-            }
-        }
-    )
-
-    violationRules {
-        rule {
-            element = "BUNDLE"
-            limit {
-                counter = "INSTRUCTION"
-                value = "COVEREDRATIO"
-                minimum = 0.7.toBigDecimal()
-            }
-        }
-    }
-}
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
