@@ -39,7 +39,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-enum class State {
+public enum class State {
     @SerialName("clanNotFound")
     CLAN_NOT_FOUND,
 

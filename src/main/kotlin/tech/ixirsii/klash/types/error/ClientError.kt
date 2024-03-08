@@ -41,4 +41,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClientError(val reason: String = "", val message: String = "", val type: String = "")
+public data class ClientError(val reason: String = "", val message: String = "", val type: String = "")

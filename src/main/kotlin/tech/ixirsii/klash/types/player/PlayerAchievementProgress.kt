@@ -45,7 +45,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class PlayerAchievementProgress(
+public data class PlayerAchievementProgress(
     val completionInfo: String = "",
     val info: String = "",
     val name: String = "",

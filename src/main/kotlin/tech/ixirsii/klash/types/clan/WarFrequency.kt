@@ -39,7 +39,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-enum class WarFrequency {
+public enum class WarFrequency {
     @SerialName("always")
     ALWAYS,
 

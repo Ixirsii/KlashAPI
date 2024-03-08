@@ -39,7 +39,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirii@ixirsii.tech>
  */
 @Serializable
-enum class Type {
+public enum class Type {
     @SerialName("closed")
     CLOSED,
 

@@ -44,7 +44,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanWarLeagueGroup(
+public data class ClanWarLeagueGroup(
     val clans: List<ClanWarLeagueClan> = emptyList(),
     val rounds: List<ClanWarLeagueRound> = emptyList(),
     val season: String = "",
@@ -56,7 +56,7 @@ data class ClanWarLeagueGroup(
      *
      * @author Ixirsii <ixirsii@ixirsii.tech>
      */
-    enum class State {
+    public enum class State {
         @SerialName("groupNotFound")
         GROUP_NOT_FOUND,
 

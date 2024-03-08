@@ -83,7 +83,7 @@ import tech.ixirsii.klash.types.war.WarLogEntry
  * @param json JSON (de)serializer.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
-class ClashAPI(
+public class ClashAPI(
     private val token: String,
     private val client: OkHttpClient = CLIENT,
     private val json: Json = JSON,
@@ -102,7 +102,7 @@ class ClashAPI(
      * @param before Return only items that occur before this marker.
      * @return The clan's capital raid seasons.
      */
-    fun capitalRaidSeasons(
+    public fun capitalRaidSeasons(
         clanTag: String,
         limit: Int? = null,
         after: String? = null,
@@ -121,7 +121,7 @@ class ClashAPI(
      * @param clanTag The clan tag (without leading '#').
      * @return Clan information.
      */
-    fun clan(clanTag: String): Mono<Either<ClashAPIError, Clan>> {
+    public fun clan(clanTag: String): Mono<Either<ClashAPIError, Clan>> {
         log.trace("Getting clan {}", clanTag)
 
         return get("/clans/%23$clanTag")
@@ -143,7 +143,7 @@ class ClashAPI(
      * @param labelIDs Filter by clan labels.
      * @return A list of clans that match the search criteria.
      */
-    fun clans(
+    public fun clans(
         name: String? = null,
         warFrequency: String? = null,
         locationID: Int? = null,
@@ -181,7 +181,7 @@ class ClashAPI(
      * @param clanTag The clan tag (without leading '#').
      * @return Information about clan's current clan war.
      */
-    fun currentWar(clanTag: String): Mono<Either<ClashAPIError, War>> {
+    public fun currentWar(clanTag: String): Mono<Either<ClashAPIError, War>> {
         log.trace("Getting current war for clan {}", clanTag)
 
         return get("/clans/%23$clanTag/currentwar")
@@ -193,7 +193,7 @@ class ClashAPI(
      * @param clanTag The clan tag (without leading '#').
      * @return Information about clan's current clan war league group.
      */
-    fun leagueGroup(clanTag: String): Mono<Either<ClashAPIError, ClanWarLeagueGroup>> {
+    public fun leagueGroup(clanTag: String): Mono<Either<ClashAPIError, ClanWarLeagueGroup>> {
         log.trace("Getting league group for clan {}", clanTag)
 
         return get("/clans/%23$clanTag/currentwar/leaguegroup")
@@ -205,7 +205,7 @@ class ClashAPI(
      * @param warTag Clan war tag (without leading '#').
      * @return Information about individual clan war league war.
      */
-    fun leagueWar(warTag: String): Mono<Either<ClashAPIError, War>> {
+    public fun leagueWar(warTag: String): Mono<Either<ClashAPIError, War>> {
         log.trace("Getting league war {}", warTag)
 
         return get("/clanwarleagues/wars/%23$warTag")
@@ -220,7 +220,7 @@ class ClashAPI(
      * @param before Return only items that occur before this marker.
      * @return A list of members in the clan.
      */
-    fun members(
+    public fun members(
         clanTag: String,
         limit: Int? = null,
         after: String? = null,
@@ -242,7 +242,7 @@ class ClashAPI(
      * @param before Return only items that occur before this marker.
      * @return Clan's clan war log.
      */
-    fun warLog(
+    public fun warLog(
         clanTag: String,
         limit: Int? = null,
         after: String? = null,
@@ -265,7 +265,7 @@ class ClashAPI(
      * @param playerTag The player tag (without leading '#').
      * @return Player information.
      */
-    fun player(playerTag: String): Mono<Either<ClashAPIError, Player>> {
+    public fun player(playerTag: String): Mono<Either<ClashAPIError, Player>> {
         log.trace("Getting player {}", playerTag)
 
         return get("/players/%23$playerTag")
@@ -282,7 +282,7 @@ class ClashAPI(
      * @param token API token.
      * @return Whether the token is valid.
      */
-    fun isPlayerVerified(playerTag: String, token: String): Mono<Either<ClashAPIError, Boolean>> {
+    public fun isPlayerVerified(playerTag: String, token: String): Mono<Either<ClashAPIError, Boolean>> {
         log.trace("Verifying player {}", playerTag)
 
         return post<TokenResponse>(
@@ -304,7 +304,7 @@ class ClashAPI(
      * @param leagueID League ID.
      * @return Builder base league information.
      */
-    fun builderBaseLeague(leagueID: String): Mono<Either<ClashAPIError, BuilderBaseLeague>> {
+    public fun builderBaseLeague(leagueID: String): Mono<Either<ClashAPIError, BuilderBaseLeague>> {
         log.trace("Getting builder base league {}", leagueID)
 
         return get("/builderbaseleagues/$leagueID")
@@ -318,7 +318,7 @@ class ClashAPI(
      * @param before Return only items that occur before this marker.
      * @return A list of builder base leagues.
      */
-    fun builderBaseLeagues(
+    public fun builderBaseLeagues(
         limit: Int? = null,
         after: String? = null,
         before: String? = null,
@@ -335,7 +335,7 @@ class ClashAPI(
      * @param leagueID League ID.
      * @return Capital league information.
      */
-    fun capitalLeague(leagueID: String): Mono<Either<ClashAPIError, CapitalLeague>> {
+    public fun capitalLeague(leagueID: String): Mono<Either<ClashAPIError, CapitalLeague>> {
         log.trace("Getting capital league {}", leagueID)
 
         return get("/capitalleagues/$leagueID")
@@ -349,7 +349,7 @@ class ClashAPI(
      * @param before Return only items that occur before this marker.
      * @return A list of capital leagues.
      */
-    fun capitalLeagues(
+    public fun capitalLeagues(
         limit: Int? = null,
         after: String? = null,
         before: String? = null,
@@ -367,7 +367,7 @@ class ClashAPI(
      * @param leagueID League ID.
      * @return League information.
      */
-    fun league(leagueID: String): Mono<Either<ClashAPIError, League>> {
+    public fun league(leagueID: String): Mono<Either<ClashAPIError, League>> {
         log.trace("Getting league {}", leagueID)
 
         return get("/leagues/$leagueID")
@@ -381,7 +381,7 @@ class ClashAPI(
      * @param before Return only items that occur before this marker.
      * @return A list of leagues.
      */
-    fun leagues(
+    public fun leagues(
         limit: Int? = null,
         after: String? = null,
         before: String? = null,
@@ -403,7 +403,7 @@ class ClashAPI(
      * @param before Return only items that occur before this marker.
      * @return League season rankings.
      */
-    fun leagueSeason(
+    public fun leagueSeason(
         leagueID: String,
         seasonID: String,
         limit: Int? = null,
@@ -426,7 +426,7 @@ class ClashAPI(
      * @param before Return only items that occur before this marker.
      * @return League seasons.
      */
-    fun leagueSeasons(
+    public fun leagueSeasons(
         leagueID: String,
         limit: Int? = null,
         after: String? = null,
@@ -445,7 +445,7 @@ class ClashAPI(
      * @param leagueID League ID.
      * @return War league information.
      */
-    fun warLeague(leagueID: String): Mono<Either<ClashAPIError, WarLeague>> {
+    public fun warLeague(leagueID: String): Mono<Either<ClashAPIError, WarLeague>> {
         log.trace("Getting war league {}", leagueID)
 
         return get("/warleagues/$leagueID")
@@ -459,7 +459,7 @@ class ClashAPI(
      * @param before Return only items that occur before this marker.
      * @return A list of war leagues.
      */
-    fun warLeagues(
+    public fun warLeagues(
         limit: Int? = null,
         after: String? = null,
         before: String? = null,
@@ -484,7 +484,7 @@ class ClashAPI(
      * @param before Return only items before this marker.
      * @return Clan builder base rankings for a specific location.
      */
-    fun clanBuilderBaseRankings(
+    public fun clanBuilderBaseRankings(
         locationID: Int,
         limit: Int? = null,
         after: String? = null,
@@ -506,7 +506,7 @@ class ClashAPI(
      * @param before Return only items before this marker.
      * @return Clan capital rankings for a specific location.
      */
-    fun clanCapitalRankings(
+    public fun clanCapitalRankings(
         locationID: Int,
         limit: Int? = null,
         after: String? = null,
@@ -528,7 +528,7 @@ class ClashAPI(
      * @param before Return only items before this marker.
      * @return Clan rankings for a specific location.
      */
-    fun clanRankings(
+    public fun clanRankings(
         locationID: Int,
         limit: Int? = null,
         after: String? = null,
@@ -547,7 +547,7 @@ class ClashAPI(
      * @param locationID Location ID.
      * @return Location information.
      */
-    fun location(locationID: Int): Mono<Either<ClashAPIError, Location>> {
+    public fun location(locationID: Int): Mono<Either<ClashAPIError, Location>> {
         log.trace("Getting location {}", locationID)
 
         return get("/locations/$locationID")
@@ -561,7 +561,7 @@ class ClashAPI(
      * @param before Return only items before this marker.
      * @return A list of locations.
      */
-    fun locations(
+    public fun locations(
         limit: Int? = null,
         after: String? = null,
         before: String? = null
@@ -582,7 +582,7 @@ class ClashAPI(
      * @param before Return only items before this marker.
      * @return Player builder base rankings for a specific location.
      */
-    fun playerBuilderBaseRankings(
+    public fun playerBuilderBaseRankings(
         locationID: Int,
         limit: Int? = null,
         after: String? = null,
@@ -604,7 +604,7 @@ class ClashAPI(
      * @param before Return only items before this marker.
      * @return Player rankings for a specific location.
      */
-    fun playerRankings(
+    public fun playerRankings(
         locationID: Int,
         limit: Int? = null,
         after: String? = null,
@@ -626,7 +626,7 @@ class ClashAPI(
      *
      * @return Information about the current gold pass season.
      */
-    fun currentGoldPassSeason(): Mono<Either<ClashAPIError, GoldPassSeason>> {
+    public fun currentGoldPassSeason(): Mono<Either<ClashAPIError, GoldPassSeason>> {
         log.trace("Getting current gold pass season")
 
         return get("/goldpass/seasons/current")
@@ -644,7 +644,7 @@ class ClashAPI(
      * @param before Return only items before this marker.
      * @return A list of clan labels.
      */
-    fun clanLabels(
+    public fun clanLabels(
         limit: Int? = null,
         after: String? = null,
         before: String? = null,
@@ -664,7 +664,7 @@ class ClashAPI(
      * @param before Return only items before this marker.
      * @return A list of player labels.
      */
-    fun playerLabels(
+    public fun playerLabels(
         limit: Int? = null,
         after: String? = null,
         before: String? = null,
@@ -834,7 +834,7 @@ class ClashAPI(
         }
     }
 
-    companion object {
+    public companion object {
         /**
          * Clash of Clans API version.
          */
@@ -869,7 +869,7 @@ class ClashAPI(
          * @param json JSON (de)serializer.
          * @return Clash of Clans API client.
          */
-        operator fun invoke(
+        public operator fun invoke(
             email: String,
             password: String,
             client: OkHttpClient = CLIENT,

@@ -72,7 +72,7 @@ import tech.ixirsii.klash.types.league.WarLeague
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class Clan(
+public data class Clan(
     @SerialName("badgeUrls") val badgeURLs: BadgeURLs? = null,
     val capitalLeague: CapitalLeague? = null,
     val chatLanguage: Language? = null,

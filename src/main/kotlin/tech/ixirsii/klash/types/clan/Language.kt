@@ -41,4 +41,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class Language(val name: String = "", val id: Int = 0, val languageCode: String = "")
+public data class Language(val name: String = "", val id: Int = 0, val languageCode: String = "")

@@ -35,11 +35,11 @@ package tech.ixirsii.klash.error
  *
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
-sealed interface ClashTokenError {
+public sealed interface ClashTokenError {
     /**
      * The error message.
      */
-    val message: String
+    public val message: String
 
     /**
      * Error creating an API key.
@@ -47,7 +47,7 @@ sealed interface ClashTokenError {
      * @property message The error message.
      * @author Ixirsii <ixirsii@ixirsii.tech>
      */
-    data class CreateAPIKeyError(override val message: String) : ClashTokenError
+    public data class CreateAPIKeyError(override val message: String) : ClashTokenError
 
     /**
      * Deserialization error.
@@ -55,7 +55,7 @@ sealed interface ClashTokenError {
      * @property message The error message.
      * @author Ixirsii <ixirsii@ixirsii.tech>
      */
-    data class DeserializationError(override val message: String) : ClashTokenError
+    public data class DeserializationError(override val message: String) : ClashTokenError
 
     /**
      * Error retrieving the API keys.
@@ -63,7 +63,7 @@ sealed interface ClashTokenError {
      * @property message The error message.
      * @author Ixirsii <ixirsii@ixirsii.tech>
      */
-    data class KeyRetrievalError(override val message: String) : ClashTokenError
+    public data class KeyRetrievalError(override val message: String) : ClashTokenError
 
     /**
      * Error logging in to the Clash of Clans developer portal.
@@ -71,5 +71,5 @@ sealed interface ClashTokenError {
      * @property message The error message.
      * @author Ixirsii <ixirsii@ixirsii.tech>
      */
-    data class LoginError(override val message: String) : ClashTokenError
+    public data class LoginError(override val message: String) : ClashTokenError
 }

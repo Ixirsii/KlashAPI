@@ -41,4 +41,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class IconURLs(val tiny: String = "", val small: String = "", val medium: String = "")
+public data class IconURLs(val tiny: String = "", val small: String = "", val medium: String = "")

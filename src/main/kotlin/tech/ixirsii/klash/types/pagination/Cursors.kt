@@ -40,7 +40,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class Cursors(
+public data class Cursors(
     val after: String = "",
     val before: String = "",
 )

@@ -42,4 +42,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class Label(val id: Int = 0, val name: String = "", @SerialName("iconUrls") val iconURLs: IconURLs? = null)
+public data class Label(val id: Int = 0, val name: String = "", @SerialName("iconUrls") val iconURLs: IconURLs? = null)

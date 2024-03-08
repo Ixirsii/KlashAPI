@@ -41,4 +41,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class TokenResponse(val tag: String = "", val token: String = "", val status: String = "")
+public data class TokenResponse(val tag: String = "", val token: String = "", val status: String = "")

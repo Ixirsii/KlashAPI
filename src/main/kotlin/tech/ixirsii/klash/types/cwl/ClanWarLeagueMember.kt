@@ -41,4 +41,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanWarLeagueMember(val name: String = "", val tag: String = "", val townHallLevel: Int = 0)
+public data class ClanWarLeagueMember(val name: String = "", val tag: String = "", val townHallLevel: Int = 0)

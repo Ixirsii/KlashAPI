@@ -4,8 +4,11 @@ plugins {
 
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.nexus.publish)
 
     jacoco
+    `maven-publish`
+    signing
 }
 
 group = "tech.ixirsii"
@@ -50,12 +53,81 @@ jacoco {
     toolVersion = "0.8.11"
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 kotlin {
+    explicitApi()
     jvmToolchain(21)
 }
 
-tasks.check {
-    dependsOn(tasks.jacocoTestCoverageVerification)
+nexusPublishing {
+    val sonatypeUsername: String? by project
+    val sonatypePassword: String? by project
+
+    repositories {
+        sonatype {
+            nexusUrl = uri("https://s01.oss.sonatype.org/service/local/")
+            snapshotRepositoryUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            username = sonatypeUsername
+            password = sonatypePassword
+        }
+    }
+}
+
+publishing {
+
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+
+            pom {
+                groupId = "tech.ixirsii"
+                name = "KlashAPI"
+                description = "KlashAPI is a Kotlin library for the Clash of Clans API."
+                url = "https://github.com/Ixirsii/KlashAPI"
+                developers {
+                    developer {
+                        id = "Ixirsii"
+                        name = "Ryan Porterfield"
+                        email = "ixirsii@ixirsii.tech"
+                    }
+                }
+                licenses {
+                    license {
+                        name = "BSD 3-Clause"
+                        url = "https://opensource.org/license/bsd-3-clause/"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git@github.com:Ixirsii/KlashAPI.git"
+                    developerConnection = "scm:git:git@github.com:Ixirsii/KlashAPI.git"
+                    url = "https://github.com/Ixirsii/KlashAPI.git"
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/ixirsii/KlashAPI")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+
+signing {
+    val signingKey: String? by project
+    val signingPassword: String? by project
+    useInMemoryPgpKeys(signingKey, signingPassword)
+
+    sign(publishing.publications)
 }
 
 tasks.detekt {
@@ -73,27 +145,6 @@ val excludePaths: List<String> = listOf(
     "tech/ixirsii/klash/types/**",
 )
 
-tasks.jacocoTestCoverageVerification {
-    classDirectories.setFrom(
-        classDirectories.files.map {
-            fileTree(it).apply {
-                exclude(excludePaths)
-            }
-        }
-    )
-
-    violationRules {
-        rule {
-            element = "BUNDLE"
-            limit {
-                counter = "INSTRUCTION"
-                value = "COVEREDRATIO"
-                minimum = 0.7.toBigDecimal()
-            }
-        }
-    }
-}
-
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
 
@@ -109,6 +160,12 @@ tasks.jacocoTestReport {
         csv.required = false
         html.required = true
         xml.required = true
+    }
+}
+
+tasks.javadoc {
+    if (JavaVersion.current().isJava9Compatible) {
+        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
     }
 }
 

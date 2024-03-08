@@ -41,4 +41,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class BadgeURLs(val small: String = "", val medium: String = "", val large: String = "")
+public data class BadgeURLs(val small: String = "", val medium: String = "", val large: String = "")

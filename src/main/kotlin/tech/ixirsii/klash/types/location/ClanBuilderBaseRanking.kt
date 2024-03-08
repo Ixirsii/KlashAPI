@@ -40,4 +40,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class ClanBuilderBaseRanking(val clanBuilderBasePoints: Int = 0, val clanPoints: Int = 0)
+public data class ClanBuilderBaseRanking(val clanBuilderBasePoints: Int = 0, val clanPoints: Int = 0)

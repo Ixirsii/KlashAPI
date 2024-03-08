@@ -48,7 +48,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class PlayerRanking(
+public data class PlayerRanking(
     val attackWins: Int = 0,
     val clan: PlayerRankingClan? = null,
     val defenseWins: Int = 0,

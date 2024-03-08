@@ -41,4 +41,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class LegendLeagueTournamentSeasonResult(val trophies: Int = 0, val id: String = "", val rank: Int = 0)
+public data class LegendLeagueTournamentSeasonResult(val trophies: Int = 0, val id: String = "", val rank: Int = 0)

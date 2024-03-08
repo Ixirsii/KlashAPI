@@ -40,4 +40,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class CapitalLeague(val id: Int = 0, val name: String = "")
+public data class CapitalLeague(val id: Int = 0, val name: String = "")

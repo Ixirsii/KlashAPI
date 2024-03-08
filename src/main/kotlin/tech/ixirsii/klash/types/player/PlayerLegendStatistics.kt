@@ -44,7 +44,7 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class PlayerLegendStatistics(
+public data class PlayerLegendStatistics(
     val bestBuilderBaseSeason: LegendLeagueTournamentSeasonResult? = null,
     val bestSeason: LegendLeagueTournamentSeasonResult? = null,
     val currentSeason: LegendLeagueTournamentSeasonResult? = null,

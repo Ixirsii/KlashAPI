@@ -39,13 +39,13 @@ import kotlinx.serialization.Serializable
  * @property type Element type.
  */
 @Serializable
-data class PlayerHouseElement(val id: Int = 0, val type: Type = Type.GROUND) {
+public data class PlayerHouseElement(val id: Int = 0, val type: Type = Type.GROUND) {
     /**
      * The type of the element.
      *
      * @author Ixirsii <ixirsii@ixirsii.tech>
      */
-    enum class Type {
+    public enum class Type {
         GROUND,
         ROOF,
         FOOT,

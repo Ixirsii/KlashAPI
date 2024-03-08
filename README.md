@@ -1,8 +1,8 @@
 ![KlashAPI logo](/src/main/resources/KlashAPI.png)
 
 [![GitHub release](https://img.shields.io/github/release/Ixirsii/KlashAPI.svg?style=flat-square)](https://github.com/Ixirsii/KlashAPI/releases/latest)
- [![Codecov](https://img.shields.io/codecov/c/github/Ixirsii/KlashAPI?logo=codecov&style=flat-square)](https://codecov.io/gh/Ixirsii/KlashAPI)
- [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Ixirsii/KlashAPI/codecov.yml?branch=main&logo=github&style=flat-square)](https://github.com/Ixirsii/KlashAPI/actions?workflow=codecov)
+[![Codecov](https://img.shields.io/codecov/c/github/Ixirsii/KlashAPI?logo=codecov&style=flat-square)](https://codecov.io/gh/Ixirsii/KlashAPI)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Ixirsii/KlashAPI/codecov.yml?branch=main&logo=github&style=flat-square)](https://github.com/Ixirsii/KlashAPI/actions?workflow=codecov)
 
 # Buzzword Soup!
 

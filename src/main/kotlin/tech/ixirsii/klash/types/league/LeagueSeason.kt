@@ -39,4 +39,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class LeagueSeason(val id: String = "")
+public data class LeagueSeason(val id: String = "")

@@ -52,7 +52,7 @@ import java.time.ZonedDateTime
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class CapitalRaidSeason(
+public data class CapitalRaidSeason(
     val attackLog: List<CapitalRaidSeasonAttackLog> = emptyList(),
     val capitalTotalLoot: Int = 0,
     val defenseLog: List<CapitalRaidSeasonDefenseLog> = emptyList(),

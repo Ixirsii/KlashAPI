@@ -40,4 +40,4 @@ import kotlinx.serialization.Serializable
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
-data class CapitalRaidSeasonAttacker(val name: String = "", val tag: String = "")
+public data class CapitalRaidSeasonAttacker(val name: String = "", val tag: String = "")
