@@ -9,7 +9,7 @@ nexusPublish = '2.0.0-rc-1'
 okhttp = '5.0.0-alpha.12'
 reactorKotlinExtensions = '1.2.2'
 reactor = '2023.0.0'
-slf4J = '2.0.9'
+slf4J = '2.0.12'
 
 [libraries]
 arrow-core = { module = 'io.arrow-kt:arrow-core', version.ref = 'arrow' }
