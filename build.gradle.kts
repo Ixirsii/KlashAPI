@@ -1,12 +1,15 @@
+import kotlinx.kover.gradle.plugin.dsl.AggregationType
+import kotlinx.kover.gradle.plugin.dsl.MetricType
+
 plugins {
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.serialization") version "1.9.21"
 
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.kover)
     alias(libs.plugins.nexus.publish)
 
-    jacoco
     `maven-publish`
     signing
 }
@@ -49,10 +52,6 @@ detekt {
     config.setFrom("$projectDir/config/detekt.yml")
 }
 
-jacoco {
-    toolVersion = "0.8.11"
-}
-
 java {
     withJavadocJar()
     withSourcesJar()
@@ -61,6 +60,50 @@ java {
 kotlin {
     explicitApi()
     jvmToolchain(21)
+}
+
+koverReport {
+    defaults {
+        xml {
+            onCheck = true
+        }
+
+        html {
+            onCheck = true
+        }
+
+        verify {
+            onCheck = true
+        }
+
+        log {
+            onCheck = true
+        }
+    }
+
+    filters {
+        excludes {
+            packages(
+                "tech.ixirsii.klash.client.internal",
+                "tech.ixirsii.klash.error",
+                "tech.ixirsii.klash.logging",
+                "tech.ixirsii.klash.serialize",
+                "tech.ixirsii.klash.types",
+            )
+        }
+    }
+
+    verify {
+        rule("Line coverage") {
+            isEnabled = true
+            minBound(aggregation = AggregationType.COVERED_PERCENTAGE, metric = MetricType.LINE, minValue = 80)
+        }
+
+        rule("Branch coverage") {
+            isEnabled = true
+            minBound(aggregation = AggregationType.COVERED_PERCENTAGE, metric = MetricType.BRANCH, minValue = 70)
+        }
+    }
 }
 
 nexusPublishing {
@@ -137,32 +180,6 @@ tasks.detekt {
     }
 }
 
-val excludePaths: List<String> = listOf(
-    "tech/ixirsii/klash/client/internal/**",
-    "tech/ixirsii/klash/error/**",
-    "tech/ixirsii/klash/logging/**",
-    "tech/ixirsii/klash/serialize/**",
-    "tech/ixirsii/klash/types/**",
-)
-
-tasks.jacocoTestReport {
-    dependsOn(tasks.test)
-
-    classDirectories.setFrom(
-        classDirectories.files.map {
-            fileTree(it).apply {
-                exclude(excludePaths)
-            }
-        }
-    )
-
-    reports {
-        csv.required = false
-        html.required = true
-        xml.required = true
-    }
-}
-
 tasks.javadoc {
     if (JavaVersion.current().isJava9Compatible) {
         (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
@@ -170,7 +187,5 @@ tasks.javadoc {
 }
 
 tasks.test {
-    finalizedBy(tasks.jacocoTestReport)
-
     useJUnitPlatform()
 }
