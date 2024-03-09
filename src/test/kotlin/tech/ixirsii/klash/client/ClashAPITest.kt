@@ -89,6 +89,18 @@ internal class ClashAPITest {
 
     @Test
     internal fun `GIVEN clan tag WHEN capitalRaidSeasons THEN returns capital raid seasons`() {
+        // When
+        val actual: Either<ClashAPIError, Page<CapitalRaidSeason>> =
+            underTest.capitalRaidSeasons(CLAN_TAG).block()!!
+
+        // Then
+        actual.onRight { seasons ->
+            assertTrue("Seasons should not be empty") { seasons.items.isNotEmpty() }
+        }.onLeft { fail("Seasons should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN limit WHEN capitalRaidSeasons THEN returns capital raid seasons`() {
         // Given
         val limit = 10
 
@@ -99,6 +111,7 @@ internal class ClashAPITest {
         // Then
         actual.onRight { seasons ->
             assertTrue("Seasons should not be empty") { seasons.items.isNotEmpty() }
+            assertTrue("Seasons should have at most $limit items") { seasons.items.size <= limit }
         }.onLeft { fail("Seasons should be right but was \"$it\"") }
     }
 
@@ -502,6 +515,18 @@ internal class ClashAPITest {
     }
 
     @Test
+    internal fun `WHEN builderBaseLeagues THEN returns capital leagues`() {
+        // When
+        val actual: Either<ClashAPIError, Page<BuilderBaseLeague>> =
+            underTest.builderBaseLeagues().block()!!
+
+        // Then
+        actual.onRight { leagues: Page<BuilderBaseLeague> ->
+            assertTrue("Leagues should not be empty") { leagues.items.isNotEmpty() }
+        }.onLeft { fail("Builder base leagues should be right but was \"$it\"") }
+    }
+
+    @Test
     internal fun `GIVEN limit WHEN builderBaseLeagues THEN returns capital leagues`() {
         // Given
         val limit = 10
@@ -513,6 +538,7 @@ internal class ClashAPITest {
         // Then
         actual.onRight { leagues: Page<BuilderBaseLeague> ->
             assertTrue("Leagues should not be empty") { leagues.items.isNotEmpty() }
+            assertTrue("Leagues should have at most $limit items") { leagues.items.size <= limit }
         }.onLeft { fail("Builder base leagues should be right but was \"$it\"") }
     }
 
@@ -532,6 +558,17 @@ internal class ClashAPITest {
     }
 
     @Test
+    internal fun `WHEN capitalLeagues THEN returns capital leagues`() {
+        // When
+        val actual: Either<ClashAPIError, Page<CapitalLeague>> = underTest.capitalLeagues().block()!!
+
+        // Then
+        actual.onRight { leagues: Page<CapitalLeague> ->
+            assertTrue("Leagues should not be empty") { leagues.items.isNotEmpty() }
+        }.onLeft { fail("Capital leagues should be right but was \"$it\"") }
+    }
+
+    @Test
     internal fun `GIVEN limit WHEN capitalLeagues THEN returns capital leagues`() {
         // Given
         val limit = 10
@@ -542,6 +579,7 @@ internal class ClashAPITest {
         // Then
         actual.onRight { leagues: Page<CapitalLeague> ->
             assertTrue("Leagues should not be empty") { leagues.items.isNotEmpty() }
+            assertTrue("Leagues should have at most $limit items") { leagues.items.size <= limit }
         }.onLeft { fail("Capital leagues should be right but was \"$it\"") }
     }
 
@@ -561,6 +599,17 @@ internal class ClashAPITest {
     }
 
     @Test
+    internal fun `WHEN leagues THEN returns leagues`() {
+        // When
+        val actual: Either<ClashAPIError, Page<League>> = underTest.leagues().block()!!
+
+        // Then
+        actual.onRight { leagues: Page<League> ->
+            assertTrue("Leagues should not be empty") { leagues.items.isNotEmpty() }
+        }.onLeft { fail("Leagues should be right but was \"$it\"") }
+    }
+
+    @Test
     internal fun `GIVEN limit WHEN leagues THEN returns leagues`() {
         // Give
         val limit = 10
@@ -571,6 +620,7 @@ internal class ClashAPITest {
         // Then
         actual.onRight { leagues: Page<League> ->
             assertTrue("Leagues should not be empty") { leagues.items.isNotEmpty() }
+            assertTrue("Leagues should have at most $limit items") { leagues.items.size <= limit }
         }.onLeft { fail("Leagues should be right but was \"$it\"") }
     }
 
@@ -595,6 +645,21 @@ internal class ClashAPITest {
     @Test
     internal fun `GIVEN league ID WHEN leagueSeasons THEN returns league seasons`() {
         // Given
+        val leagueID = "29000022"
+
+        // When
+        val actual: Either<ClashAPIError, Page<LeagueSeason>> =
+            underTest.leagueSeasons(leagueID = leagueID).block()!!
+
+        // Then
+        actual.onRight { seasons: Page<LeagueSeason> ->
+            assertTrue("Seasons should not be empty") { seasons.items.isNotEmpty() }
+        }.onLeft { fail("Seasons should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN limit WHEN leagueSeasons THEN returns league seasons`() {
+        // Given
         val limit = 10
         val leagueID = "29000022"
 
@@ -605,6 +670,7 @@ internal class ClashAPITest {
         // Then
         actual.onRight { seasons: Page<LeagueSeason> ->
             assertTrue("Seasons should not be empty") { seasons.items.isNotEmpty() }
+            assertTrue("Seasons should have at most $limit items") { seasons.items.size <= limit }
         }.onLeft { fail("Seasons should be right but was \"$it\"") }
     }
 
@@ -624,6 +690,17 @@ internal class ClashAPITest {
     }
 
     @Test
+    internal fun `WHEN warLeagues THEN returns league seasons`() {
+        // When
+        val actual: Either<ClashAPIError, Page<WarLeague>> = underTest.warLeagues().block()!!
+
+        // Then
+        actual.onRight { leagues: Page<WarLeague> ->
+            assertTrue("War leagues should not be empty") { leagues.items.isNotEmpty() }
+        }.onLeft { fail("War leagues should be right but was \"$it\"") }
+    }
+
+    @Test
     internal fun `GIVEN limit WHEN warLeagues THEN returns league seasons`() {
         // Given
         val limit = 10
@@ -634,6 +711,7 @@ internal class ClashAPITest {
         // Then
         actual.onRight { leagues: Page<WarLeague> ->
             assertTrue("War leagues should not be empty") { leagues.items.isNotEmpty() }
+            assertTrue("War leagues should have at most $limit items") { leagues.items.size <= limit }
         }.onLeft { fail("War leagues should be right but was \"$it\"") }
     }
 
@@ -641,6 +719,18 @@ internal class ClashAPITest {
 
     @Test
     internal fun `GIVEN location ID WHEN clanBuilderBaseRankings THEN returns clan rankings`() {
+        // When
+        val actual: Either<ClashAPIError, Page<ClanBuilderBaseRanking>> =
+            underTest.clanBuilderBaseRankings(LOCATION_ID).block()!!
+
+        // Then
+        actual.onRight { rankings: Page<ClanBuilderBaseRanking> ->
+            assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+        }.onLeft { fail("Rankings should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN limit WHEN clanBuilderBaseRankings THEN returns clan rankings`() {
         // Given
         val limit = 10
 
@@ -651,11 +741,24 @@ internal class ClashAPITest {
         // Then
         actual.onRight { rankings: Page<ClanBuilderBaseRanking> ->
             assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+            assertTrue("Rankings should have at most $limit items") { rankings.items.size <= limit }
         }.onLeft { fail("Rankings should be right but was \"$it\"") }
     }
 
     @Test
     internal fun `GIVEN location ID WHEN clanRankings THEN returns clan rankings`() {
+        // When
+        val actual: Either<ClashAPIError, Page<ClanRanking>> =
+            underTest.clanRankings(LOCATION_ID).block()!!
+
+        // Then
+        actual.onRight { rankings: Page<ClanRanking> ->
+            assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+        }.onLeft { fail("Rankings should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN limit WHEN clanRankings THEN returns clan rankings`() {
         // Given
         val limit = 10
 
@@ -666,11 +769,24 @@ internal class ClashAPITest {
         // Then
         actual.onRight { rankings: Page<ClanRanking> ->
             assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+            assertTrue("Rankings should have at most $limit items") { rankings.items.size <= limit }
         }.onLeft { fail("Rankings should be right but was \"$it\"") }
     }
 
     @Test
     internal fun `GIVEN location ID WHEN clanCapitalRankings THEN returns clan capital rankings`() {
+        // When
+        val actual: Either<ClashAPIError, Page<ClanCapitalRanking>> =
+            underTest.clanCapitalRankings(LOCATION_ID).block()!!
+
+        // Then
+        actual.onRight { rankings: Page<ClanCapitalRanking> ->
+            assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+        }.onLeft { fail("Rankings should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN limit WHEN clanCapitalRankings THEN returns clan capital rankings`() {
         // Given
         val limit = 10
 
@@ -681,6 +797,7 @@ internal class ClashAPITest {
         // Then
         actual.onRight { rankings: Page<ClanCapitalRanking> ->
             assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+            assertTrue("Rankings should have at most $limit items") { rankings.items.size <= limit }
         }.onLeft { fail("Rankings should be right but was \"$it\"") }
     }
 
@@ -698,6 +815,17 @@ internal class ClashAPITest {
     }
 
     @Test
+    internal fun `WHEN locations THEN returns locations`() {
+        // When
+        val actual: Either<ClashAPIError, Page<Location>> = underTest.locations().block()!!
+
+        // Then
+        actual.onRight { locations: Page<Location> ->
+            assertTrue("Locations should not be empty") { locations.items.isNotEmpty() }
+        }.onLeft { fail("Locations should be right but was \"$it\"") }
+    }
+
+    @Test
     internal fun `GIVEN limit WHEN locations THEN returns locations`() {
         // Given
         val limit = 10
@@ -708,11 +836,24 @@ internal class ClashAPITest {
         // Then
         actual.onRight { locations: Page<Location> ->
             assertTrue("Locations should not be empty") { locations.items.isNotEmpty() }
+            assertTrue("Locations should have at most $limit items") { locations.items.size <= limit }
         }.onLeft { fail("Locations should be right but was \"$it\"") }
     }
 
     @Test
     internal fun `GIVEN location ID WHEN playerBuilderBaseRankings THEN returns player rankings`() {
+        // When
+        val actual: Either<ClashAPIError, Page<PlayerBuilderBaseRanking>> =
+            underTest.playerBuilderBaseRankings(LOCATION_ID).block()!!
+
+        // Then
+        actual.onRight { rankings: Page<PlayerBuilderBaseRanking> ->
+            assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+        }.onLeft { fail("Rankings should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN limit WHEN playerBuilderBaseRankings THEN returns player rankings`() {
         // Given
         val limit = 10
 
@@ -723,11 +864,24 @@ internal class ClashAPITest {
         // Then
         actual.onRight { rankings: Page<PlayerBuilderBaseRanking> ->
             assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+            assertTrue("Rankings should have at most $limit items") { rankings.items.size <= limit }
         }.onLeft { fail("Rankings should be right but was \"$it\"") }
     }
 
     @Test
     internal fun `GIVEN location ID WHEN playerRankings THEN returns player rankings`() {
+        // When
+        val actual: Either<ClashAPIError, Page<tech.ixirsii.klash.types.location.PlayerRanking>> =
+            underTest.playerRankings(LOCATION_ID).block()!!
+
+        // Then
+        actual.onRight { rankings: Page<tech.ixirsii.klash.types.location.PlayerRanking> ->
+            assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+        }.onLeft { fail("Rankings should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `GIVEN limit WHEN playerRankings THEN returns player rankings`() {
         // Given
         val limit = 10
 
@@ -738,6 +892,7 @@ internal class ClashAPITest {
         // Then
         actual.onRight { rankings: Page<tech.ixirsii.klash.types.location.PlayerRanking> ->
             assertTrue("Rankings should not be empty") { rankings.items.isNotEmpty() }
+            assertTrue("Rankings should have at most $limit items") { rankings.items.size <= limit }
         }.onLeft { fail("Rankings should be right but was \"$it\"") }
     }
 
@@ -755,12 +910,35 @@ internal class ClashAPITest {
     /* *********************************************** Label APIs *********************************************** */
 
     @Test
+    internal fun `WHEN clanLabels THEN returns clan labels`() {
+        // When
+        val actual: Either<ClashAPIError, Page<Label>> = underTest.clanLabels().block()!!
+
+        // Then
+        actual.onRight { labels: Page<Label> ->
+            assertTrue("Labels should not be empty") { labels.items.isNotEmpty() }
+        }.onLeft { fail("Labels should be right but was \"$it\"") }
+    }
+
+    @Test
     internal fun `GIVEN limit WHEN clanLabels THEN returns clan labels`() {
         // Given
         val limit = 10
 
         // When
         val actual: Either<ClashAPIError, Page<Label>> = underTest.clanLabels(limit = limit).block()!!
+
+        // Then
+        actual.onRight { labels: Page<Label> ->
+            assertTrue("Labels should not be empty") { labels.items.isNotEmpty() }
+            assertTrue("Labels should have at most $limit items") { labels.items.size <= limit }
+        }.onLeft { fail("Labels should be right but was \"$it\"") }
+    }
+
+    @Test
+    internal fun `WHEN playerLabels THEN returns player labels`() {
+        // When
+        val actual: Either<ClashAPIError, Page<Label>> = underTest.playerLabels().block()!!
 
         // Then
         actual.onRight { labels: Page<Label> ->
@@ -779,6 +957,7 @@ internal class ClashAPITest {
         // Then
         actual.onRight { labels: Page<Label> ->
             assertTrue("Labels should not be empty") { labels.items.isNotEmpty() }
+            assertTrue("Labels should have at most $limit items") { labels.items.size <= limit }
         }.onLeft { fail("Labels should be right but was \"$it\"") }
     }
 
