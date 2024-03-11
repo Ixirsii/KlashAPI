@@ -1,8 +1,8 @@
-name: Publish to Maven Central
+name: Publish build artifacts
 on:
-  release:
-    types:
-      - published
+  push:
+    tags:
+      - '*'
 
 jobs:
   publish:
@@ -25,6 +25,19 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
+
+      - name: Build
+        run: ./gradlew build
+        env:
+          API_EMAIL: ${{ secrets.API_EMAIL }}
+          API_PASSWORD: ${{ secrets.API_PASSWORD }}
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          fail_on_unmatched_files: true
+          files: build/libs/*
 
       - name: Publish
         run: ./gradlew publish

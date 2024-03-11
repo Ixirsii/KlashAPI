@@ -2,7 +2,7 @@
 
 [![GitHub release](https://img.shields.io/github/release/Ixirsii/KlashAPI.svg?style=flat-square)](https://github.com/Ixirsii/KlashAPI/releases/latest)
 [![Codecov](https://img.shields.io/codecov/c/github/Ixirsii/KlashAPI?logo=codecov&style=flat-square)](https://codecov.io/gh/Ixirsii/KlashAPI)
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Ixirsii/KlashAPI/codecov.yml?branch=main&logo=github&style=flat-square)](https://github.com/Ixirsii/KlashAPI/actions?workflow=codecov)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Ixirsii/KlashAPI/build.yml?branch=main&logo=github&style=flat-square)](https://github.com/Ixirsii/KlashAPI/actions?workflow=build)
 
 # Buzzword Soup!
 
@@ -23,13 +23,11 @@ and prevents the need for try-catch blocks at the cost of mapping the `Either`.
 
 ## Installation
 
-**TODO:** Upload build artifacts to Maven Central.
-
 ### Gradle
 
 ```kotlin
 dependencies {
-    implementation("tech.ixirsii:klash-api:0.0.1")
+    implementation("tech.ixirsii:klashAPI:1.0.0")
 }
 ```
 
