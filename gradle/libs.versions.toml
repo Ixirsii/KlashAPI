@@ -2,7 +2,7 @@
 arrow = '1.2.1'
 detekt = '1.23.5'
 dokka = '1.9.10'
-junit = '5.10.1'
+junit = '5.10.2'
 kotlinxSerialization = '1.6.3'
 kover = '0.7.6'
 logback = '1.5.3'
