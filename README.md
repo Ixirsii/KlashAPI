@@ -27,7 +27,7 @@ and prevents the need for try-catch blocks at the cost of mapping the `Either`.
 
 ```kotlin
 dependencies {
-    implementation("tech.ixirsii:klashAPI:1.0.0")
+    implementation("tech.ixirsii:klash-api:1.0.0")
 }
 ```
 
