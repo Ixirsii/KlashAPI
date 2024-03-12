@@ -121,14 +121,13 @@ nexusPublishing {
 }
 
 publishing {
-
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
 
             pom {
                 groupId = "tech.ixirsii"
-                name = "KlashAPI"
+                name = "klash-api"
                 description = "KlashAPI is a Kotlin library for the Clash of Clans API."
                 url = "https://github.com/Ixirsii/KlashAPI"
                 developers {
