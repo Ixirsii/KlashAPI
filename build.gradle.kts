@@ -26,17 +26,17 @@ dependencies {
     detektPlugins(libs.bundles.detekt)
 
     // Arrow
-    implementation(libs.arrow.core)
+    api(libs.arrow.core)
     // Kotlin serialization
-    implementation(libs.kotlinx.serialization.json)
+    api(libs.kotlinx.serialization.json)
     // OkHttp
-    implementation(libs.okhttp)
+    api(libs.okhttp)
     // Reactor
-    implementation(platform(libs.reactor.bom))
-    implementation(libs.reactor.core)
-    implementation(libs.reactor.kotlin.extensions)
+    api(platform(libs.reactor.bom))
+    api(libs.reactor.core)
+    api(libs.reactor.kotlin.extensions)
     // SLF4J
-    implementation(libs.slf4j.api)
+    api(libs.slf4j.api)
 
     // Kotlin test
     testImplementation(kotlin("test"))
