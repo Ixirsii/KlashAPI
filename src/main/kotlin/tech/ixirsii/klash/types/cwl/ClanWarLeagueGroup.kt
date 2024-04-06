@@ -66,7 +66,7 @@ public data class ClanWarLeagueGroup(
         @SerialName("preparation")
         PREPARATION,
 
-        @SerialName("war")
+        @SerialName("inWar")
         WAR,
 
         @SerialName("ended")
