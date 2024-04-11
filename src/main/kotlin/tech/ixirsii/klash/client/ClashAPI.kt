@@ -110,9 +110,10 @@ public class ClashAPI(
     ): Mono<Either<ClashAPIError, Page<CapitalRaidSeason>>> {
         log.trace("Getting capital raid seasons for clan {}", clanTag)
 
+        val formattedTag: String = formatTag(clanTag)
         val queryParameters: String = paginationQueryParameters(limit, after, before)
 
-        return get("/clans/%23$clanTag/capitalraidseasons$queryParameters")
+        return get("/clans/$formattedTag/capitalraidseasons$queryParameters")
     }
 
     /**
@@ -124,7 +125,9 @@ public class ClashAPI(
     public fun clan(clanTag: String): Mono<Either<ClashAPIError, Clan>> {
         log.trace("Getting clan {}", clanTag)
 
-        return get("/clans/%23$clanTag")
+        val formattedTag: String = formatTag(clanTag)
+
+        return get("/clans/$formattedTag")
     }
 
     /**
@@ -184,7 +187,9 @@ public class ClashAPI(
     public fun currentWar(clanTag: String): Mono<Either<ClashAPIError, War>> {
         log.trace("Getting current war for clan {}", clanTag)
 
-        return get("/clans/%23$clanTag/currentwar")
+        val formattedTag: String = formatTag(clanTag)
+
+        return get("/clans/$formattedTag/currentwar")
     }
 
     /**
@@ -196,7 +201,9 @@ public class ClashAPI(
     public fun leagueGroup(clanTag: String): Mono<Either<ClashAPIError, ClanWarLeagueGroup>> {
         log.trace("Getting league group for clan {}", clanTag)
 
-        return get("/clans/%23$clanTag/currentwar/leaguegroup")
+        val formattedTag: String = formatTag(clanTag)
+
+        return get("/clans/$formattedTag/currentwar/leaguegroup")
     }
 
     /**
@@ -208,7 +215,9 @@ public class ClashAPI(
     public fun leagueWar(warTag: String): Mono<Either<ClashAPIError, War>> {
         log.trace("Getting league war {}", warTag)
 
-        return get("/clanwarleagues/wars/%23$warTag")
+        val formattedTag: String = formatTag(warTag)
+
+        return get("/clanwarleagues/wars/$formattedTag")
     }
 
     /**
@@ -228,9 +237,10 @@ public class ClashAPI(
     ): Mono<Either<ClashAPIError, Page<ClanMember>>> {
         log.trace("Getting members for clan {}", clanTag)
 
+        val formattedTag: String = formatTag(clanTag)
         val queryParameters: String = paginationQueryParameters(limit, after, before)
 
-        return get("/clans/%23$clanTag/members$queryParameters")
+        return get("/clans/$formattedTag/members$queryParameters")
     }
 
     /**
@@ -250,9 +260,10 @@ public class ClashAPI(
     ): Mono<Either<ClashAPIError, Page<WarLogEntry>>> {
         log.trace("Getting war log for clan {}", clanTag)
 
+        val formattedTag: String = formatTag(clanTag)
         val queryParameters: String = paginationQueryParameters(limit, after, before)
 
-        return get("/clans/%23$clanTag/warlog$queryParameters")
+        return get("/clans/$formattedTag/warlog$queryParameters")
     }
 
     /* ********************************************************************************************************** *
@@ -268,7 +279,9 @@ public class ClashAPI(
     public fun player(playerTag: String): Mono<Either<ClashAPIError, Player>> {
         log.trace("Getting player {}", playerTag)
 
-        return get("/players/%23$playerTag")
+        val formattedTag: String = formatTag(playerTag)
+
+        return get("/players/$formattedTag")
     }
 
     /**
@@ -285,8 +298,10 @@ public class ClashAPI(
     public fun isPlayerVerified(playerTag: String, token: String): Mono<Either<ClashAPIError, Boolean>> {
         log.trace("Verifying player {}", playerTag)
 
+        val formattedTag: String = formatTag(playerTag)
+
         return post<TokenResponse>(
-            "/players/%23$playerTag/verifytoken",
+            "/players/$formattedTag/verifytoken",
             "{\"token\":\"$token\"}".toRequestBody(MEDIA_TYPE)
         )
             .map { either: Either<ClashAPIError, TokenResponse> ->
@@ -761,6 +776,8 @@ public class ClashAPI(
             log.error("Caught exception deserializing response", it)
             ClashAPIError.DeserializationError(it.message ?: "Caught exception deserializing response")
         }
+
+    private fun formatTag(tag: String): String = if (tag.startsWith('#')) tag.replace("#", "%23") else "%23$tag"
 
     /**
      * Make a GET request.

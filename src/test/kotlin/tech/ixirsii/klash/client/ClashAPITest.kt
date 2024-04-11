@@ -129,6 +129,22 @@ internal class ClashAPITest {
     }
 
     @Test
+    internal fun `GIVEN pound in clan tag WHEN clan THEN formats tag and returns clan`() {
+        // Given
+        val clanTag = "#$CLAN_TAG"
+
+        // When
+        val actual: Either<ClashAPIError, Clan> = underTest.clan(clanTag).block()!!
+
+        // Then
+        actual.onRight { clan: Clan ->
+            assertEquals("midwest warrior", clan.name, "Clan name should equal expected")
+        }.onLeft {
+            fail("Clan should be right but was \"$it\"")
+        }
+    }
+
+    @Test
     internal fun `GIVEN limit WHEN clans THEN returns clans`() {
         // Given
         val limit = 1
