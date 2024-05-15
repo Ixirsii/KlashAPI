@@ -2,7 +2,7 @@ import kotlinx.kover.gradle.plugin.dsl.AggregationType
 import kotlinx.kover.gradle.plugin.dsl.MetricType
 
 plugins {
-    kotlin("jvm") version "1.9.23"
+    kotlin("jvm") version "1.9.24"
     kotlin("plugin.serialization") version "1.9.24"
 
     alias(libs.plugins.detekt)
