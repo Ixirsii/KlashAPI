@@ -1,5 +1,4 @@
-import kotlinx.kover.gradle.plugin.dsl.AggregationType
-import kotlinx.kover.gradle.plugin.dsl.MetricType
+import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
     kotlin("jvm") version "1.9.24"
@@ -62,46 +61,28 @@ kotlin {
     jvmToolchain(21)
 }
 
-koverReport {
-    defaults {
-        xml {
-            onCheck = true
-        }
-
-        html {
-            onCheck = true
+kover {
+    reports {
+        filters {
+            excludes {
+                packages(
+                    "tech.ixirsii.klash.client.internal",
+                    "tech.ixirsii.klash.error",
+                    "tech.ixirsii.klash.logging",
+                    "tech.ixirsii.klash.serialize",
+                    "tech.ixirsii.klash.types",
+                )
+            }
         }
 
         verify {
-            onCheck = true
-        }
+            rule("Line coverage") {
+                minBound(80, coverageUnits = CoverageUnit.LINE)
+            }
 
-        log {
-            onCheck = true
-        }
-    }
-
-    filters {
-        excludes {
-            packages(
-                "tech.ixirsii.klash.client.internal",
-                "tech.ixirsii.klash.error",
-                "tech.ixirsii.klash.logging",
-                "tech.ixirsii.klash.serialize",
-                "tech.ixirsii.klash.types",
-            )
-        }
-    }
-
-    verify {
-        rule("Line coverage") {
-            isEnabled = true
-            minBound(aggregation = AggregationType.COVERED_PERCENTAGE, metric = MetricType.LINE, minValue = 80)
-        }
-
-        rule("Branch coverage") {
-            isEnabled = true
-            minBound(aggregation = AggregationType.COVERED_PERCENTAGE, metric = MetricType.BRANCH, minValue = 70)
+            rule("Branch coverage") {
+                minBound(70, coverageUnits = CoverageUnit.BRANCH)
+            }
         }
     }
 }
