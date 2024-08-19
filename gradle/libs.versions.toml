@@ -8,7 +8,7 @@ kover = '0.8.3'
 logback = '1.5.6'
 nexusPublish = '2.0.0'
 okhttp = '5.0.0-alpha.14'
-reactorKotlinExtensions = '1.2.2'
+reactorKotlinExtensions = '1.2.3'
 reactor = '2023.0.8'
 slf4J = '2.0.16'
 
