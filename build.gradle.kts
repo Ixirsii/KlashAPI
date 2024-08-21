@@ -1,9 +1,12 @@
+@file:Suppress("AbsentOrWrongFileLicense")
+
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
     kotlin("jvm") version "2.0.10"
     kotlin("plugin.serialization") version "2.0.10"
 
+    alias(libs.plugins.axion)
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)
     alias(libs.plugins.kover)
@@ -14,7 +17,7 @@ plugins {
 }
 
 group = "tech.ixirsii"
-version = "1.1.2"
+version = scmVersion.version
 
 repositories {
     mavenCentral()
