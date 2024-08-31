@@ -30,7 +30,9 @@ jobs:
       - name: Build
         run: ./gradlew build
         env:
+          API_DESCRIPTION: GitHub automated testing key
           API_EMAIL: ${{ secrets.API_EMAIL }}
+          API_NAME: GitHub
           API_PASSWORD: ${{ secrets.API_PASSWORD }}
           API_TOKEN: ${{ secrets.API_TOKEN }}
 
