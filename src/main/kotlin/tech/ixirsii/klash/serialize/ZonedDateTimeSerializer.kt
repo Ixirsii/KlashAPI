@@ -49,12 +49,12 @@ import java.time.format.DateTimeFormatterBuilder
  */
 internal class ZonedDateTimeSerializer : KSerializer<ZonedDateTime> {
     /**
-     * Formatter for deserializing date times from the API.
+     * Formatter for deserializing timestamps from the API.
      */
     private val deserializeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss.SSS'Z'")
 
     /**
-     * Unused, formatter for serializing date times.
+     * Formatter for serializing timestamps.
      */
     private val serializeFormatter: DateTimeFormatter = DateTimeFormatterBuilder().appendInstant(3).toFormatter()
 

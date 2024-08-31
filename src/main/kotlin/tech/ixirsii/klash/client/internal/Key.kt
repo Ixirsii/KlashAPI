@@ -31,16 +31,36 @@
 package tech.ixirsii.klash.client.internal
 
 import kotlinx.serialization.Serializable
+import tech.ixirsii.klash.serialize.UUIDSerializer
+import tech.ixirsii.klash.serialize.ZonedDateTimeSerializer
+import java.time.ZonedDateTime
+import java.util.*
 
 /**
  * A Clash of Clans API key.
  *
  * @property cidrRanges List of IP addresses that can use this key.
+ * @property description Description of the key.
+ * @property developerId ID of the developer who created the key.
+ * @property id ID of the key.
  * @property key The key.
+ * @property name Name of the key.
+ * @property origins Origins of the key.
+ * @property scopes Scopes of the key.
+ * @property tier Tier of the key.
+ * @property validUntil Timestamp when the key expires.
  * @author Ixirsii <ixirsii@ixirsii.tech>
  */
 @Serializable
 internal data class Key(
-    val cidrRanges: List<String> = emptyList(),
-    val key: String = "",
+    val cidrRanges: List<String>,
+    val description: String,
+    @Serializable(with = UUIDSerializer::class) val developerId: UUID,
+    @Serializable(with = UUIDSerializer::class) val id: UUID,
+    val key: String,
+    val name: String,
+    val origins: List<String>?,
+    val scopes: List<String>,
+    val tier: String,
+    @Serializable(with = ZonedDateTimeSerializer::class) val validUntil: ZonedDateTime?,
 )
