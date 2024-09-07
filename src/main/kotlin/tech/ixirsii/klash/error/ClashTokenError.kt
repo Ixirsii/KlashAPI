@@ -50,6 +50,14 @@ public sealed interface ClashTokenError {
     public data class CreateAPIKeyError(override val message: String) : ClashTokenError
 
     /**
+     * Error deleting an API key.
+     *
+     * @property message The error message.
+     * @author Ixirsii <ixirsii@ixirsii.tech>
+     */
+    public data class DeleteAPIKeyError(override val message: String) : ClashTokenError
+
+    /**
      * Deserialization error.
      *
      * @property message The error message.
