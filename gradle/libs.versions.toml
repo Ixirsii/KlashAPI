@@ -1,7 +1,7 @@
 [versions]
 arrow = "1.2.4"
 axion = "1.18.7"
-detekt = "1.23.6"
+detekt = "1.23.7"
 dokka = "1.9.20"
 junit = "5.11.0"
 kotlinxSerialization = "1.7.2"
