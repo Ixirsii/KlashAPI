@@ -3,8 +3,8 @@
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
-    kotlin("jvm") version "2.0.20"
-    kotlin("plugin.serialization") version "2.0.20"
+    kotlin("jvm") version "2.0.21"
+    kotlin("plugin.serialization") version "2.0.21"
 
     alias(libs.plugins.axion)
     alias(libs.plugins.detekt)
