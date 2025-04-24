@@ -40,9 +40,15 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public enum class WarPreference {
+    /**
+     * Opt-out of wars.
+     */
     @SerialName("out")
     OUT,
 
+    /**
+     * Opt-in to wars.
+     */
     @SerialName("in")
     IN,
 }

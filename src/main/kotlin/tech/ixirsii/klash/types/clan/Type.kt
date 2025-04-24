@@ -40,12 +40,21 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public enum class Type {
+    /**
+     * Close.
+     */
     @SerialName("closed")
     CLOSED,
 
+    /**
+     * Invite only.
+     */
     @SerialName("inviteOnly")
     INVITE_ONLY,
 
+    /**
+     * Open.
+     */
     @SerialName("open")
     OPEN
 }

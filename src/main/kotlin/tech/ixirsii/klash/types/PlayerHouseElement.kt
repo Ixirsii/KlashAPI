@@ -46,9 +46,24 @@ public data class PlayerHouseElement(val id: Int = 0, val type: Type = Type.GROU
      * @author Ixirsii <ixirsii@ixirsii.tech>
      */
     public enum class Type {
+        /**
+         * Ground element.
+         */
         GROUND,
+
+        /**
+         * Roof element.
+         */
         ROOF,
+
+        /**
+         * Foot element.
+         */
         FOOT,
+
+        /**
+         * Decoration element.
+         */
         DECO
     }
 }

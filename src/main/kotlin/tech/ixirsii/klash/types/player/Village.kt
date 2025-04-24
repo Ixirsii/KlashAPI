@@ -40,12 +40,21 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public enum class Village {
+    /**
+     * Clan capital.
+     */
     @SerialName("clanCapital")
     CLAN_CAPITAL,
 
+    /**
+     * Builder base.
+     */
     @SerialName("builderBase")
     BUILDER_BASE,
 
+    /**
+     * Home village.
+     */
     @SerialName("home")
     HOME,
 }

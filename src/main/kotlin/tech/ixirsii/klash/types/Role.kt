@@ -40,18 +40,33 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public enum class Role {
+    /**
+     * Not a member of a clan.
+     */
     @SerialName("notMember")
     NOT_MEMBER,
 
+    /**
+     * Member of a clan.
+     */
     @SerialName("member")
     MEMBER,
 
+    /**
+     * Leader of a clan.
+     */
     @SerialName("leader")
     LEADER,
 
+    /**
+     * Elder of a clan.
+     */
     @SerialName("admin")
     ADMIN,
 
+    /**
+     * Co-leader of a clan.
+     */
     @SerialName("coLeader")
     CO_LEADER
 }

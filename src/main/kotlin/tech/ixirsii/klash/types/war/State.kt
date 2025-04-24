@@ -40,33 +40,63 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public enum class State {
+    /**
+     * Unable to find clan.
+     */
     @SerialName("clanNotFound")
     CLAN_NOT_FOUND,
 
+    /**
+     * Clan is private.
+     */
     @SerialName("accessDenied")
     ACCESS_DENIED,
 
+    /**
+     * Not in war.
+     */
     @SerialName("notInWar")
     NOT_IN_WAR,
 
+    /**
+     * Matchmaking for war.
+     */
     @SerialName("inMatchmaking")
     IN_MATCHMAKING,
 
+    /**
+     * Unknown.
+     */
     @SerialName("enterWar")
     ENTER_WAR,
 
+    /**
+     * Matched for war.
+     */
     @SerialName("matched")
     MATCHED,
 
+    /**
+     * Prep day.
+     */
     @SerialName("preparation")
     PREPARATION,
 
+    /**
+     * War day.
+     */
     @SerialName("war")
     WAR,
 
+    /**
+     * In war.
+     */
     @SerialName("inWar")
     IN_WAR,
 
+    /**
+     * War ended.
+     */
     @SerialName("warEnded")
     ENDED
 }

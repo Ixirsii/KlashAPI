@@ -40,12 +40,21 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public enum class Result {
+    /**
+     * War loss.
+     */
     @SerialName("lose")
     LOSE,
 
+    /**
+     * War win.
+     */
     @SerialName("win")
     WIN,
 
+    /**
+     * War tie.
+     */
     @SerialName("tie")
     TIE
 }

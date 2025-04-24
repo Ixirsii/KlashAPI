@@ -851,6 +851,9 @@ public class ClashAPI(
         }
     }
 
+    /**
+     * Constants.
+     */
     public companion object {
         /**
          * Clash of Clans API version.

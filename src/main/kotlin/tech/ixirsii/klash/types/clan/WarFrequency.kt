@@ -40,24 +40,45 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public enum class WarFrequency {
+    /**
+     * Always.
+     */
     @SerialName("always")
     ALWAYS,
 
+    /**
+     * Any time.
+     */
     @SerialName("any")
     ANY,
 
+    /**
+     * More than once per week.
+     */
     @SerialName("moreThanOncePerWeek")
     MORE_THAN_ONCE_PER_WEEK,
 
+    /**
+     * Once per week.
+     */
     @SerialName("oncePerWeek")
     ONCE_PER_WEEK,
 
+    /**
+     * Less than once per week.
+     */
     @SerialName("lessThanOncePerWeek")
     LESS_THAN_ONCE_PER_WEEK,
 
+    /**
+     * Never.
+     */
     @SerialName("never")
     NEVER,
 
+    /**
+     * Unknown/not set.
+     */
     @SerialName("unknown")
     UNKNOWN
 }

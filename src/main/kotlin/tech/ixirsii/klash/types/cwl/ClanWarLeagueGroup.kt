@@ -57,18 +57,33 @@ public data class ClanWarLeagueGroup(
      * @author Ixirsii <ixirsii@ixirsii.tech>
      */
     public enum class State {
+        /**
+         * Group not found.
+         */
         @SerialName("groupNotFound")
         GROUP_NOT_FOUND,
 
+        /**
+         * Group not in war.
+         */
         @SerialName("notInWar")
         NOT_IN_WAR,
 
+        /**
+         * Prep day.
+         */
         @SerialName("preparation")
         PREPARATION,
 
+        /**
+         * War day.
+         */
         @SerialName("inWar")
         WAR,
 
+        /**
+         * Group ended.
+         */
         @SerialName("ended")
         ENDED
     }

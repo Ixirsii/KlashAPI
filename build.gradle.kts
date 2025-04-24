@@ -3,8 +3,8 @@
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 
 plugins {
-    kotlin("jvm") version "2.1.10"
-    kotlin("plugin.serialization") version "2.1.10"
+    kotlin("jvm") version "2.1.20"
+    kotlin("plugin.serialization") version "2.1.20"
 
     alias(libs.plugins.axion)
     alias(libs.plugins.detekt)
@@ -40,13 +40,10 @@ dependencies {
     // SLF4J
     api(libs.slf4j.api)
 
-    // Kotlin test
     testImplementation(kotlin("test"))
-    // JUnit testing framework
     testImplementation(libs.bundles.junit)
-    testRuntimeOnly(libs.junit.platform.launcher)
-    // SLF4J implementation for tests
     testImplementation(libs.logback.classic)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 detekt {
